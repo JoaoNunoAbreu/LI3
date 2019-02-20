@@ -4,17 +4,12 @@
 
 int main(){
 
-    char listaClientes[20000][5];
-
-    char strClientes[5];
+    char listaClientes[40000][5];
 
     FILE *clientes = fopen("Clientes.txt", "r");
 
-    for(int i = 0; fgets(strClientes,5,clientes) ; i++){
-        //printf("%s", strClientes);
-        strcpy(listaClientes[i],strClientes);
+    for (int i = 0;fgets(listaClientes[i],sizeof listaClientes[i],clientes); i++)
         printf("%s", listaClientes[i]);
-    }
 
     fclose(clientes);
 
