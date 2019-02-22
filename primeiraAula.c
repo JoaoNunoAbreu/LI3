@@ -80,4 +80,13 @@ int main () {
         - Mês da compra
         - Filial entre 1 e 3
         - Sem repetidos (acho)
+
+    Objetivos:
+        - Validar todas as componentes 
+        - Armazenar apenas estas
+        - Arranjar o melhor tamanho para o buffer do fgets()
+        - Para validação das vendas fazer parsing de cada linha usando função strtok()
+        - Guardar num ficheiro texto apenas as vendas válidas
+        - Contar o total de dados válidos
+
 */
