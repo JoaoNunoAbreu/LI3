@@ -1,58 +1,153 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
+#include <ctype.h>
 
-// ------------ Estas 2 funções são muito semelhantes, provavelmente dá para fazer tudo numa ------
+// ------------------------------------ Funções úteis globais -------------------------------------
 
-// Guarda os produtos e retorna a quantidade de linhas lidas.
-int guardaProdutos(char listaProdutos[200000][6],FILE *produto){
+// Dada uma linha da lista com "c" colunas, guarda na string "str" a linha "line".
+void getLine(int line, int c, char lista[][c], char *str){
 
-    int i;
-
-    for (i = 0;fgets(listaProdutos[i],8,produto);i++) // 8 é o valor mínimo que me dá bem
-        printf("%s", listaProdutos[i]); // Não é necessário dar print, é só para ver se está a fazer corretamente
-    printf("\n"); // Efeitos estética no terminal
-    return i;
+    memcpy(str, &lista[line],c);
+    str[c] = '\0';
 }
 
-// Guarda os clientes e retorna a quantidade de linhas lidas.
-int guardaClientes(char listaClientes[20000][5], FILE *clientes){
+// Procura uma linha na lista.
+int elem(int l, int c, char lista[l][c], char x[c]){
+
+    int found = 0;
+    char str[c+1];
+
+    for(int i = 0; i < l; i++){
+        getLine(i,c,lista,str);
+        if (strcmp(str,x) == 0) found = 1;
+    }
+    return found;
+}
+
+// -------------------------------------- Parte de validação --------------------------------------
+
+/* Testa no ficheiro dos produtos e clientes se os primeiros 1/2 elementos de cada linha são letras maiúsculas
+/e se os números restantes estão no suposto intervalo.*/
+int validaEstrutura(int l, int c, char lista[l][c], int *invalida){
+
+    int r = 1;
+    char str[c+1];
+    // Se forem produtos, c = 6 e queremos 3 posições, duas para as letras e uma para '\0'.
+    // Se forem clientes, c = 5 e queremos 2 posições, uma para a letra e uma para '\0'.
+    int numletras = c-4;
+    char *letras = malloc((numletras+1)*sizeof(char)); // É preciso fazer malloc para se criar um array com tamanho variável.
+    char nums[5]; // 4 números + '\0'
+
+    for(int i = 0; i < l; i++){
+
+        getLine(i,c,lista,str);
+        memcpy(letras,str,numletras);
+        letras[numletras] = '\0';
+
+        for(int j = 0; j < numletras; j++){
+            if(!isupper(letras[j])) {
+                r = 0;
+                *invalida = i+1;
+            }
+        }
+        int num = atoi(str+numletras);
+        if((c == 6 && num < 1000 && num > 9999) || (c == 5 && num < 1000 && num > 5000)){
+            r = 0;
+            *invalida = i+1;
+        }
+    }
+    return r;
+}
+
+// Testa se há repetições numa lista.
+int validaRep(int l, int c, char lista[l][c], int *rep){
+
+    int r = 1;
+    char str[c+1];
+
+    for(int i = 0; i < l; i++){
+        getLine(i,c,lista,str);
+        if(elem(i,c,lista,str)){ 
+            r = 0;
+            *rep = i+1;
+        }
+    }
+    return r;
+}
+
+// --------------------------------- Parte de guardar nas listas ----------------------------------
+
+// Guarda os produtos/clientes e retorna a quantidade de linhas lidas.
+int guarda(int l, int c, char lista[l][c],FILE *fp){
 
     int i;
 
-    for (i = 0;fgets(listaClientes[i],7,clientes);i++) // 7 é o valor mínimo que me dá bem
-        printf("%s", listaClientes[i]); // Não é necessário dar print, é só para ver se está a fazer corretamente
-    printf("\n"); // Efeitos estética no terminal
+    for (i = 0;fgets(lista[i],c+2,fp);i++);
+
     return i;
 }
 
 // ------------------------------------------------------------------------------------------------
 
+#define produtosLinhas 200000
+#define produtosColunas 6
+#define clientesLinhas 20000
+#define clientesColunas 5
+
 int main () {
 
     // ----------------- Listas -----------------
-    char listaProdutos[200000][6];
-    char listaClientes[20000][5];
+    char listaProdutos[produtosLinhas][produtosColunas];
+    char listaClientes[clientesLinhas][clientesColunas];
     //char listaVendas[1000000][100]; // dá seg fault porque array é demasiado grande
 
     // --------- Abertura dos ficheiros ---------
-    FILE *produto = fopen("Produtos.txt","r");
-    FILE *clientes = fopen("Clientes.txt","r");
-    FILE *vendas = fopen("Vendas.txt","r");
+    FILE *produtoFicheiro = fopen("Produtos.txt","r");
+    FILE *clientesFicheiro = fopen("Clientes.txt","r");
+    FILE *vendasFicheiro = fopen("Vendas.txt","r");
 
     // ----------- Guarda nas listas ------------
 
-    //int r1 = guardaProdutos(listaProdutos,produto);
-    //printf("Foram lidas %d linhas do ficheiro produtos.txt\n",r1);
+    int pLidas = guarda(produtosLinhas,produtosColunas,listaProdutos,produtoFicheiro);
+    printf("Foram lidas %d linhas do ficheiro produtos.txt\n",pLidas);
 
-    int r2 = guardaClientes(listaClientes,clientes);
-    printf("Foram lidas %d linhas do ficheiro clientes\n",r2);
+    //int cLidas = guarda(clientesLinhas,clientesColunas,listaClientes,clientesFicheiro);
+    //printf("Foram lidas %d linhas do ficheiro clientes.txt\n",cLidas);
     
+    // --------------- Validação ----------------
+
+    /*int rep1 = 0;
+
+    // Demora muito tempo.
+
+    if(validaRep(pLidas,produtosColunas,listaProdutos,&rep1)) printf("Não há repetições nos produtos.\n");
+    else printf("Há repetições nos produtos e a linha que se repete é %d.\n",rep1);*/
+
+    /*int rep2 = 0;
+
+    //if(validaRep(cLidas,clientesColunas,listaClientes,&rep2)) printf("Não há repetições nos clientes.\n");
+    //else printf("Há repetições nos clientes e a linha que se repete é %d.\n",rep2);*/
+
+    int x1 = 0;
+
+    if(validaEstrutura(pLidas,produtosColunas,listaProdutos,&x1)) printf("A estrutura dos produtos é válida.\n");
+    else {
+        printf("A estrutura dos produtos não é válida e a linha inválida é %d.\n",x1);
+    }
+
+    /*int x2 = 0;
+
+    if(validaEstrutura(cLidas,clientesColunas,listaClientes,&x2)) printf("A estrutura dos clientes é válida.\n");
+    else {
+        printf("A estrutura dos clientes não é válida e a linha inválida é %d.\n",x2);
+    }*/
+
     // ---------- Close dos ficheiros -----------
 
-    fclose(product);
-    fclose(client);
-    fclose(vendas);
+    fclose(produtoFicheiro);
+    fclose(clientesFicheiro);
+    fclose(vendasFicheiro);
 
     return 0;
 
