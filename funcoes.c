@@ -13,11 +13,11 @@ char* getLine(char** lista, char *str, int line){
 }
 
 // Procura uma linha na lista.
-int elem(char** lista, char* key, int lines){
+int elem(char** lista, char* key){
 
     int found = 0;
-
-    for(int i = 0; i < lines; i++)
+    
+    for(int i = 0; lista[i] != NULL; i++)
         if(!strcmp(lista[i],key)) found = 1;
 
     return found;
@@ -50,6 +50,25 @@ int validaClienteProduto(char* linha){
     }
     return r;
 }
+
+// Valida a estrutura de uma venda.
+int validaVendas(char* linha, char** produto){
+
+    int r = 1;
+    char* token = strtok(linha," ");
+    char* tokensArray[7];
+
+    int index = 0;
+    while(token != NULL) {
+        tokensArray[index] = token;    
+        printf("%s\n", tokensArray[index]);
+        token = strtok(NULL," ");
+    }
+    // A este ponto temos todos os tokens de uma linha guardados num array.
+    //if(elem(produto,tokensArray[0],))
+    return r;
+}
+
 /*
 // Testa se há repetições numa lista.
 int validaRep(int l, int c, char lista[l][c], int *rep){
@@ -87,4 +106,16 @@ int guardaProdutosClientes(FILE *fp, char** lista){
     return index;
 }
 
-// ------------------------------------------------------------------------------------------------
+int guardaVendas(FILE *fp, char** lista){
+
+    char str[MAXBUFVENDAS];
+    char* linha;
+
+    int index = 0;
+    while(fgets(str,MAXBUFVENDAS,fp)){
+        linha = strtok(str,"\n\r");
+        lista[index] = strdup(linha);
+        index++;
+    }
+    return index;
+}

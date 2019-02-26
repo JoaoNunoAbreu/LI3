@@ -1,3 +1,4 @@
+#include <stdio.h>
 typedef struct venda{
     char *produto;
     float preço;
@@ -9,15 +10,17 @@ typedef struct venda{
 }*Venda;
 
 #define MAXBUFPRODCLIENT 10
+#define MAXBUFVENDAS 100
 #define MAXPRODS 200000
 #define MAXCLIENT 20000
 #define MAXVENDAS 1000000
-#define MAXBUFVENDAS 100
 
 // API
 
 char* getLine(char** lista, char *str, int line);
-int elem(char** lista, char* key, int lines);
+int elem(char** lista, char* key);
 int validaClienteProduto(char* linha);
 //int validaRep(int l, int c, char lista[l][c], int *rep);
 int guardaProdutosClientes(FILE *fp, char** lista);
+int guardaVendas(FILE *fp, char** lista);
+int validaVendas(char* linha, char** produto);
