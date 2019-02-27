@@ -6,12 +6,6 @@
 
 // ------------------------------------ Funções úteis globais -------------------------------------
 
-// Dada uma linha da lista com "c" colunas, guarda na string "str" a linha "line".
-char* getLine(char** lista, char *str, int line){
-    str = strdup(lista[line]);
-    return str;
-}
-
 // Procura uma linha na lista.
 int elem(char** lista, char* key){
 
@@ -52,7 +46,7 @@ int validaClienteProduto(char* linha){
 }
 
 // Valida uma venda.
-int validaVendas(char* linha, char** listaProdutos, char** listaClientes){
+int validaVendas(char* linha, char** listaProdutos, char** listaClientes, Vendas* v, int i){
 
     int r = 1;
     char* token = strtok(linha," ");
@@ -65,13 +59,21 @@ int validaVendas(char* linha, char** listaProdutos, char** listaClientes){
         index++;
     }
     // -- Todos os tokens de uma linha guardados num array. --
-    if((float)atoi(tokensArray[1]) < 0 || (float)atoi(tokensArray[1]) > 999.99) r = 0;
+    if(atof(tokensArray[1]) < 0 || atof(tokensArray[1]) > 999.99) r = 0;
     if(r == 1 && (atoi(tokensArray[2]) < 0 || atoi(tokensArray[2]) > 200)) r = 0;
-    if(r == 1 && ((char)tokensArray[3] == 'N' || (char)tokensArray[3] == 'P')) r = 0;
+    if(r == 1 && (*tokensArray[3] != 'N'   && *tokensArray[3] != 'P')) r = 0;
     if(r == 1 && (atoi(tokensArray[5]) < 0 || atoi(tokensArray[5]) > 12)) r = 0;
     if(r == 1 && (atoi(tokensArray[6]) < 0 || atoi(tokensArray[6]) > 3)) r = 0;
-    if(r == 1 && (!elem(listaClientes,tokensArray[4]))) r = 0;
-    if(r == 1 && (!elem(listaProdutos,tokensArray[0]))) r = 0;
+    //if(r == 1 && (!elem(listaClientes,tokensArray[4]))) r = 0;
+    //if(r == 1 && (!elem(listaProdutos,tokensArray[0]))) r = 0;
+
+    v[i].produto = strdup(tokensArray[0]);
+    v[i].preco = atof(tokensArray[1]);
+    v[i].quant = atoi(tokensArray[2]);
+    v[i].promo = *tokensArray[3];
+    v[i].cliente = strdup(tokensArray[4]);
+    v[i].mes = atoi(tokensArray[5]);
+    v[i].filial = atoi(tokensArray[6]);
 
     return r;
 }
@@ -95,18 +97,19 @@ int guardaProdutosClientes(FILE *fp, char** lista){
     return index;
 }
 
-int guardaVendas(FILE *fp, char** listaVendas, char** listaProdutos, char** listaClientes){
+// Guarda as vendas VÁLIDAS (falta escrevê-las num ficheiro de texto)
+int guardaVendas(FILE *fp, char** listaVendas, char** listaProdutos, char** listaClientes, Vendas v[MAXVENDAS]){
 
     char str[MAXBUFVENDAS];
     char* linha;
-
     int index = 0;
+
     while(fgets(str,MAXBUFVENDAS,fp)){
         linha = strtok(str,"\n\r");
-        //if(validaVendas(linha,listaProdutos,listaClientes)){
+        if(validaVendas(linha,listaProdutos,listaClientes,v,index)){
             listaVendas[index] = strdup(linha);
             index++;
-        //}
+        }
     }
     return index;
 }
@@ -127,5 +130,11 @@ int validaRep(int l, int c, char lista[l][c], int *rep){
         }
     }
     return r;
+}
+
+// Dada uma linha da lista com "c" colunas, guarda na string "str" a linha "line".
+char* getLine(char** lista, char *str, int line){
+    str = strdup(lista[line]);
+    return str;
 }
 */

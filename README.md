@@ -4,6 +4,7 @@
 * João Nuno Abreu
 * Hugo Matias
 * Jorge Vieira
+
 #### Validade de produtos (AB1234)
 * ~~2 letras maiúsculas~~
 * ~~4 dígitos entre 1000 e 9999~~
@@ -21,10 +22,21 @@
 * ~~Mês da compra~~
 * ~~Filial entre 1 e 3~~
 
-## Objetivos:
-* Validar todas as componentes 
-* Armazenar apenas estas
+### Fase 1: Ler e testar valores (pág.4 do BRP)
+* Linha mais longa (Venda)
+* Produtos envolvidos
+* Clientes envolvidos
+* Vendas efectivas (válidas)
+* Ultimo Cliente
+* Numero de Vendas Registadas para este cliente
+* Numero de Vendas na Filial 1
+* Numero de Vendas na Filial 2
+* Numero de Clientes com codigo começado por A, B, …
+* Facturação Total registada
+
+## O que falta fazer:
 * Arranjar o melhor tamanho para o buffer do fgets()
-* ~~Para validação das vendas fazer parsing de cada linha usando função strtok()~~
+* Confirmar a validação dos clientes/produtos
+* Melhorar os tempos de execução da validação das vendas
 * Guardar num ficheiro texto apenas as vendas válidas
-* ~~Contar o total de dados válidos~~
+* ~~Colocar linhas válidas de vendas numa struct~~

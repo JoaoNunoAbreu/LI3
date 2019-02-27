@@ -8,6 +8,7 @@ char* listaProdutos[MAXPRODS];
 char* listaClientes[MAXCLIENT];
 char* listaVendas[MAXVENDAS];
 
+
 int main(int argc, char** argv) {
 
     // ---------------------------------- Abertura dos ficheiros ----------------------------------
@@ -27,23 +28,9 @@ int main(int argc, char** argv) {
     int cLidos = guardaProdutosClientes(clientesFicheiro,listaClientes);
     printf("Foram lidas %d linhas do ficheiro clientes.txt\n",cLidos);
 
-    int vLidas = guardaVendas(vendasFicheiro,listaVendas,listaProdutos,listaClientes);
+    Vendas* v = malloc(MAXVENDAS * sizeof *v);
+    int vLidas = guardaVendas(vendasFicheiro,listaVendas,listaProdutos,listaClientes,v);
     printf("Foram lidas %d linhas do ficheiro vendas.txt\n",vLidas);
-
-    // ---------------------------------------- Validação -----------------------------------------
-
-    // Parte das repetições.
-
-    /*int rep1 = 0;
-
-    // Demora muito tempo.
-    if(validaRep(pLidas,produtosColunas,listaProdutos,&rep1)) printf("Não há repetições nos produtos.\n");
-    else printf("Há repetições nos produtos e a linha que se repete é %d.\n",rep1);*/
-
-    /*int rep2 = 0;
-
-    //if(validaRep(cLidas,clientesColunas,listaClientes,&rep2)) printf("Não há repetições nos clientes.\n");
-    //else printf("Há repetições nos clientes e a linha que se repete é %d.\n",rep2);*/
 
     // ----------------------------------- Close dos ficheiros ------------------------------------
 
