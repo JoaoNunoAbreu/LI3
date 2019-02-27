@@ -24,12 +24,12 @@ int main(int argc, char** argv) {
     int pLidos = guardaProdutosClientes(produtoFicheiro,listaProdutos);
     printf("Foram lidas %d linhas do ficheiro produtos.txt\n",pLidos);
 
-    /*int cLidos = guardaProdutosClientes(clientesFicheiro,listaClientes);
+    int cLidos = guardaProdutosClientes(clientesFicheiro,listaClientes);
     printf("Foram lidas %d linhas do ficheiro clientes.txt\n",cLidos);
 
-    int vLidas = guardaVendas(vendasFicheiro,listaVendas);
-    printf("Foram lidas %d linhas do ficheiro vendas.txt\n",vLidas);*/
-    
+    int vLidas = guardaVendas(vendasFicheiro,listaVendas,listaProdutos,listaClientes);
+    printf("Foram lidas %d linhas do ficheiro vendas.txt\n",vLidas);
+
     // ---------------------------------------- Validação -----------------------------------------
 
     // Parte das repetições.

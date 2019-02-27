@@ -22,5 +22,5 @@ int elem(char** lista, char* key);
 int validaClienteProduto(char* linha);
 //int validaRep(int l, int c, char lista[l][c], int *rep);
 int guardaProdutosClientes(FILE *fp, char** lista);
-int guardaVendas(FILE *fp, char** lista);
-int validaVendas(char* linha, char** produto);
+int guardaVendas(FILE *fp, char** listaVendas, char** listaProdutos, char** listaClientes);
+int validaVendas(char* linha, char** listaProdutos, char** listaClientes);

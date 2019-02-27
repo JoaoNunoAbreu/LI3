@@ -17,15 +17,15 @@ int elem(char** lista, char* key){
 
     int found = 0;
     
-    for(int i = 0; lista[i] != NULL; i++)
+    for(int i = 0; lista[i] != NULL && found == 0; i++){
         if(!strcmp(lista[i],key)) found = 1;
-
+    }
     return found;
 }
 
-// -------------------------------------- Parte de validação --------------------------------------
+// --------------------------- Parte de validação (apenas de uma linha) ---------------------------
 
-// Testa a estrutura dos clientes e dos produtos.
+// Valida um cliente/produto.
 int validaClienteProduto(char* linha){
     int r = 1;
     int f; // 0 se produto, 1 se cliente
@@ -51,8 +51,8 @@ int validaClienteProduto(char* linha){
     return r;
 }
 
-// Valida a estrutura de uma venda.
-int validaVendas(char* linha, char** produto){
+// Valida uma venda.
+int validaVendas(char* linha, char** listaProdutos, char** listaClientes){
 
     int r = 1;
     char* token = strtok(linha," ");
@@ -61,14 +61,57 @@ int validaVendas(char* linha, char** produto){
     int index = 0;
     while(token != NULL) {
         tokensArray[index] = token;    
-        printf("%s\n", tokensArray[index]);
         token = strtok(NULL," ");
+        index++;
     }
-    // A este ponto temos todos os tokens de uma linha guardados num array.
-    //if(elem(produto,tokensArray[0],))
+    // -- Todos os tokens de uma linha guardados num array. --
+    if((float)atoi(tokensArray[1]) < 0 || (float)atoi(tokensArray[1]) > 999.99) r = 0;
+    if(r == 1 && (atoi(tokensArray[2]) < 0 || atoi(tokensArray[2]) > 200)) r = 0;
+    if(r == 1 && ((char)tokensArray[3] == 'N' || (char)tokensArray[3] == 'P')) r = 0;
+    if(r == 1 && (atoi(tokensArray[5]) < 0 || atoi(tokensArray[5]) > 12)) r = 0;
+    if(r == 1 && (atoi(tokensArray[6]) < 0 || atoi(tokensArray[6]) > 3)) r = 0;
+    if(r == 1 && (!elem(listaClientes,tokensArray[4]))) r = 0;
+    if(r == 1 && (!elem(listaProdutos,tokensArray[0]))) r = 0;
+
     return r;
 }
 
+// --------------------------------- Parte de guardar nas listas ----------------------------------
+
+// Guarda os produtos/clientes e retorna o número de linhas VÁLIDAS.
+int guardaProdutosClientes(FILE *fp, char** lista){
+
+    char str[MAXBUFPRODCLIENT];
+    char* linha;
+
+    int index = 0;
+    while(fgets(str,MAXBUFPRODCLIENT,fp)){
+        linha = strtok(str,"\n\r");
+        if(validaClienteProduto(linha)){
+            lista[index] = strdup(linha);
+            index++;
+        }
+    }
+    return index;
+}
+
+int guardaVendas(FILE *fp, char** listaVendas, char** listaProdutos, char** listaClientes){
+
+    char str[MAXBUFVENDAS];
+    char* linha;
+
+    int index = 0;
+    while(fgets(str,MAXBUFVENDAS,fp)){
+        linha = strtok(str,"\n\r");
+        //if(validaVendas(linha,listaProdutos,listaClientes)){
+            listaVendas[index] = strdup(linha);
+            index++;
+        //}
+    }
+    return index;
+}
+
+// ---------------------------------- Duvido que vá ser preciso -----------------------------------
 /*
 // Testa se há repetições numa lista.
 int validaRep(int l, int c, char lista[l][c], int *rep){
@@ -86,36 +129,3 @@ int validaRep(int l, int c, char lista[l][c], int *rep){
     return r;
 }
 */
-
-// --------------------------------- Parte de guardar nas listas ----------------------------------
-
-// Guarda os produtos/clientes e retorna a quantidade de linhas lidas.
-int guardaProdutosClientes(FILE *fp, char** lista){
-
-    char str[MAXBUFPRODCLIENT];
-    char* linha;
-
-    int index = 0;
-    while(fgets(str,MAXBUFPRODCLIENT,fp)){
-        linha = strtok(str,"\n\r");
-        if(validaClienteProduto(linha)){
-            lista[index] = strdup(linha);
-            index++;
-        }
-    }
-    return index;
-}
-
-int guardaVendas(FILE *fp, char** lista){
-
-    char str[MAXBUFVENDAS];
-    char* linha;
-
-    int index = 0;
-    while(fgets(str,MAXBUFVENDAS,fp)){
-        linha = strtok(str,"\n\r");
-        lista[index] = strdup(linha);
-        index++;
-    }
-    return index;
-}
