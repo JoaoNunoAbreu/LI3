@@ -36,7 +36,7 @@
 
 ## O que falta fazer:
 * Arranjar o melhor tamanho para o buffer do fgets()
-* Confirmar a validação dos clientes/produtos
+* ~~Confirmar a validação dos clientes/produtos~~
 * Melhorar os tempos de execução da validação das vendas
-* Guardar num ficheiro texto apenas as vendas válidas
+* ~~Guardar num ficheiro texto apenas as vendas válidas~~
 * ~~Colocar linhas válidas de vendas numa struct~~

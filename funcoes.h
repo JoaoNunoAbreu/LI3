@@ -18,9 +18,12 @@ typedef struct venda{
 // API
 
 int elem(char** lista, char* key);
+void linhaToArray(char* linha,char* tokensArray[7]);
+void addVenda(Vendas* v, char* tokensArray[7], int index);
 int validaClienteProduto(char* linha);
-int validaVendas(char* linha, char** listaProdutos, char** listaClientes, Vendas* v, int i);
+int validaVendas(char* tokensArray[7], char** listaProdutos, char** listaClientes);
 int guardaProdutosClientes(FILE *fp, char** lista);
-int guardaVendas(FILE *fp, char** listaVendas, char** listaProdutos, char** listaClientes, Vendas* v);
+int guardaVendasTodas(FILE *fp, char** listaVendas, Vendas* v);
+int guardaVendasBoas(char** listaVendas, char** listaProdutos, char** listaClientes, Vendas* v, FILE* vValidasFicheiro);
 //char* getLine(char** lista, char *str, int line);
 //int validaRep(int l, int c, char lista[l][c], int *rep);

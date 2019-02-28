@@ -17,6 +17,29 @@ int elem(char** lista, char* key){
     return found;
 }
 
+void linhaToArray(char* linha,char* tokensArray[7]){
+
+    char* line = strdup(linha);
+    char* token = strtok(line," ");
+    int i = 0;
+    while(token != NULL) {
+        tokensArray[i] = token;    
+        token = strtok(NULL," ");
+        i++;
+    }
+}
+
+void addVenda(Vendas* v, char* tokensArray[7], int index){
+
+    v[index].produto = strdup(tokensArray[0]);
+    v[index].preco = atof(tokensArray[1]);
+    v[index].quant = atoi(tokensArray[2]);
+    v[index].promo = *tokensArray[3];
+    v[index].cliente = strdup(tokensArray[4]);
+    v[index].mes = atoi(tokensArray[5]);
+    v[index].filial = atoi(tokensArray[6]);
+}
+
 // --------------------------- Parte de validação (apenas de uma linha) ---------------------------
 
 // Valida um cliente/produto.
@@ -46,34 +69,17 @@ int validaClienteProduto(char* linha){
 }
 
 // Valida uma venda.
-int validaVendas(char* linha, char** listaProdutos, char** listaClientes, Vendas* v, int i){
+int validaVendas(char* tokensArray[7], char** listaProdutos, char** listaClientes){
 
     int r = 1;
-    char* token = strtok(linha," ");
-    char* tokensArray[7];
 
-    int index = 0;
-    while(token != NULL) {
-        tokensArray[index] = token;    
-        token = strtok(NULL," ");
-        index++;
-    }
-    // -- Todos os tokens de uma linha guardados num array. --
     if(atof(tokensArray[1]) < 0 || atof(tokensArray[1]) > 999.99) r = 0;
     if(r == 1 && (atoi(tokensArray[2]) < 0 || atoi(tokensArray[2]) > 200)) r = 0;
     if(r == 1 && (*tokensArray[3] != 'N'   && *tokensArray[3] != 'P')) r = 0;
     if(r == 1 && (atoi(tokensArray[5]) < 0 || atoi(tokensArray[5]) > 12)) r = 0;
     if(r == 1 && (atoi(tokensArray[6]) < 0 || atoi(tokensArray[6]) > 3)) r = 0;
-    //if(r == 1 && (!elem(listaClientes,tokensArray[4]))) r = 0;
-    //if(r == 1 && (!elem(listaProdutos,tokensArray[0]))) r = 0;
-
-    v[i].produto = strdup(tokensArray[0]);
-    v[i].preco = atof(tokensArray[1]);
-    v[i].quant = atoi(tokensArray[2]);
-    v[i].promo = *tokensArray[3];
-    v[i].cliente = strdup(tokensArray[4]);
-    v[i].mes = atoi(tokensArray[5]);
-    v[i].filial = atoi(tokensArray[6]);
+    if(r == 1 && (!elem(listaClientes,tokensArray[4]))) r = 0;
+    if(r == 1 && (!elem(listaProdutos,tokensArray[0]))) r = 0;
 
     return r;
 }
@@ -97,44 +103,39 @@ int guardaProdutosClientes(FILE *fp, char** lista){
     return index;
 }
 
-// Guarda as vendas VÁLIDAS (falta escrevê-las num ficheiro de texto)
-int guardaVendas(FILE *fp, char** listaVendas, char** listaProdutos, char** listaClientes, Vendas v[MAXVENDAS]){
+// Guarda as vendas todas em array de strings e structs (falta escrevê-las num ficheiro de texto)
+int guardaVendasTodas(FILE *fp, char** listaVendas, Vendas* v){
 
     char str[MAXBUFVENDAS];
     char* linha;
     int index = 0;
+    char* tokensArray[7];
 
     while(fgets(str,MAXBUFVENDAS,fp)){
         linha = strtok(str,"\n\r");
-        if(validaVendas(linha,listaProdutos,listaClientes,v,index)){
-            listaVendas[index] = strdup(linha);
-            index++;
-        }
+        listaVendas[index] = strdup(linha); // Guarda em array de strings
+        linhaToArray(linha,tokensArray);
+        addVenda(v,tokensArray,index); // Guarda em array de struct
+        index++;
     }
     return index;
 }
 
-// ---------------------------------- Duvido que vá ser preciso -----------------------------------
-/*
-// Testa se há repetições numa lista.
-int validaRep(int l, int c, char lista[l][c], int *rep){
 
-    int r = 1;
-    char str[c+1];
+// Guarda as vendas válidas num array de structs vendas
+int guardaVendasBoas(char** listaVendas, char** listaProdutos, char** listaClientes, Vendas* v, FILE* vValidasFicheiro){
 
-    for(int i = 0; i < l; i++){
-        getLine(i,c,lista,str);
-        if(elem(i,c,lista,str)){ 
-            r = 0;
-            *rep = i+1;
+    int i;
+    int fails = 0;
+    char* tokensArray[7];
+    for(i = 0; listaVendas[i] != NULL; i++){
+        linhaToArray(listaVendas[i],tokensArray);
+        if(!validaVendas(tokensArray,listaProdutos,listaClientes)) fails++;
+        else {
+            addVenda(v,tokensArray,i);
+            //printf("%s\n",listaVendas[i]);
+            fprintf(vValidasFicheiro,"%s\n",listaVendas[i]);
         }
     }
-    return r;
+    return i-fails;
 }
-
-// Dada uma linha da lista com "c" colunas, guarda na string "str" a linha "line".
-char* getLine(char** lista, char *str, int line){
-    str = strdup(lista[line]);
-    return str;
-}
-*/
