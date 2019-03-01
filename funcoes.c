@@ -1,7 +1,3 @@
-#include <stdlib.h>
-#include <stdio.h>
-#include <string.h>
-#include <ctype.h>
 #include "funcoes.h"
 
 // ------------------------------------ Funções úteis globais -------------------------------------
@@ -78,8 +74,8 @@ int validaVendas(char* tokensArray[7], char** listaProdutos, char** listaCliente
     if(r == 1 && (*tokensArray[3] != 'N'   && *tokensArray[3] != 'P')) r = 0;
     if(r == 1 && (atoi(tokensArray[5]) < 0 || atoi(tokensArray[5]) > 12)) r = 0;
     if(r == 1 && (atoi(tokensArray[6]) < 0 || atoi(tokensArray[6]) > 3)) r = 0;
-    if(r == 1 && (!elem(listaClientes,tokensArray[4]))) r = 0;
-    if(r == 1 && (!elem(listaProdutos,tokensArray[0]))) r = 0;
+    //if(r == 1 && (!elem(listaClientes,tokensArray[4]))) r = 0;
+    //if(r == 1 && (!elem(listaProdutos,tokensArray[0]))) r = 0;
 
     return r;
 }
@@ -103,39 +99,26 @@ int guardaProdutosClientes(FILE *fp, char** lista){
     return index;
 }
 
-// Guarda as vendas todas em array de strings e structs (falta escrevê-las num ficheiro de texto)
-int guardaVendasTodas(FILE *fp, char** listaVendas, Vendas* v){
+// Guarda as vendas todas em array de strings e structs
+int guardaVendas(FILE *fp, char** listaVendas, char** listaProdutos, char** listaClientes, Vendas* vTodas, Vendas* vBoas, FILE* vValidasFicheiro){
 
     char str[MAXBUFVENDAS];
     char* linha;
     int index = 0;
     char* tokensArray[7];
+    int fail = 0; // conta quantas linhas inválidas foram lidas
 
     while(fgets(str,MAXBUFVENDAS,fp)){
         linha = strtok(str,"\n\r");
-        listaVendas[index] = strdup(linha); // Guarda em array de strings
         linhaToArray(linha,tokensArray);
-        addVenda(v,tokensArray,index); // Guarda em array de struct
+        if(validaVendas(tokensArray,listaProdutos,listaClientes)){
+            listaVendas[index-fail] = strdup(linha); // Guarda em array de strings vendas válidas
+            addVenda(vBoas,tokensArray,index-fail);
+            fprintf(vValidasFicheiro,"%s\n",listaVendas[index-fail]);
+        }
+        else fail++;
+        addVenda(vTodas,tokensArray,index); // Guarda em array de struct todas as vendas
         index++;
     }
-    return index;
-}
-
-
-// Guarda as vendas válidas num array de structs vendas
-int guardaVendasBoas(char** listaVendas, char** listaProdutos, char** listaClientes, Vendas* v, FILE* vValidasFicheiro){
-
-    int i;
-    int fails = 0;
-    char* tokensArray[7];
-    for(i = 0; listaVendas[i] != NULL; i++){
-        linhaToArray(listaVendas[i],tokensArray);
-        if(!validaVendas(tokensArray,listaProdutos,listaClientes)) fails++;
-        else {
-            addVenda(v,tokensArray,i);
-            //printf("%s\n",listaVendas[i]);
-            fprintf(vValidasFicheiro,"%s\n",listaVendas[i]);
-        }
-    }
-    return i-fails;
+    return index-fail;
 }

@@ -1,4 +1,8 @@
+#include <stdlib.h>
 #include <stdio.h>
+#include <string.h>
+#include <ctype.h>
+
 typedef struct venda{
     char *produto;
     float preco;
@@ -10,7 +14,7 @@ typedef struct venda{
 }Vendas;
 
 #define MAXBUFPRODCLIENT 7
-#define MAXBUFVENDAS 100
+#define MAXBUFVENDAS 32
 #define MAXPRODS 200000
 #define MAXCLIENT 20000
 #define MAXVENDAS 1000000
@@ -23,7 +27,4 @@ void addVenda(Vendas* v, char* tokensArray[7], int index);
 int validaClienteProduto(char* linha);
 int validaVendas(char* tokensArray[7], char** listaProdutos, char** listaClientes);
 int guardaProdutosClientes(FILE *fp, char** lista);
-int guardaVendasTodas(FILE *fp, char** listaVendas, Vendas* v);
-int guardaVendasBoas(char** listaVendas, char** listaProdutos, char** listaClientes, Vendas* v, FILE* vValidasFicheiro);
-//char* getLine(char** lista, char *str, int line);
-//int validaRep(int l, int c, char lista[l][c], int *rep);
+int guardaVendas(FILE *fp, char** listaVendas, char** listaProdutos, char** listaClientes, Vendas* vTodas, Vendas* vBoas, FILE* vValidasFicheiro);

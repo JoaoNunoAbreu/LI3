@@ -1,7 +1,3 @@
-#include <stdlib.h>
-#include <stdio.h>
-#include <string.h>
-#include <ctype.h>
 #include "funcoes.h"
 
 char* listaProdutos[MAXPRODS];
@@ -17,28 +13,25 @@ int main(int argc, char** argv) {
     if(produtoFicheiro == NULL) {printf("Produtos.txt não foi possível ser carregado."); exit (1);}
     FILE *clientesFicheiro = fopen("Clientes.txt","r");
     if(clientesFicheiro == NULL) {printf("Clientes.txt não foi possível ser carregado."); exit (1);}
-    FILE *vendasFicheiro = fopen("Vendas_1M.txt","r");
+    FILE *vendasFicheiro = fopen("FicheirosTeste/testeVendas.txt","r");
     if(vendasFicheiro == NULL) {printf("Vendas.txt não foi possível ser carregado."); exit (1);}
 
     // ------------------------------------ Guarda nas listas -------------------------------------
 
     int pLidos = guardaProdutosClientes(produtoFicheiro,listaProdutos);
-    printf("Foram lidas %d linhas do ficheiro produtos.txt\n",pLidos);
+    printf("Foram lidas %d linhas válidas do ficheiro produtos.txt\n",pLidos);
 
     int cLidos = guardaProdutosClientes(clientesFicheiro,listaClientes);
-    printf("Foram lidas %d linhas do ficheiro clientes.txt\n",cLidos);
-
-    Vendas* vendasTodas = malloc(MAXVENDAS * sizeof *vendasTodas);
-    int vLidas = guardaVendasTodas(vendasFicheiro,listaVendas,vendasTodas);
-    printf("Foram lidas %d linhas do ficheiro vendas.txt\n",vLidas);
+    printf("Foram lidas %d linhas válidas do ficheiro clientes.txt\n",cLidos);
 
     // --------- Vendas válidas ---------
 
     FILE *vValidasFicheiro = fopen("Vendas_1MValidas.txt","w");
-    Vendas* vendasBoas = malloc(MAXVENDAS * sizeof *vendasBoas);
-    int vLidasBoas = guardaVendasBoas(listaVendas,listaProdutos,listaClientes,vendasBoas,vValidasFicheiro);
-    printf("Foram lidas %d linhas boas do ficheiro vendas.txt\n",vLidasBoas);
-    //for(int i = 0; i < 10; i++) printf("%s %f %d %c %s %d %d\n", vendasBoas[i].produto,vendasBoas[i].preco,vendasBoas[i].quant,vendasBoas[i].promo,vendasBoas[i].cliente,vendasBoas[i].mes,vendasBoas[i].filial);
+    Vendas* vTodas = malloc(MAXVENDAS * sizeof *vTodas);
+    Vendas* vBoas = malloc(MAXVENDAS * sizeof *vBoas);
+
+    int vLidas = guardaVendas(vendasFicheiro,listaVendas,listaProdutos,listaClientes,vTodas,vBoas,vValidasFicheiro);
+    printf("Foram lidas %d linhas válidas do ficheiro vendas.txt\n",vLidas);
 
     // ----------------------------------- Close dos ficheiros ------------------------------------
 

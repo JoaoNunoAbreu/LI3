@@ -35,8 +35,12 @@
 * Facturação Total registada
 
 ## O que falta fazer:
-* Arranjar o melhor tamanho para o buffer do fgets()
+* ~~Arranjar o melhor tamanho para o buffer do fgets()~~ **LER NOTA**
 * ~~Confirmar a validação dos clientes/produtos~~
 * Melhorar os tempos de execução da validação das vendas
 * ~~Guardar num ficheiro texto apenas as vendas válidas~~
 * ~~Colocar linhas válidas de vendas numa struct~~
+
+## NOTA:
+* O máximo de chars que uma linha de vendas pode ter é de 31 pois é quando usam os 3 dígitos do preço por unidade e pela quantidade comprada e o mês da compra tem 2 dígitos. Sendo assim coloca-se o MAXBUFVENDAS a 32 para ler a linha toda pois o fgets aparentemente só lê (n-1) chars sendo este n o parâmentro inteiro.
+**https://www.tutorialspoint.com/c_standard_library/c_function_fgets.htm** 
