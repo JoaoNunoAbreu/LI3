@@ -160,8 +160,8 @@ int guardaClientes(FILE *fp, char** lista){
     int index = 0;
     while(fgets(str,MAXBUFCLIENT,fp)){
         linha = strtok(str,"\n\r");
-        iniciais[index] = linha[0];
         if(validaCliente(linha)){
+            iniciais[index] = linha[0];
             lista[index] = strdup(linha);
             index++;
         }

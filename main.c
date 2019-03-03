@@ -42,7 +42,7 @@ int main(int argc, char** argv) {
     printf("O último cliente (válido) foi: %s\n",vBoas[vLidas-1].cliente);
     printf("Este cliente fez %d vendas\n",contaVendas(vBoas,vBoas[vLidas-1].cliente));
     printf("Foram feitas %d vendas na filial 1\n",contaFilial(vBoas,1));
-    printf("A fatoração total foi: %f\n",contaFaturacao(vBoas));
+    printf("A faturação total foi: %f\n",contaFaturacao(vBoas));
 
     // ----------------------------------- Close dos ficheiros ------------------------------------
 

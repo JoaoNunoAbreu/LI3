@@ -15,7 +15,7 @@ typedef struct venda{
 }Vendas;
 
 #define MAXBUFPROD 7
-#define MAXBUFCLIENT 7
+#define MAXBUFCLIENT 6
 #define MAXBUFVENDAS 32
 #define MAXPRODS 200000
 #define MAXCLIENT 20000
