@@ -26,13 +26,13 @@
 * Linha mais longa (Venda)
 * Produtos envolvidos
 * Clientes envolvidos
-* Vendas efectivas (válidas)
-* Ultimo Cliente
-* Numero de Vendas Registadas para este cliente
-* Numero de Vendas na Filial 1
-* Numero de Vendas na Filial 2
-* Numero de Clientes com codigo começado por A, B, …
-* Facturação Total registada
+* ~~Vendas efectivas (válidas)~~
+* ~~Ultimo Cliente~~
+* ~~Numero de Vendas Registadas para este cliente~~
+* ~~Numero de Vendas na Filial 1~~
+* ~~Numero de Vendas na Filial 2~~
+* ~~Numero de Clientes com codigo começado por A, B, ..~~
+* ~~Facturação Total registada~~
 
 ## O que falta fazer:
 * ~~Arranjar o melhor tamanho para o buffer do fgets()~~ **LER NOTA**

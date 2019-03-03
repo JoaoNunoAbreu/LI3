@@ -7,6 +7,12 @@ char* listaVendas[MAXVENDAS];
 
 int main(int argc, char** argv) {
 
+    // -------------------------------------- Medição Texec ---------------------------------------
+
+    clock_t start, end;
+    double cpu_time_used;
+    start = clock();
+
     // ---------------------------------- Abertura dos ficheiros ----------------------------------
 
     FILE *produtoFicheiro = fopen("Produtos.txt","r");
@@ -18,10 +24,10 @@ int main(int argc, char** argv) {
 
     // ------------------------------------ Guarda nas listas -------------------------------------
 
-    int pLidos = guardaProdutosClientes(produtoFicheiro,listaProdutos);
+    int pLidos = guardaProdutos(produtoFicheiro,listaProdutos);
     printf("Foram lidas %d linhas válidas do ficheiro produtos.txt\n",pLidos);
 
-    int cLidos = guardaProdutosClientes(clientesFicheiro,listaClientes);
+    int cLidos = guardaClientes(clientesFicheiro,listaClientes);
     printf("Foram lidas %d linhas válidas do ficheiro clientes.txt\n",cLidos);
 
     // --------- Vendas válidas ---------
@@ -33,11 +39,22 @@ int main(int argc, char** argv) {
     int vLidas = guardaVendas(vendasFicheiro,listaVendas,listaProdutos,listaClientes,vTodas,vBoas,vValidasFicheiro);
     printf("Foram lidas %d linhas válidas do ficheiro vendas.txt\n",vLidas);
 
+    printf("O último cliente (válido) foi: %s\n",vBoas[vLidas-1].cliente);
+    printf("Este cliente fez %d vendas\n",contaVendas(vBoas,vBoas[vLidas-1].cliente));
+    printf("Foram feitas %d vendas na filial 1\n",contaFilial(vBoas,1));
+    printf("A fatoração total foi: %f\n",contaFaturacao(vBoas));
+
     // ----------------------------------- Close dos ficheiros ------------------------------------
 
     fclose(produtoFicheiro);
     fclose(clientesFicheiro);
     fclose(vendasFicheiro);
+
+    // -------------------------------------- Medição Texec ---------------------------------------
+
+    end = clock();
+    cpu_time_used = ((double) (end - start)) / CLOCKS_PER_SEC;
+    printf("CPU Time:%f segundos.\n", cpu_time_used );
 
     return 0;
 }
