@@ -1,3 +1,4 @@
+#define _GNU_SOURCE
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
@@ -21,7 +22,7 @@ typedef struct venda{
 #define MAXCLIENT 20000
 #define MAXVENDAS 1000000
 
-// API
+/* API */
 
 int elem(char** lista, char* key);
 void linhaToArray(char* linha,char* tokensArray[7]);

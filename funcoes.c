@@ -1,6 +1,6 @@
 #include "funcoes.h"
 
-// ------------------------------------ Funções úteis globais -------------------------------------
+/* ------------------------------------ Funções úteis globais -----------------------------------*/
 
 /*
  * Procura uma string numa lista de strings.
@@ -42,7 +42,7 @@ int contaChar(char* iniciais, char x){
     return count;
 }
 
-// ----------------------------------- Funções da struct venda ------------------------------------
+/* ----------------------------------- Funções da struct venda ----------------------------------*/
 
 /*
  * Adiciona uma venda a uma estrutura de dados.
@@ -92,7 +92,7 @@ float contaFaturacao(Vendas*v){
         r += v[i].preco * v[i].quant;
     return r;
 }
-// --------------------------- Parte de validação (apenas de uma linha) ---------------------------
+/* --------------------------- Parte de validação (apenas de uma linha) -------------------------*/
 
 /*
  * Valida um cliente de acordo com a sua estrutura.
@@ -144,7 +144,7 @@ int validaVendas(char* tokensArray[7], char** listaProdutos, char** listaCliente
     return r;
 }
 
-// --------------------------------- Parte de guardar nas listas ----------------------------------
+/* --------------------------------- Parte de guardar nas listas --------------------------------*/
 
 /*
  * Lê do ficheiro clientes e passa cada linha para um array de strings.
@@ -202,18 +202,18 @@ int guardaVendas(FILE *fp, char** listaVendas, char** listaProdutos, char** list
     char* linha;
     int index = 0;
     char* tokensArray[7];
-    int fail = 0; // conta quantas linhas inválidas foram lidas
+    int fail = 0; /* conta quantas linhas inválidas foram lidas*/
 
     while(fgets(str,MAXBUFVENDAS,fp)){
         linha = strtok(str,"\n\r");
         linhaToArray(linha,tokensArray);
         if(validaVendas(tokensArray,listaProdutos,listaClientes)){
-            listaVendas[index-fail] = strdup(linha); // Guarda em array de strings vendas válidas
-            addVenda(vBoas,tokensArray,index-fail); // Guarda em array de struct vendas válidas.
-            fprintf(vValidasFicheiro,"%s\n",listaVendas[index-fail]); // Escreve no ficheiro vendas válidas.
+            listaVendas[index-fail] = strdup(linha); /* Guarda em array de strings vendas válidas*/
+            addVenda(vBoas,tokensArray,index-fail); /* Guarda em array de struct vendas válidas.*/
+            fprintf(vValidasFicheiro,"%s\n",listaVendas[index-fail]); /* Escreve no ficheiro vendas válidas.*/
         }
         else fail++;
-        addVenda(vTodas,tokensArray,index); // Guarda em array de struct todas as vendas
+        addVenda(vTodas,tokensArray,index); /* Guarda em array de struct todas as vendas*/
         index++;
     }
     return index-fail;

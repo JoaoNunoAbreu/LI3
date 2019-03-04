@@ -7,13 +7,13 @@ char* listaVendas[MAXVENDAS];
 
 int main(int argc, char** argv) {
 
-    // -------------------------------------- Medição Texec ---------------------------------------
+    /* -------------------------------------- Medição Texec -------------------------------------*/
 
     clock_t start, end;
     double cpu_time_used;
     start = clock();
 
-    // ---------------------------------- Abertura dos ficheiros ----------------------------------
+    /* ---------------------------------- Abertura dos ficheiros --------------------------------*/
 
     FILE *produtoFicheiro = fopen("Produtos.txt","r");
     if(produtoFicheiro == NULL) {printf("Produtos.txt não foi possível ser carregado."); exit (1);}
@@ -22,7 +22,7 @@ int main(int argc, char** argv) {
     FILE *vendasFicheiro = fopen("FicheirosTeste/testeVendas.txt","r");
     if(vendasFicheiro == NULL) {printf("Vendas.txt não foi possível ser carregado."); exit (1);}
 
-    // ------------------------------------ Guarda nas listas -------------------------------------
+    /* ------------------------------------ Guarda nas listas -----------------------------------*/
 
     int pLidos = guardaProdutos(produtoFicheiro,listaProdutos);
     printf("Foram lidas %d linhas válidas do ficheiro produtos.txt\n",pLidos);
@@ -30,7 +30,7 @@ int main(int argc, char** argv) {
     int cLidos = guardaClientes(clientesFicheiro,listaClientes);
     printf("Foram lidas %d linhas válidas do ficheiro clientes.txt\n",cLidos);
 
-    // --------- Vendas válidas ---------
+    /* --------- Vendas ---------*/
 
     FILE *vValidasFicheiro = fopen("Vendas_1MValidas.txt","w");
     Vendas* vTodas = malloc(MAXVENDAS * sizeof *vTodas);
@@ -44,13 +44,13 @@ int main(int argc, char** argv) {
     printf("Foram feitas %d vendas na filial 1\n",contaFilial(vBoas,1));
     printf("A faturação total foi: %f\n",contaFaturacao(vBoas));
 
-    // ----------------------------------- Close dos ficheiros ------------------------------------
+    /* ----------------------------------- Close dos ficheiros ----------------------------------*/
 
     fclose(produtoFicheiro);
     fclose(clientesFicheiro);
     fclose(vendasFicheiro);
 
-    // -------------------------------------- Medição Texec ---------------------------------------
+    /* ------------------------------------- Medição Texec --------------------------------------*/
 
     end = clock();
     cpu_time_used = ((double) (end - start)) / CLOCKS_PER_SEC;
