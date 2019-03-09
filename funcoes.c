@@ -1,10 +1,5 @@
 #include "funcoes.h"
 
-/* ------------------------------------ Funções úteis globais -----------------------------------*/
-
-/*
- * Procura uma string numa lista de strings.
- */
 int elem(char** lista, char* key){
 
     int found = 0;
@@ -15,9 +10,6 @@ int elem(char** lista, char* key){
     return found;
 }
 
-/*
- * Parte uma string aos bocados e coloca cada bocado numa posição do array.
- */
 void linhaToArray(char* linha,char* tokensArray[7]){
 
     char* line = strdup(linha);
@@ -30,9 +22,6 @@ void linhaToArray(char* linha,char* tokensArray[7]){
     }
 }
 
-/*
- * Conta quanto caracteres "x" existe numa string.
- */
 int contaChar(char* iniciais, char x){
 
     int count = 0;
@@ -42,11 +31,6 @@ int contaChar(char* iniciais, char x){
     return count;
 }
 
-/* ----------------------------------- Funções da struct venda ----------------------------------*/
-
-/*
- * Adiciona uma venda a uma estrutura de dados.
- */
 void addVenda(Vendas* v, char* tokensArray[7], int index){
 
     v[index].produto = strdup(tokensArray[0]);
@@ -58,9 +42,7 @@ void addVenda(Vendas* v, char* tokensArray[7], int index){
     v[index].filial = atoi(tokensArray[6]);
 }
 
-/*
- * Conta quantas vendas foram feitas por um cliente.
- */
+
 int contaVendas(Vendas* v, char* cliente){
 
     int count = 0;
@@ -71,9 +53,6 @@ int contaVendas(Vendas* v, char* cliente){
     return count;
 }
 
-/*
- * Conta quantas quantas vendas foram feitas numa filial.
- */
 int contaFilial(Vendas* v, int filial){
 
     int count = 0;
@@ -82,9 +61,7 @@ int contaFilial(Vendas* v, int filial){
 
     return count;
 }
-/*
- * Calcula faturação total registada.
- */
+
 float contaFaturacao(Vendas*v){
 
     float r = 0;
@@ -92,11 +69,30 @@ float contaFaturacao(Vendas*v){
         r += v[i].preco * v[i].quant;
     return r;
 }
-/* --------------------------- Parte de validação (apenas de uma linha) -------------------------*/
 
-/*
- * Valida um cliente de acordo com a sua estrutura.
- */
+int contaProdutosEnvolvidos(Vendas* vBoas, int vLidas){
+
+    char* envolvidosP[vLidas];
+    int i = 0;
+
+    for(int j = 0; j < vLidas; j++){
+        if(!elem(envolvidosP,vBoas[j].produto)) envolvidosP[i++] = strdup(vBoas[j].produto);
+    }
+
+    return i;
+}
+
+int contaClientesEnvolvidos(Vendas* vBoas, int vLidas){
+
+    char* envolvidosC[vLidas];
+    int i = 0;
+
+    for(int j = 0; j < vLidas; j++){
+        if(!elem(envolvidosC,vBoas[j].cliente)) envolvidosC[i++] = strdup(vBoas[j].cliente);
+    }
+    return i;
+}
+
 int validaCliente(char* linha){
 
     int r = 1;
@@ -110,9 +106,7 @@ int validaCliente(char* linha){
 
     return r;
 }
-/*
- * Valida um produto de acordo com a sua estrutura.
- */
+
 int validaProduto(char* linha){
 
     int r = 1;
@@ -125,10 +119,7 @@ int validaProduto(char* linha){
     }
     return r;
 }
-/*
- * Valida uma venda.
- * Função de procura (elem) muito pouco eficiente.
- */
+
 int validaVendas(char* tokensArray[7], char** listaProdutos, char** listaClientes){
 
     int r = 1;
@@ -144,13 +135,6 @@ int validaVendas(char* tokensArray[7], char** listaProdutos, char** listaCliente
     return r;
 }
 
-/* --------------------------------- Parte de guardar nas listas --------------------------------*/
-
-/*
- * Lê do ficheiro clientes e passa cada linha para um array de strings.
- * Passa para um array o elemento da primeira posição da linha lida, ou seja, a letra para ser contada.
- * Retorna o número de clientes válidos inseridos.
- */
 int guardaClientes(FILE *fp, char** lista){
 
     char str[MAXBUFCLIENT];
@@ -166,13 +150,10 @@ int guardaClientes(FILE *fp, char** lista){
             index++;
         }
     }
-    printf("Foram encontrados %d J's nos clientes\n",contaChar(iniciais,'J'));
+    /*printf("Foram encontrados %d J's nos clientes\n",contaChar(iniciais,'J'));*/
     return index;
 }
-/*
- * Lê do ficheiro produtos e passa cada linha para um array de strings.
- * Retorna o número de produtos válidos inseridos.
- */
+
 int guardaProdutos(FILE *fp, char** lista){
 
     char str[MAXBUFPROD];
@@ -188,16 +169,10 @@ int guardaProdutos(FILE *fp, char** lista){
     }
     return index;
 }
-/*
- * Lê do ficheiro vendas.
- * Passa todas as linhas para uma struct de vendas "vTodas".
- * Passa apenas as linhas válidas para uma struct de vendas "vBoas".
- * Passa apenas as linhas válidas para o array de string "listaVendas".
- * Escreve num ficheiro de texto apenas as vendas válidas.
- * Retorna o número de vendas válidas.
- */
-int guardaVendas(FILE *fp, char** listaVendas, char** listaProdutos, char** listaClientes, Vendas* vTodas, Vendas* vBoas, FILE* vValidasFicheiro){
 
+int guardaVendas(FILE *fp, char** listaVendas, char** listaProdutos, char** listaClientes, Vendas* vTodas, Vendas* vBoas){
+
+    FILE *vValidasFicheiro = fopen("Vendas_1MValidas.txt","w");
     char str[MAXBUFVENDAS];
     char* linha;
     int index = 0;
