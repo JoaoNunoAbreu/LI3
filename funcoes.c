@@ -2,12 +2,10 @@
 
 int elem(char** lista, char* key){
 
-    int found = 0;
-    
-    for(int i = 0; lista[i] != NULL && found == 0; i++){
-        if(!strcmp(lista[i],key)) found = 1;
+    for(int i = 0; lista[i]; i++){
+        if(!strcmp(lista[i],key)) return 1;
     }
-    return found;
+    return 0;
 }
 
 void linhaToArray(char* linha,char* tokensArray[7]){
@@ -22,11 +20,11 @@ void linhaToArray(char* linha,char* tokensArray[7]){
     }
 }
 
-int contaChar(char* iniciais, char x){
+int contaChar(Vendas* v, char x){
 
     int count = 0;
-    for(int i = 0; iniciais[i]; i++)
-        if(iniciais[i] == x) count++;
+    for(int i = 0; v[i].cliente; i++)
+        if(v[i].cliente[0] == x) count++;
 
     return count;
 }
@@ -42,6 +40,15 @@ void addVenda(Vendas* v, char* tokensArray[7], int index){
     v[index].filial = atoi(tokensArray[6]);
 }
 
+int contaMaiorLinha(char** lista){
+
+    int max = 0;
+
+    for(int i = 0; lista[i]; i++)
+        if(strlen(lista[i]) > max) max = strlen(lista[i]);
+
+    return max;
+}
 
 int contaVendas(Vendas* v, char* cliente){
 
@@ -70,24 +77,22 @@ float contaFaturacao(Vendas*v){
     return r;
 }
 
-int contaProdutosEnvolvidos(Vendas* vBoas, int vLidas){
-
-    char* envolvidosP[vLidas];
+int contaProdutosEnvolvidos(Vendas* vBoas){
+    
     int i = 0;
 
-    for(int j = 0; j < vLidas; j++){
+    for(int j = 0; vBoas[j].produto ; j++){
         if(!elem(envolvidosP,vBoas[j].produto)) envolvidosP[i++] = strdup(vBoas[j].produto);
     }
 
     return i;
 }
 
-int contaClientesEnvolvidos(Vendas* vBoas, int vLidas){
+int contaClientesEnvolvidos(Vendas* vBoas){
 
-    char* envolvidosC[vLidas];
     int i = 0;
 
-    for(int j = 0; j < vLidas; j++){
+    for(int j = 0; vBoas[j].cliente; j++){
         if(!elem(envolvidosC,vBoas[j].cliente)) envolvidosC[i++] = strdup(vBoas[j].cliente);
     }
     return i;
@@ -139,18 +144,15 @@ int guardaClientes(FILE *fp, char** lista){
 
     char str[MAXBUFCLIENT];
     char* linha;
-    char* iniciais = malloc(sizeof(char*));
 
     int index = 0;
     while(fgets(str,MAXBUFCLIENT,fp)){
         linha = strtok(str,"\n\r");
         if(validaCliente(linha)){
-            iniciais[index] = linha[0];
             lista[index] = strdup(linha);
             index++;
         }
     }
-    /*printf("Foram encontrados %d J's nos clientes\n",contaChar(iniciais,'J'));*/
     return index;
 }
 

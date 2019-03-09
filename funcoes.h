@@ -17,10 +17,17 @@ typedef struct venda{
 
 #define MAXBUFPROD 7
 #define MAXBUFCLIENT 6
-#define MAXBUFVENDAS 100
+#define MAXBUFVENDAS 32
 #define MAXPRODS 200000
 #define MAXCLIENT 20000
 #define MAXVENDAS 1000000
+
+char* listaProdutos[MAXPRODS];
+char* listaClientes[MAXCLIENT];
+char* listaVendas[MAXVENDAS];
+
+char* envolvidosP[MAXPRODS];
+char* envolvidosC[MAXCLIENT];
 
 /* ------------------------------------ Funções úteis globais -----------------------------------*/
 
@@ -37,7 +44,7 @@ void linhaToArray(char* linha,char* tokensArray[7]);
 /*
  * Conta quanto caracteres "x" existe numa string.
  */
-int contaChar(char* iniciais, char x);
+int contaChar(Vendas* v, char x);
 
 /* ----------------------------------- Funções da struct venda ----------------------------------*/
 
@@ -45,6 +52,11 @@ int contaChar(char* iniciais, char x);
  * Adiciona uma venda a uma estrutura de dados.
  */
 void addVenda(Vendas* v, char* tokensArray[7], int index);
+
+/*
+ * Conta a maior linha da vendas.
+ */
+int contaMaiorLinha(char** listaVendas);
 
 /*
  * Conta quantas vendas foram feitas por um cliente.
@@ -64,12 +76,12 @@ float contaFaturacao(Vendas*v);
 /*
  * Conta quantos produtos foram comprados.
  */
-int contaProdutosEnvolvidos(Vendas* vBoas, int vLidas);
+int contaProdutosEnvolvidos(Vendas* vBoas);
 
 /*
  * Conta quantos clientes efetuaram compras.
  */
-int contaClientesEnvolvidos(Vendas* vBoas, int vLidas);
+int contaClientesEnvolvidos(Vendas* vBoas);
 
 /* --------------------------- Parte de validação (apenas de uma linha) -------------------------*/
 

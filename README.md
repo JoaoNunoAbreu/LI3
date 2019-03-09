@@ -32,7 +32,7 @@
 
 ## Fase 1: Ler e testar valores (pág.4 do BRP)
 
-* Linha mais longa (Venda)
+* ~~Linha mais longa (Venda)~~
 * ~~Produtos envolvidos~~
 * ~~Clientes envolvidos~~
 * ~~Vendas efectivas (válidas)~~
@@ -54,5 +54,5 @@
 
 ## NOTA
 
-* O máximo de chars que uma linha de vendas pode ter é de 31 pois é quando usam os 3 dígitos do preço por unidade e pela quantidade comprada e o mês da compra tem 2 dígitos. Sendo assim coloca-se o MAXBUFVENDAS a 32 para ler a linha toda pois o fgets aparentemente só lê (n-1) chars sendo este n o parâmentro inteiro.
+* O máximo de chars que uma linha de vendas pode ter é de 30 pois é quando usam os 3 dígitos do preço por unidade e pela quantidade comprada e o mês da compra tem 2 dígitos. Sendo assim coloca-se o MAXBUFVENDAS a 32 para ler a linha toda pois o fgets aparentemente só lê (n-1) chars sendo este n o parâmentro inteiro.
 <https://www.tutorialspoint.com/c_standard_library/c_function_fgets.htm>
