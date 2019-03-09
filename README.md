@@ -6,6 +6,10 @@
 * Hugo Matias
 * Jorge Vieira
 
+## Importante
+
+* Usem a funcoes.h para saber o que cada função faz.
+
 ## Validade de produtos (AB1234)
 
 * ~~2 letras maiúsculas~~
@@ -46,6 +50,7 @@
 * Melhorar os tempos de execução da validação das vendas
 * ~~Guardar num ficheiro texto apenas as vendas válidas~~
 * ~~Colocar linhas válidas de vendas numa struct~~
+* Corrigir erro das linhas válidas das vendas
 
 ## NOTA
 
