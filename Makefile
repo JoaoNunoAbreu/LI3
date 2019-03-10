@@ -1,5 +1,5 @@
 CC = gcc
-CFLAGS = -Wall -ansi
+CFLAGS = -Wall -ansi -O2
 
 program:funcoes
 	$(CC) $(CFLAGS) main.c -o main funcoes.o
