@@ -14,7 +14,106 @@ int contaLinha(char** lista){
     return i;
 }
 
-void linhaToArray(char* linha,char* tokensArray[7]){
+void printArrayDyn(char** array){
+    char* str; int i = 0;
+    if(array[0] == NULL) printf("ARRAY VAZIO !!\n");
+    else{
+        while ((str = array[i]) != NULL) {
+            printf("%s\n", str);
+            i++;
+        }
+    }
+}
+/*-----------------------------------------------------------------------------------------------*/
+
+int height(AVLTree a){ 
+    if(a == NULL) return 0; 
+    return a -> height; 
+} 
+
+int max(int a, int b){ 
+    return (a > b)? a : b; 
+}
+
+AVLTree newNode(Vendas v){ 
+
+    AVLTree a = (AVLTree) malloc(sizeof(struct avl)); 
+    a -> venda = v; 
+    a -> left = NULL; 
+    a -> right = NULL; 
+    a -> height = 1;
+    return a;
+} 
+
+AVLTree rightRotate(AVLTree y){ 
+    
+    AVLTree x = y -> left; 
+    AVLTree T2 = x -> right; 
+    x->right = y; 
+    y->left = T2; 
+    y->height = max(height(y->left), height(y->right))+1; 
+    x->height = max(height(x->left), height(x->right))+1; 
+    return x; 
+}
+
+AVLTree leftRotate(AVLTree x){ 
+
+    AVLTree y = x -> right; 
+    AVLTree T2 = y -> left; 
+    y -> left = x; 
+    x -> right = T2; 
+    x->height = max(height(x->left), height(x->right))+1; 
+    y->height = max(height(y->left), height(y->right))+1; 
+    return y; 
+} 
+
+int getBalance(AVLTree N){ 
+    if (N == NULL) return 0; 
+    return height(N->left) - height(N->right); 
+} 
+
+AVLTree insert(AVLTree node, Vendas v) { 
+
+    if (node == NULL) return(newNode(v)); 
+  
+    if (v.produto < node->venda.produto) node -> left  = insert(node->left,v); 
+    else if (v.produto > node -> venda.produto) node->right = insert(node->right,v); 
+    else return node; 
+  
+    node -> height = 1 + max(height(node->left),height(node->right)); 
+
+    int balance = getBalance(node); 
+  
+    /* Left Left Case */
+    if (balance > 1 && v.produto < node->left->venda.produto) return rightRotate(node); 
+  
+    /* Right Right Case */
+    if (balance < -1 && v.produto > node->right->venda.produto) return leftRotate(node); 
+  
+    /* Left Right Case */
+    if (balance > 1 && v.produto > node->left->venda.produto){ 
+        node->left = leftRotate(node->left); 
+        return rightRotate(node); 
+    } 
+    /* Right Left Case */
+    if (balance < -1 && v.produto < node->right->venda.produto){ 
+        node->right = rightRotate(node->right); 
+        return leftRotate(node); 
+    } 
+    return node; 
+}
+
+void preOrder(AVLTree root){ 
+    if(root != NULL){ 
+        printf("%s\n",root->venda.produto); 
+        preOrder(root->left); 
+        preOrder(root->right); 
+    } 
+} 
+
+/*-----------------------------------------------------------------------------------------------*/
+
+/*void linhaToArray(char* linha,char* tokensArray[7]){
 
     char* line = strdup(linha);
     char* token = strtok(line," ");
@@ -24,6 +123,18 @@ void linhaToArray(char* linha,char* tokensArray[7]){
         token = strtok(NULL," ");
         i++;
     }
+}*/
+
+char** tokenizeLinhaVendaDyn(char* vendaRaw) {
+    int index = 0;
+    char** campos = (char**) malloc(MAXBUFVENDAS * sizeof(char*));
+    char* token = strtok(vendaRaw," ");
+    while(token != NULL){
+        campos[index] = strdup(token);
+        token = strtok(NULL," ");
+        index++;
+    }
+    return campos;
 }
 
 int contaChar(Vendas* v, char x){
@@ -35,7 +146,7 @@ int contaChar(Vendas* v, char x){
     return count;
 }
 
-void addVenda(Vendas* v, char* tokensArray[7], int index){
+void addVenda(Vendas* v, char** tokensArray, int index){
 
     v[index].produto = strdup(tokensArray[0]);
     v[index].preco = atof(tokensArray[1]);
@@ -119,6 +230,8 @@ int contaUnidades(Vendas* v){
         sum += v[i].quant;
     return sum;
 }
+
+/*-----------------------------------------------------------------------------------------------*/
 
 int validaCliente(char* linha){
 
@@ -206,19 +319,19 @@ int guardaVendas(FILE *fp, char** listaVendas, char** listaProdutos, char** list
     char str[MAXBUFVENDAS];
     char* linha;
     int index = 0;
-    char* tokensArray[7];
+    char** tokensArray;
     int fail = 0; /* conta quantas linhas inválidas foram lidas*/
     indexCI = indexPI = 0;
 
     while(fgets(str,MAXBUFVENDAS,fp)){
         linha = strtok(str,"\n\r");
-        linhaToArray(linha,tokensArray);
-        if(validaVendas(tokensArray,listaProdutos,listaClientes)){
-            listaVendas[index-fail] = strdup(linha); /* Guarda em array de strings vendas válidas*/
-            addVenda(vBoas,tokensArray,index-fail); /* Guarda em array de struct vendas válidas.*/
-            fprintf(vValidasFicheiro,"%s\n",listaVendas[index-fail]); /* Escreve no ficheiro vendas válidas.*/
+        tokensArray = tokenizeLinhaVendaDyn(linha);
+        /*if(validaVendas(tokensArray,listaProdutos,listaClientes)){
+            listaVendas[index-fail] = strdup(linha);  Guarda em array de strings vendas válidas
+            addVenda(vBoas,tokensArray,index-fail);  Guarda em array de struct vendas válidas.
+            fprintf(vValidasFicheiro,"%s\n",listaVendas[index-fail]);  Escreve no ficheiro vendas válidas.
         }
-        else fail++;
+        else fail++;*/
         addVenda(vTodas,tokensArray,index); /* Guarda em array de struct todas as vendas*/
         index++;
     }

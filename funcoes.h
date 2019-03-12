@@ -5,6 +5,13 @@
 #include <ctype.h>
 #include <time.h>
 
+#define MAXBUFPROD 7
+#define MAXBUFCLIENT 6
+#define MAXBUFVENDAS 32
+#define MAXPRODS 200000
+#define MAXCLIENT 20000
+#define MAXVENDAS 1000000
+
 typedef struct venda{
     char *produto;
     float preco;
@@ -15,12 +22,14 @@ typedef struct venda{
     int filial;
 }Vendas;
 
-#define MAXBUFPROD 7
-#define MAXBUFCLIENT 6
-#define MAXBUFVENDAS 32
-#define MAXPRODS 200000
-#define MAXCLIENT 20000
-#define MAXVENDAS 1000000
+typedef struct avl{
+
+    struct venda venda;
+    struct avl *left, *right;
+    int height;
+
+} *AVLTree;
+
 
 char* listaProdutos[MAXPRODS];
 char* listaClientes[MAXCLIENT];
@@ -31,7 +40,6 @@ char* envolvidosC[MAXCLIENT];
 
 char* clientesInvalidos[MAXCLIENT]; int indexCI;
 char* produtosInvalidos[MAXPRODS]; int indexPI;
-
 
 /* ------------------------------------ Funções úteis globais -----------------------------------*/
 
@@ -46,16 +54,33 @@ int elem(char** lista, char* key);
 int contaLinha(char** lista);
 
 /*
+ * Print de um array dinâmico.
+ */
+void printArrayDyn(char** array);
+
+/* -------------------------------------- Funções das AVL ---------------------------------------*/
+
+int height(AVLTree a);
+int max(int a, int b);
+AVLTree newNode(Vendas v);
+AVLTree rightRotate(AVLTree y);
+AVLTree leftRotate(AVLTree x);
+int getBalance(AVLTree N);
+AVLTree insert(AVLTree node, Vendas v);
+void preOrder(AVLTree root);
+
+/* ----------------------------------- Funções da struct venda ----------------------------------*/
+
+/*
  * Parte uma string aos bocados e coloca cada bocado numa posição do array.
  */
-void linhaToArray(char* linha,char* tokensArray[7]);
+/*void linhaToArray(char* linha,char* tokensArray[7]);*/
+char** tokenizeLinhaVendaDyn(char* vendaRaw);
 
 /*
  * Conta quanto caracteres "x" existe numa string.
  */
 int contaChar(Vendas* v, char x);
-
-/* ----------------------------------- Funções da struct venda ----------------------------------*/
 
 /*
  * Adiciona uma venda a uma estrutura de dados.

@@ -32,8 +32,7 @@ int main(int argc, char** argv) {
 
     int vLidas = guardaVendas(vendasFicheiro,listaVendas,listaProdutos,listaClientes,vTodas,vBoas);
     printf("Foram lidas %d linhas válidas do ficheiro vendas.txt\n",vLidas);
-    printf("Foram lidas %d linhas inválidas do ficheiro vendas.txt\n",MAXVENDAS-vLidas);
-    printf("\n");
+    /*printf("\n");
     printf("A linha mais longa das vendas foi: %d\n", contaMaiorLinha(listaVendas));
 
     int prodEnvolvidos = contaProdutosEnvolvidos(vBoas);
@@ -42,8 +41,8 @@ int main(int argc, char** argv) {
     int clientEnvolvidos = contaClientesEnvolvidos(vBoas);
     printf("O número de clientes envolvidos foi: %d\n",clientEnvolvidos);
     printf("O número de clientes nunca comprado foi: %d\n",cLidos - clientEnvolvidos);
-    printf("Houve %d códigos de clientes errados\n",contaLinha(clientesInvalidos));
-    printf("Houve %d códigos de produtos errados\n",contaLinha(produtosInvalidos));
+    printf("Houve %d códigos de clientes errados\n",indexCI);
+    printf("Houve %d códigos de produtos errados\n",indexPI);
 
     printf("O último cliente (válido) foi: %s\n",vBoas[vLidas-1].cliente);
     printf("Este cliente fez %d vendas\n",contaVendas(vBoas,vBoas[vLidas-1].cliente));
@@ -54,9 +53,23 @@ int main(int argc, char** argv) {
     printf("A faturação total foi: %e\n",contaFaturacao(vBoas));
     printf("Foram vendidas %d unidades.\n",contaUnidades(vBoas));
     printf("Foram feitas %d vendas com preço 0.\n",contaPrecos(vBoas,0));
-    printf("\n");
-    
+    printf("\n");*/
 
+/*-----------------------------------------------------------------------------------------------*/
+
+    AVLTree root = NULL; 
+
+    root = insert(root, vTodas[0]); 
+    root = insert(root, vTodas[1]); 
+    root = insert(root, vTodas[2]); 
+    root = insert(root, vTodas[3]); 
+    root = insert(root, vTodas[4]); 
+    root = insert(root, vTodas[5]); 
+  
+    printf("Preorder traversal of the constructed AVL"
+         " tree is \n"); 
+    preOrder(root); 
+    
     /* ----------------------------------- Close dos ficheiros ----------------------------------*/
 
     fclose(produtoFicheiro);
