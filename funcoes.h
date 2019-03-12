@@ -29,12 +29,21 @@ char* listaVendas[MAXVENDAS];
 char* envolvidosP[MAXPRODS];
 char* envolvidosC[MAXCLIENT];
 
+char* clientesInvalidos[MAXCLIENT]; int indexCI;
+char* produtosInvalidos[MAXPRODS]; int indexPI;
+
+
 /* ------------------------------------ Funções úteis globais -----------------------------------*/
 
 /*
  * Procura uma string numa lista de strings.
  */
 int elem(char** lista, char* key);
+
+/*
+ * Conta quantas linhas um array de strings tem.
+ */
+int contaLinha(char** lista);
 
 /*
  * Parte uma string aos bocados e coloca cada bocado numa posição do array.
@@ -74,14 +83,24 @@ int contaFilial(Vendas* v, int filial);
 float contaFaturacao(Vendas*v);
 
 /*
+ * Conta quantos preços forem iguais a "x"
+ */
+int contaPrecos(Vendas* v, int x);
+
+/*
  * Conta quantos produtos foram comprados.
  */
-int contaProdutosEnvolvidos(Vendas* vBoas);
+int contaProdutosEnvolvidos(Vendas* v);
 
 /*
  * Conta quantos clientes efetuaram compras.
  */
-int contaClientesEnvolvidos(Vendas* vBoas);
+int contaClientesEnvolvidos(Vendas* v);
+
+/*
+ * Conta quantas unidades foram vendidas.
+ */
+int contaUnidades(Vendas* v);
 
 /* --------------------------- Parte de validação (apenas de uma linha) -------------------------*/
 

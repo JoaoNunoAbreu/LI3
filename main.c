@@ -32,17 +32,29 @@ int main(int argc, char** argv) {
 
     int vLidas = guardaVendas(vendasFicheiro,listaVendas,listaProdutos,listaClientes,vTodas,vBoas);
     printf("Foram lidas %d linhas válidas do ficheiro vendas.txt\n",vLidas);
+    printf("Foram lidas %d linhas inválidas do ficheiro vendas.txt\n",MAXVENDAS-vLidas);
     printf("\n");
     printf("A linha mais longa das vendas foi: %d\n", contaMaiorLinha(listaVendas));
-    printf("O número de produtos envolvidos foi: %d\n", contaProdutosEnvolvidos(vBoas));
-    printf("O número de clientes envolvidos foi: %d\n", contaClientesEnvolvidos(vBoas));
+
+    int prodEnvolvidos = contaProdutosEnvolvidos(vBoas);
+    printf("O número de produtos envolvidos foi: %d\n", prodEnvolvidos);
+    printf("O número de produtos nunca comprado foi: %d\n", pLidos - prodEnvolvidos);
+    int clientEnvolvidos = contaClientesEnvolvidos(vBoas);
+    printf("O número de clientes envolvidos foi: %d\n",clientEnvolvidos);
+    printf("O número de clientes nunca comprado foi: %d\n",cLidos - clientEnvolvidos);
+    printf("Houve %d códigos de clientes errados\n",contaLinha(clientesInvalidos));
+    printf("Houve %d códigos de produtos errados\n",contaLinha(produtosInvalidos));
+
     printf("O último cliente (válido) foi: %s\n",vBoas[vLidas-1].cliente);
     printf("Este cliente fez %d vendas\n",contaVendas(vBoas,vBoas[vLidas-1].cliente));
     printf("Foram feitas %d vendas na filial 1\n",contaFilial(vBoas,1));
     printf("Foram feitas %d vendas na filial 2\n",contaFilial(vBoas,2));
+    printf("Foram feitas %d vendas na filial 3\n",contaFilial(vBoas,3));
     printf("O número de clientes que começam com a letra A é: %d\n", contaChar(vBoas,'A'));
-    printf("A faturação total foi: %f\n",contaFaturacao(vBoas));
-    
+    printf("A faturação total foi: %e\n",contaFaturacao(vBoas));
+    printf("Foram vendidas %d unidades.\n",contaUnidades(vBoas));
+    printf("Foram feitas %d vendas com preço 0.\n",contaPrecos(vBoas,0));
+    printf("\n");
     
 
     /* ----------------------------------- Close dos ficheiros ----------------------------------*/

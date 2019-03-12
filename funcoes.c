@@ -8,6 +8,12 @@ int elem(char** lista, char* key){
     return 0;
 }
 
+int contaLinha(char** lista){
+    int i;
+    for(i = 0; lista[i]; i++);
+    return i;
+}
+
 void linhaToArray(char* linha,char* tokensArray[7]){
 
     char* line = strdup(linha);
@@ -77,25 +83,41 @@ float contaFaturacao(Vendas*v){
     return r;
 }
 
-int contaProdutosEnvolvidos(Vendas* vBoas){
+int contaPrecos(Vendas* v, int x){
+
+    int count = 0;
+    for(int i = 0; v[i].produto; i++)
+        if(v[i].preco == x) count++;
+    return count;
+}
+
+int contaProdutosEnvolvidos(Vendas* v){
     
     int i = 0;
 
-    for(int j = 0; vBoas[j].produto ; j++){
-        if(!elem(envolvidosP,vBoas[j].produto)) envolvidosP[i++] = strdup(vBoas[j].produto);
+    for(int j = 0; v[j].produto ; j++){
+        if(!elem(envolvidosP,v[j].produto)) envolvidosP[i++] = strdup(v[j].produto);
     }
 
     return i;
 }
 
-int contaClientesEnvolvidos(Vendas* vBoas){
+int contaClientesEnvolvidos(Vendas* v){
 
     int i = 0;
 
-    for(int j = 0; vBoas[j].cliente; j++){
-        if(!elem(envolvidosC,vBoas[j].cliente)) envolvidosC[i++] = strdup(vBoas[j].cliente);
+    for(int j = 0; v[j].cliente; j++){
+        if(!elem(envolvidosC,v[j].cliente)) envolvidosC[i++] = strdup(v[j].cliente);
     }
     return i;
+}
+
+int contaUnidades(Vendas* v){
+
+    int sum = 0;
+    for(int i = 0; v[i].produto; i++)
+        sum += v[i].quant;
+    return sum;
 }
 
 int validaCliente(char* linha){
@@ -134,8 +156,14 @@ int validaVendas(char* tokensArray[7], char** listaProdutos, char** listaCliente
     if(r == 1 && (*tokensArray[3] != 'N'   && *tokensArray[3] != 'P')) r = 0;
     if(r == 1 && (atoi(tokensArray[5]) < 0 || atoi(tokensArray[5]) > 12)) r = 0;
     if(r == 1 && (atoi(tokensArray[6]) < 0 || atoi(tokensArray[6]) > 3)) r = 0;
-    if(r == 1 && (!elem(listaClientes,tokensArray[4]))) r = 0;
-    if(r == 1 && (!elem(listaProdutos,tokensArray[0]))) r = 0;
+    if(r == 1 && (!elem(listaClientes,tokensArray[4]))) {
+        r = 0;
+        clientesInvalidos[indexCI++] = strdup(tokensArray[4]);
+    }
+    if(!elem(listaProdutos,tokensArray[0])) {
+        r = 0;
+        produtosInvalidos[indexPI++] = strdup(tokensArray[0]);
+    }
 
     return r;
 }
@@ -180,6 +208,7 @@ int guardaVendas(FILE *fp, char** listaVendas, char** listaProdutos, char** list
     int index = 0;
     char* tokensArray[7];
     int fail = 0; /* conta quantas linhas inválidas foram lidas*/
+    indexCI = indexPI = 0;
 
     while(fgets(str,MAXBUFVENDAS,fp)){
         linha = strtok(str,"\n\r");
