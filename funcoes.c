@@ -127,7 +127,7 @@ void preOrder(AVLTree root){
 
 char** tokenizeLinhaVendaDyn(char* vendaRaw) {
     int index = 0;
-    char** campos = (char**) malloc(MAXBUFVENDAS * sizeof(char*));
+    char** campos = (char**) malloc(CAMPOSVENDA * sizeof(char*));
     char* token = strtok(vendaRaw," ");
     while(token != NULL){
         campos[index] = strdup(token);
@@ -151,10 +151,27 @@ void addVenda(Vendas* v, char** tokensArray, int index){
     v[index].produto = strdup(tokensArray[0]);
     v[index].preco = atof(tokensArray[1]);
     v[index].quant = atoi(tokensArray[2]);
-    v[index].promo = *tokensArray[3];
+    v[index].promo = tokensArray[3];
     v[index].cliente = strdup(tokensArray[4]);
     v[index].mes = atoi(tokensArray[5]);
     v[index].filial = atoi(tokensArray[6]);
+}
+
+Vendas mkVenda(char* linhaVenda){
+
+    char** campos;
+    Vendas vendaAux;
+    campos = tokenizeLinhaVendaDyn(linhaVenda);
+
+    vendaAux.produto = strdup(campos[0]);
+    vendaAux.preco = atof(campos[1]);
+    vendaAux.quant = atoi(campos[2]);
+    vendaAux.promo = campos[3];
+    vendaAux.cliente = strdup(campos[4]);
+    vendaAux.mes = atoi(campos[5]);
+    vendaAux.filial = atoi(campos[6]);
+
+    return vendaAux;   
 }
 
 int contaMaiorLinha(char** lista){
@@ -269,14 +286,14 @@ int validaVendas(char* tokensArray[7], char** listaProdutos, char** listaCliente
     if(r == 1 && (*tokensArray[3] != 'N'   && *tokensArray[3] != 'P')) r = 0;
     if(r == 1 && (atoi(tokensArray[5]) < 0 || atoi(tokensArray[5]) > 12)) r = 0;
     if(r == 1 && (atoi(tokensArray[6]) < 0 || atoi(tokensArray[6]) > 3)) r = 0;
-    if(r == 1 && (!elem(listaClientes,tokensArray[4]))) {
+    /*if(r == 1 && (!elem(listaClientes,tokensArray[4]))) {
         r = 0;
         clientesInvalidos[indexCI++] = strdup(tokensArray[4]);
     }
     if(!elem(listaProdutos,tokensArray[0])) {
         r = 0;
         produtosInvalidos[indexPI++] = strdup(tokensArray[0]);
-    }
+    }*/
 
     return r;
 }
@@ -326,13 +343,13 @@ int guardaVendas(FILE *fp, char** listaVendas, char** listaProdutos, char** list
     while(fgets(str,MAXBUFVENDAS,fp)){
         linha = strtok(str,"\n\r");
         tokensArray = tokenizeLinhaVendaDyn(linha);
-        /*if(validaVendas(tokensArray,listaProdutos,listaClientes)){
-            listaVendas[index-fail] = strdup(linha);  Guarda em array de strings vendas válidas
-            addVenda(vBoas,tokensArray,index-fail);  Guarda em array de struct vendas válidas.
-            fprintf(vValidasFicheiro,"%s\n",listaVendas[index-fail]);  Escreve no ficheiro vendas válidas.
+        if(validaVendas(tokensArray,listaProdutos,listaClientes)){
+            listaVendas[index-fail] = strdup(linha);  /*Guarda em array de strings vendas válidas.*/
+            /*vBoas[index-fail] = mkVenda(linha);*/  /*Guarda em array de struct vendas válidas.*/
+            fprintf(vValidasFicheiro,"%s\n",listaVendas[index-fail]);  /*Escreve no ficheiro vendas válidas.*/
         }
-        else fail++;*/
-        addVenda(vTodas,tokensArray,index); /* Guarda em array de struct todas as vendas*/
+        else fail++;
+        vTodas[index] = mkVenda(linha); /* Guarda em array de struct todas as vendas*/
         index++;
     }
     return index-fail;

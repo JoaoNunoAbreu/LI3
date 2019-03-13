@@ -59,12 +59,12 @@ int main(int argc, char** argv) {
 
     AVLTree root = NULL; 
 
-    root = insert(root,vTodas[0]); 
+    /*root = insert(root,vTodas[0]); 
     root = insert(root,vTodas[1]); 
     root = insert(root,vTodas[2]); 
     root = insert(root,vTodas[3]); 
     root = insert(root,vTodas[4]); 
-    root = insert(root,vTodas[5]); 
+    root = insert(root,vTodas[5]);*/
 
     printf("Preorder Tree\n"); 
     preOrder(root); 

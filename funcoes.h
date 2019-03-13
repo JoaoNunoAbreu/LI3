@@ -11,12 +11,13 @@
 #define MAXPRODS 200000
 #define MAXCLIENT 20000
 #define MAXVENDAS 1000000
+#define CAMPOSVENDA 7
 
 typedef struct venda{
     char *produto;
     float preco;
     int quant;
-    char promo;
+    char *promo;
     char *cliente;
     int mes;
     int filial;
@@ -52,10 +53,6 @@ int elem(char** lista, char* key);
  * Conta quantas linhas um array de strings tem.
  */
 int contaLinha(char** lista);
-
-/*
- * Print de um array dinâmico.
- */
 void printArrayDyn(char** array);
 
 /* -------------------------------------- Funções das AVL ---------------------------------------*/
@@ -86,6 +83,7 @@ int contaChar(Vendas* v, char x);
  * Adiciona uma venda a uma estrutura de dados.
  */
 void addVenda(Vendas* v, char* tokensArray[7], int index);
+Vendas mkVenda(char* linhaVenda);
 
 /*
  * Conta a maior linha da vendas.
