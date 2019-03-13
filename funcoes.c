@@ -62,8 +62,8 @@ AVLTree leftRotate(AVLTree x){
     AVLTree T2 = y -> left; 
     y -> left = x; 
     x -> right = T2; 
-    x->height = max(height(x->left), height(x->right))+1; 
-    y->height = max(height(y->left), height(y->right))+1; 
+    x -> height = max(height(x->left), height(x->right))+1; 
+    y -> height = max(height(y->left), height(y->right))+1; 
     return y; 
 } 
 
@@ -76,8 +76,8 @@ AVLTree insert(AVLTree node, Vendas v) {
 
     if (node == NULL) return(newNode(v)); 
   
-    if (v.produto < node->venda.produto) node -> left  = insert(node->left,v); 
-    else if (v.produto > node -> venda.produto) node->right = insert(node->right,v); 
+    if (strcmp(v.produto,node->venda.produto) < 0) node -> left  = insert(node->left,v); 
+    else if (strcmp(v.produto,node -> venda.produto) > 0) node->right = insert(node->right,v); 
     else return node; 
   
     node -> height = 1 + max(height(node->left),height(node->right)); 
@@ -85,18 +85,18 @@ AVLTree insert(AVLTree node, Vendas v) {
     int balance = getBalance(node); 
   
     /* Left Left Case */
-    if (balance > 1 && v.produto < node->left->venda.produto) return rightRotate(node); 
+    if (balance > 1 && strcmp(v.produto,node->left->venda.produto) < 0) return rightRotate(node); 
   
     /* Right Right Case */
-    if (balance < -1 && v.produto > node->right->venda.produto) return leftRotate(node); 
+    if (balance < -1 && strcmp(v.produto,node->right->venda.produto) > 0) return leftRotate(node); 
   
     /* Left Right Case */
-    if (balance > 1 && v.produto > node->left->venda.produto){ 
+    if (balance > 1 && strcmp(v.produto,node->left->venda.produto) > 0){ 
         node->left = leftRotate(node->left); 
         return rightRotate(node); 
     } 
     /* Right Left Case */
-    if (balance < -1 && v.produto < node->right->venda.produto){ 
+    if (balance < -1 && strcmp(v.produto,node->right->venda.produto) < 0){ 
         node->right = rightRotate(node->right); 
         return leftRotate(node); 
     } 
