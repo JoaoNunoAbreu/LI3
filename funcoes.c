@@ -128,7 +128,8 @@ void preOrder(AVLTree root){
 char** tokenizeLinhaVendaDyn(char* vendaRaw) {
     int index = 0;
     char** campos = (char**) malloc(CAMPOSVENDA * sizeof(char*));
-    char* token = strtok(vendaRaw," ");
+    char* temp = strdup(vendaRaw);
+    char* token = strtok(temp," ");
     while(token != NULL){
         campos[index] = strdup(token);
         token = strtok(NULL," ");
@@ -282,6 +283,7 @@ int validaVendas(char* linhaVenda, char** listaProdutos, char** listaClientes){
     int r = 1;
     char** tokensArray = tokenizeLinhaVendaDyn(linhaVenda);
 
+
     if(atof(tokensArray[1]) < 0 || atof(tokensArray[1]) > 999.99) r = 0;
     if(r == 1 && (atoi(tokensArray[2]) < 0 || atoi(tokensArray[2]) > 200)) r = 0;
     if(r == 1 && (*tokensArray[3] != 'N'   && *tokensArray[3] != 'P')) r = 0;
@@ -335,21 +337,20 @@ int guardaVendas(FILE *fp, char** listaVendas, char** listaProdutos, char** list
 
     FILE *vValidasFicheiro = fopen("Vendas_1MValidas.txt","w");
     char str[MAXBUFVENDAS];
-    char* linha; char* linha1;
+    char* linha; 
     int index = 0;
     int fail = 0; /* conta quantas linhas inválidas foram lidas*/
     indexCI = indexPI = 0;
 
     while(fgets(str,MAXBUFVENDAS,fp)){
         linha = strtok(str,"\n\r");
-        linha1 = strdup(linha);
-        if(validaVendas(linha1,listaProdutos,listaClientes)){
+        if(validaVendas(strdup(linha),listaProdutos,listaClientes)){
             listaVendas[index-fail] = strdup(linha);  /*Guarda em array de strings vendas válidas.*/
-            /*vBoas[index-fail] = mkVenda(linha1);*/  /*Guarda em array de struct vendas válidas.*/
-            fprintf(vValidasFicheiro,"%s\n",listaVendas[index-fail]);  /*Escreve no ficheiro vendas válidas.*/
+            vBoas[index-fail] = mkVenda(strdup(linha));  /*Guarda em array de struct vendas válidas.*/
+            fprintf(vValidasFicheiro,"%s\n",listaVendas[index-fail]); /*Escreve no ficheiro vendas válidas.*/
         }
         else fail++;
-        vTodas[index] = mkVenda(linha1); /* Guarda em array de struct todas as vendas*/
+        vTodas[index] = mkVenda(strdup(linha)); /* Guarda em array de struct todas as vendas*/
         index++;
     }
     return index-fail;

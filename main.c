@@ -33,8 +33,6 @@ int main(int argc, char** argv) {
     int vLidas = guardaVendas(vendasFicheiro,listaVendas,listaProdutos,listaClientes,vTodas,vBoas);
     printf("Foram lidas %d linhas válidas do ficheiro vendas.txt\n",vLidas);
     printf("\n");
-    for(int i = 0; i < 3; i++)
-        printf("%s\n",listaVendas[i]);
     printf("A linha mais longa das vendas foi: %d\n", contaMaiorLinha(listaVendas));
 
     /*int prodEnvolvidos = contaProdutosEnvolvidos(vBoas);
@@ -57,7 +55,7 @@ int main(int argc, char** argv) {
     printf("Foram feitas %d vendas com preço 0.\n",contaPrecos(vBoas,0));
     printf("\n");*/
 
-/*-----------------------------------------------------------------------------------------------*/
+    /*-------------------------------------------------------------------------------------------*/
 
     AVLTree root = NULL; 
 
