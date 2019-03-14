@@ -82,7 +82,7 @@ int contaChar(Vendas* v, char x);
 /*
  * Adiciona uma venda a uma estrutura de dados.
  */
-void addVenda(Vendas* v, char* tokensArray[7], int index);
+/*void addVenda(Vendas* v, char* tokensArray[7], int index);*/
 Vendas mkVenda(char* linhaVenda);
 
 /*
@@ -141,7 +141,7 @@ int validaProduto(char* linha);
  * Valida uma venda.
  * Função de procura (elem) muito pouco eficiente.
  */
-int validaVendas(char* tokensArray[7], char** listaProdutos, char** listaClientes);
+int validaVendas(char* linhaVenda, char** listaProdutos, char** listaClientes);
 
 /* --------------------------------- Parte de guardar nas listas --------------------------------*/
 

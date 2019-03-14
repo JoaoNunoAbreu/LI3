@@ -32,10 +32,12 @@ int main(int argc, char** argv) {
 
     int vLidas = guardaVendas(vendasFicheiro,listaVendas,listaProdutos,listaClientes,vTodas,vBoas);
     printf("Foram lidas %d linhas válidas do ficheiro vendas.txt\n",vLidas);
-    /*printf("\n");
+    printf("\n");
+    for(int i = 0; i < 3; i++)
+        printf("%s\n",listaVendas[i]);
     printf("A linha mais longa das vendas foi: %d\n", contaMaiorLinha(listaVendas));
 
-    int prodEnvolvidos = contaProdutosEnvolvidos(vBoas);
+    /*int prodEnvolvidos = contaProdutosEnvolvidos(vBoas);
     printf("O número de produtos envolvidos foi: %d\n", prodEnvolvidos);
     printf("O número de produtos nunca comprado foi: %d\n", pLidos - prodEnvolvidos);
     int clientEnvolvidos = contaClientesEnvolvidos(vBoas);
@@ -59,15 +61,15 @@ int main(int argc, char** argv) {
 
     AVLTree root = NULL; 
 
-    /*root = insert(root,vTodas[0]); 
+    root = insert(root,vTodas[0]); 
     root = insert(root,vTodas[1]); 
     root = insert(root,vTodas[2]); 
     root = insert(root,vTodas[3]); 
     root = insert(root,vTodas[4]); 
-    root = insert(root,vTodas[5]);*/
+    root = insert(root,vTodas[5]);
 
     printf("Preorder Tree\n"); 
-    preOrder(root); 
+    /*preOrder(root); */
     
     /* ----------------------------------- Close dos ficheiros ----------------------------------*/
 

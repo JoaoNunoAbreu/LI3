@@ -277,9 +277,10 @@ int validaProduto(char* linha){
     return r;
 }
 
-int validaVendas(char* tokensArray[7], char** listaProdutos, char** listaClientes){
+int validaVendas(char* linhaVenda, char** listaProdutos, char** listaClientes){
 
     int r = 1;
+    char** tokensArray = tokenizeLinhaVendaDyn(linhaVenda);
 
     if(atof(tokensArray[1]) < 0 || atof(tokensArray[1]) > 999.99) r = 0;
     if(r == 1 && (atoi(tokensArray[2]) < 0 || atoi(tokensArray[2]) > 200)) r = 0;
@@ -334,22 +335,21 @@ int guardaVendas(FILE *fp, char** listaVendas, char** listaProdutos, char** list
 
     FILE *vValidasFicheiro = fopen("Vendas_1MValidas.txt","w");
     char str[MAXBUFVENDAS];
-    char* linha;
+    char* linha; char* linha1;
     int index = 0;
-    char** tokensArray;
     int fail = 0; /* conta quantas linhas inválidas foram lidas*/
     indexCI = indexPI = 0;
 
     while(fgets(str,MAXBUFVENDAS,fp)){
         linha = strtok(str,"\n\r");
-        tokensArray = tokenizeLinhaVendaDyn(linha);
-        if(validaVendas(tokensArray,listaProdutos,listaClientes)){
+        linha1 = strdup(linha);
+        if(validaVendas(linha1,listaProdutos,listaClientes)){
             listaVendas[index-fail] = strdup(linha);  /*Guarda em array de strings vendas válidas.*/
-            /*vBoas[index-fail] = mkVenda(linha);*/  /*Guarda em array de struct vendas válidas.*/
+            /*vBoas[index-fail] = mkVenda(linha1);*/  /*Guarda em array de struct vendas válidas.*/
             fprintf(vValidasFicheiro,"%s\n",listaVendas[index-fail]);  /*Escreve no ficheiro vendas válidas.*/
         }
         else fail++;
-        vTodas[index] = mkVenda(linha); /* Guarda em array de struct todas as vendas*/
+        vTodas[index] = mkVenda(linha1); /* Guarda em array de struct todas as vendas*/
         index++;
     }
     return index-fail;
