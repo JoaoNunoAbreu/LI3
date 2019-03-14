@@ -289,14 +289,14 @@ int validaVendas(char* linhaVenda, char** listaProdutos, char** listaClientes){
     if(r == 1 && (*tokensArray[3] != 'N'   && *tokensArray[3] != 'P')) r = 0;
     if(r == 1 && (atoi(tokensArray[5]) < 0 || atoi(tokensArray[5]) > 12)) r = 0;
     if(r == 1 && (atoi(tokensArray[6]) < 0 || atoi(tokensArray[6]) > 3)) r = 0;
-    /*if(r == 1 && (!elem(listaClientes,tokensArray[4]))) {
+    if(r == 1 && (!elem(listaClientes,tokensArray[4]))) {
         r = 0;
         clientesInvalidos[indexCI++] = strdup(tokensArray[4]);
     }
     if(!elem(listaProdutos,tokensArray[0])) {
         r = 0;
         produtosInvalidos[indexPI++] = strdup(tokensArray[0]);
-    }*/
+    }
 
     return r;
 }

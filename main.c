@@ -35,7 +35,7 @@ int main(int argc, char** argv) {
     printf("\n");
     printf("A linha mais longa das vendas foi: %d\n", contaMaiorLinha(listaVendas));
 
-    /*int prodEnvolvidos = contaProdutosEnvolvidos(vBoas);
+    int prodEnvolvidos = contaProdutosEnvolvidos(vBoas);
     printf("O número de produtos envolvidos foi: %d\n", prodEnvolvidos);
     printf("O número de produtos nunca comprado foi: %d\n", pLidos - prodEnvolvidos);
     int clientEnvolvidos = contaClientesEnvolvidos(vBoas);
@@ -53,21 +53,21 @@ int main(int argc, char** argv) {
     printf("A faturação total foi: %e\n",contaFaturacao(vBoas));
     printf("Foram vendidas %d unidades.\n",contaUnidades(vBoas));
     printf("Foram feitas %d vendas com preço 0.\n",contaPrecos(vBoas,0));
-    printf("\n");*/
+    printf("\n");
 
     /*-------------------------------------------------------------------------------------------*/
 
     AVLTree root = NULL; 
 
-    root = insert(root,vTodas[0]); 
-    root = insert(root,vTodas[1]); 
-    root = insert(root,vTodas[2]); 
-    root = insert(root,vTodas[3]); 
-    root = insert(root,vTodas[4]); 
-    root = insert(root,vTodas[5]);
+    root = insert(root,vBoas[0]); 
+    root = insert(root,vBoas[1]); 
+    root = insert(root,vBoas[2]); 
+    root = insert(root,vBoas[3]); 
+    root = insert(root,vBoas[4]); 
+    root = insert(root,vBoas[5]);
 
     printf("Preorder Tree\n"); 
-    /*preOrder(root); */
+    preOrder(root);
     
     /* ----------------------------------- Close dos ficheiros ----------------------------------*/
 
