@@ -31,6 +31,11 @@ int height(AVLTree a){
     return a -> height; 
 } 
 
+int heightPC(AVLPC a){ 
+    if(a == NULL) return 0; 
+    return a -> height; 
+}
+
 int max(int a, int b){ 
     return (a > b)? a : b; 
 }
@@ -43,7 +48,17 @@ AVLTree newNode(Vendas v){
     a -> right = NULL; 
     a -> height = 1;
     return a;
-} 
+}
+
+AVLPC newNodePC(char* code){
+
+    AVLPC a = (AVLPC) malloc(sizeof(struct avlPC));
+    a -> code = strdup(code);
+    a -> left = NULL; 
+    a -> right = NULL; 
+    a -> height = 1;
+    return a;
+}
 
 AVLTree rightRotate(AVLTree y){ 
     
@@ -53,6 +68,17 @@ AVLTree rightRotate(AVLTree y){
     y->left = T2; 
     y->height = max(height(y->left), height(y->right))+1; 
     x->height = max(height(x->left), height(x->right))+1; 
+    return x; 
+}
+
+AVLPC rightRotatePC(AVLPC y){ 
+    
+    AVLPC x = y -> left; 
+    AVLPC T2 = x -> right; 
+    x->right = y; 
+    y->left = T2; 
+    y->height = max(heightPC(y->left), heightPC(y->right))+1; 
+    x->height = max(heightPC(x->left), heightPC(x->right))+1; 
     return x; 
 }
 
@@ -67,9 +93,25 @@ AVLTree leftRotate(AVLTree x){
     return y; 
 } 
 
+AVLPC leftRotatePC(AVLPC x){ 
+
+    AVLPC y = x -> right; 
+    AVLPC T2 = y -> left; 
+    y -> left = x; 
+    x -> right = T2; 
+    x -> height = max(heightPC(x->left), heightPC(x->right))+1; 
+    y -> height = max(heightPC(y->left), heightPC(y->right))+1; 
+    return y; 
+} 
+
 int getBalance(AVLTree N){ 
     if (N == NULL) return 0; 
     return height(N->left) - height(N->right); 
+} 
+
+int getBalancePC(AVLPC N){ 
+    if (N == NULL) return 0; 
+    return heightPC(N->left) - heightPC(N->right); 
 } 
 
 AVLTree insert(AVLTree node, Vendas v) { 
@@ -103,11 +145,50 @@ AVLTree insert(AVLTree node, Vendas v) {
     return node; 
 }
 
+AVLPC insertPC(AVLPC node, char* code) { 
+
+    if (node == NULL) return(newNodePC(code)); 
+  
+    if (strcmp(code,node->code) < 0) node -> left  = insertPC(node->left,code); 
+    else if (strcmp(code,node -> code) > 0) node->right = insertPC(node->right,code); 
+    else return node; 
+  
+    node -> height = 1 + max(heightPC(node->left),heightPC(node->right)); 
+
+    int balance = getBalancePC(node); 
+  
+    /* Left Left Case */
+    if (balance > 1 && strcmp(code,node->left->code) < 0) return rightRotatePC(node); 
+  
+    /* Right Right Case */
+    if (balance < -1 && strcmp(code,node->right->code) > 0) return leftRotatePC(node); 
+  
+    /* Left Right Case */
+    if (balance > 1 && strcmp(code,node->left->code) > 0){ 
+        node->left = leftRotatePC(node->left); 
+        return rightRotatePC(node); 
+    } 
+    /* Right Left Case */
+    if (balance < -1 && strcmp(code,node->right->code) < 0){ 
+        node->right = rightRotatePC(node->right); 
+        return leftRotatePC(node); 
+    } 
+    return node; 
+}
+
 void preOrder(AVLTree root){ 
     if(root != NULL){ 
         printf("%s\n",root->venda.produto); 
         preOrder(root->left); 
         preOrder(root->right); 
+    } 
+} 
+
+void preOrderPC(AVLPC root){ 
+    if(root != NULL){ 
+        printf("%s\n",root->code); 
+        preOrderPC(root->left); 
+        preOrderPC(root->right); 
     } 
 } 
 

@@ -14,7 +14,7 @@ int main(int argc, char** argv) {
     if(produtoFicheiro == NULL) {printf("Produtos.txt não foi possível ser carregado."); exit (1);}
     FILE *clientesFicheiro = fopen("Clientes.txt","r");
     if(clientesFicheiro == NULL) {printf("Clientes.txt não foi possível ser carregado."); exit (1);}
-    FILE *vendasFicheiro = fopen("Vendas_1M.txt","r");
+    FILE *vendasFicheiro = fopen("FicheirosTeste/testeVendas.txt","r");
     if(vendasFicheiro == NULL) {printf("Vendas.txt não foi possível ser carregado."); exit (1);}
 
     /* ------------------------------------ Guarda nas listas -----------------------------------*/
@@ -57,17 +57,17 @@ int main(int argc, char** argv) {
 
     /*-------------------------------------------------------------------------------------------*/
 
-    AVLTree root = NULL; 
+    AVLPC root = NULL; 
 
-    root = insert(root,vBoas[0]); 
-    root = insert(root,vBoas[1]); 
-    root = insert(root,vBoas[2]); 
-    root = insert(root,vBoas[3]); 
-    root = insert(root,vBoas[4]); 
-    root = insert(root,vBoas[5]);
+    root = insertPC(root,listaProdutos[0]); 
+    root = insertPC(root,listaProdutos[1]); 
+    root = insertPC(root,listaProdutos[2]); 
+    root = insertPC(root,listaProdutos[3]); 
+    root = insertPC(root,listaProdutos[4]); 
+    root = insertPC(root,listaProdutos[5]);
 
     printf("Preorder Tree\n"); 
-    preOrder(root);
+    preOrderPC(root);
     
     /* ----------------------------------- Close dos ficheiros ----------------------------------*/
 

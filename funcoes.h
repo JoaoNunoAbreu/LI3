@@ -29,7 +29,14 @@ typedef struct avl{
     struct avl *left, *right;
     int height;
 
-} *AVLTree;
+}*AVLTree;
+
+typedef struct avlPC{
+
+    char* code;
+    struct avlPC *left,*right;
+    int height;
+}*AVLPC;
 
 
 char* listaProdutos[MAXPRODS];
@@ -58,13 +65,20 @@ void printArrayDyn(char** array);
 /* -------------------------------------- Funções das AVL ---------------------------------------*/
 
 int height(AVLTree a);
+int heightPC(AVLPC a);
 int max(int a, int b);
 AVLTree newNode(Vendas v);
+AVLPC newNodePC(char* code);
 AVLTree rightRotate(AVLTree y);
+AVLPC rightRotatePC(AVLPC y);
 AVLTree leftRotate(AVLTree x);
+AVLPC leftRotatePC(AVLPC x);
 int getBalance(AVLTree N);
+int getBalancePC(AVLPC N);
 AVLTree insert(AVLTree node, Vendas v);
+AVLPC insertPC(AVLPC node, char* code);
 void preOrder(AVLTree root);
+void preOrderPC(AVLPC root);
 
 /* ----------------------------------- Funções da struct venda ----------------------------------*/
 
