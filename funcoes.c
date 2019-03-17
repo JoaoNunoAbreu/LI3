@@ -190,7 +190,15 @@ void preOrderPC(AVLPC root){
         preOrderPC(root->left); 
         preOrderPC(root->right); 
     } 
-} 
+}
+
+int search(char* key, AVLPC root){
+
+    if(root == NULL) return 0;
+    if(strcmp(key,root->code) < 0) return search(key,root->left);
+    else if(strcmp(key,root->code) > 0) return search(key,root->right);
+    else return 1;
+}
 
 /*-----------------------------------------------------------------------------------------------*/
 
@@ -359,22 +367,21 @@ int validaProduto(char* linha){
     return r;
 }
 
-int validaVendas(char* linhaVenda, char** listaProdutos, char** listaClientes){
+int validaVendas(char* linhaVenda, AVLPC rootP, AVLPC rootC){
 
     int r = 1;
     char** tokensArray = tokenizeLinhaVendaDyn(linhaVenda);
-
 
     if(atof(tokensArray[1]) < 0 || atof(tokensArray[1]) > 999.99) r = 0;
     if(r == 1 && (atoi(tokensArray[2]) < 0 || atoi(tokensArray[2]) > 200)) r = 0;
     if(r == 1 && (*tokensArray[3] != 'N'   && *tokensArray[3] != 'P')) r = 0;
     if(r == 1 && (atoi(tokensArray[5]) < 0 || atoi(tokensArray[5]) > 12)) r = 0;
     if(r == 1 && (atoi(tokensArray[6]) < 0 || atoi(tokensArray[6]) > 3)) r = 0;
-    if(r == 1 && (!elem(listaClientes,tokensArray[4]))) {
+    if(r == 1 && (!search(tokensArray[4],rootC))) {
         r = 0;
         clientesInvalidos[indexCI++] = strdup(tokensArray[4]);
     }
-    if(!elem(listaProdutos,tokensArray[0])) {
+    if(!search(tokensArray[0],rootP)) {
         r = 0;
         produtosInvalidos[indexPI++] = strdup(tokensArray[0]);
     }
@@ -382,7 +389,7 @@ int validaVendas(char* linhaVenda, char** listaProdutos, char** listaClientes){
     return r;
 }
 
-int guardaClientes(FILE *fp, char** lista){
+int guardaClientes(FILE *fp,char** lista, AVLPC* root){
 
     char str[MAXBUFCLIENT];
     char* linha;
@@ -392,13 +399,14 @@ int guardaClientes(FILE *fp, char** lista){
         linha = strtok(str,"\n\r");
         if(validaCliente(linha)){
             lista[index] = strdup(linha);
+            *root = insertPC(*root,strdup(linha));
             index++;
         }
     }
     return index;
 }
 
-int guardaProdutos(FILE *fp, char** lista){
+int guardaProdutos(FILE *fp, char** lista, AVLPC* root){
 
     char str[MAXBUFPROD];
     char* linha;
@@ -408,13 +416,14 @@ int guardaProdutos(FILE *fp, char** lista){
         linha = strtok(str,"\n\r");
         if(validaProduto(linha)){
             lista[index] = strdup(linha);
+            *root = insertPC(*root,strdup(linha));
             index++;
         }
     }
     return index;
 }
 
-int guardaVendas(FILE *fp, char** listaVendas, char** listaProdutos, char** listaClientes, Vendas* vTodas, Vendas* vBoas){
+int guardaVendas(FILE *fp, char** listaVendas, AVLPC rootP, AVLPC rootC, Vendas* vTodas, Vendas* vBoas){
 
     FILE *vValidasFicheiro = fopen("Vendas_1MValidas.txt","w");
     char str[MAXBUFVENDAS];
@@ -425,7 +434,7 @@ int guardaVendas(FILE *fp, char** listaVendas, char** listaProdutos, char** list
 
     while(fgets(str,MAXBUFVENDAS,fp)){
         linha = strtok(str,"\n\r");
-        if(validaVendas(strdup(linha),listaProdutos,listaClientes)){
+        if(validaVendas(strdup(linha),rootP,rootC)){
             listaVendas[index-fail] = strdup(linha);  /*Guarda em array de strings vendas válidas.*/
             vBoas[index-fail] = mkVenda(strdup(linha));  /*Guarda em array de struct vendas válidas.*/
             fprintf(vValidasFicheiro,"%s\n",listaVendas[index-fail]); /*Escreve no ficheiro vendas válidas.*/

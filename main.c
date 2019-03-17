@@ -14,15 +14,17 @@ int main(int argc, char** argv) {
     if(produtoFicheiro == NULL) {printf("Produtos.txt não foi possível ser carregado."); exit (1);}
     FILE *clientesFicheiro = fopen("Clientes.txt","r");
     if(clientesFicheiro == NULL) {printf("Clientes.txt não foi possível ser carregado."); exit (1);}
-    FILE *vendasFicheiro = fopen("FicheirosTeste/testeVendas.txt","r");
+    FILE *vendasFicheiro = fopen("Vendas_1M.txt","r");
     if(vendasFicheiro == NULL) {printf("Vendas.txt não foi possível ser carregado."); exit (1);}
 
     /* ------------------------------------ Guarda nas listas -----------------------------------*/
 
-    int pLidos = guardaProdutos(produtoFicheiro,listaProdutos);
+    AVLPC rootP = NULL;
+    int pLidos = guardaProdutos(produtoFicheiro,listaProdutos,&rootP);
     printf("Foram lidas %d linhas válidas do ficheiro produtos.txt\n",pLidos);
 
-    int cLidos = guardaClientes(clientesFicheiro,listaClientes);
+    AVLPC rootC = NULL;
+    int cLidos = guardaClientes(clientesFicheiro,listaClientes,&rootC);
     printf("Foram lidas %d linhas válidas do ficheiro clientes.txt\n",cLidos);
 
     /* --------- Vendas ---------*/
@@ -30,17 +32,17 @@ int main(int argc, char** argv) {
     Vendas* vTodas = malloc(MAXVENDAS * sizeof *vTodas);
     Vendas* vBoas = malloc(MAXVENDAS * sizeof *vBoas);
 
-    int vLidas = guardaVendas(vendasFicheiro,listaVendas,listaProdutos,listaClientes,vTodas,vBoas);
+    int vLidas = guardaVendas(vendasFicheiro,listaVendas,rootP,rootC,vTodas,vBoas);
     printf("Foram lidas %d linhas válidas do ficheiro vendas.txt\n",vLidas);
     printf("\n");
     printf("A linha mais longa das vendas foi: %d\n", contaMaiorLinha(listaVendas));
 
-    int prodEnvolvidos = contaProdutosEnvolvidos(vBoas);
+    /*int prodEnvolvidos = contaProdutosEnvolvidos(vBoas);
     printf("O número de produtos envolvidos foi: %d\n", prodEnvolvidos);
     printf("O número de produtos nunca comprado foi: %d\n", pLidos - prodEnvolvidos);
     int clientEnvolvidos = contaClientesEnvolvidos(vBoas);
     printf("O número de clientes envolvidos foi: %d\n",clientEnvolvidos);
-    printf("O número de clientes nunca comprado foi: %d\n",cLidos - clientEnvolvidos);
+    printf("O número de clientes nunca comprado foi: %d\n",cLidos - clientEnvolvidos);*/
     printf("Houve %d códigos de clientes errados\n",indexCI);
     printf("Houve %d códigos de produtos errados\n",indexPI);
 
@@ -57,17 +59,11 @@ int main(int argc, char** argv) {
 
     /*-------------------------------------------------------------------------------------------*/
 
-    AVLPC root = NULL; 
-
-    root = insertPC(root,listaProdutos[0]); 
-    root = insertPC(root,listaProdutos[1]); 
-    root = insertPC(root,listaProdutos[2]); 
-    root = insertPC(root,listaProdutos[3]); 
-    root = insertPC(root,listaProdutos[4]); 
-    root = insertPC(root,listaProdutos[5]);
-
-    printf("Preorder Tree\n"); 
-    preOrderPC(root);
+    printf("---------- Preorder Tree ----------\n"); 
+    /*preOrderPC(rootP);*/
+    printf("Root: %s\n",rootP->code);
+    if(search("XX1287",rootP)) printf("Encontrou\n");
+    else printf("Nao Encontrou\n");
     
     /* ----------------------------------- Close dos ficheiros ----------------------------------*/
 

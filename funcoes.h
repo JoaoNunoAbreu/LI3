@@ -79,6 +79,7 @@ AVLTree insert(AVLTree node, Vendas v);
 AVLPC insertPC(AVLPC node, char* code);
 void preOrder(AVLTree root);
 void preOrderPC(AVLPC root);
+int search(char* key, AVLPC root);
 
 /* ----------------------------------- Funções da struct venda ----------------------------------*/
 
@@ -155,7 +156,7 @@ int validaProduto(char* linha);
  * Valida uma venda.
  * Função de procura (elem) muito pouco eficiente.
  */
-int validaVendas(char* linhaVenda, char** listaProdutos, char** listaClientes);
+int validaVendas(char* linhaVenda, AVLPC rootP, AVLPC rootC);
 
 /* --------------------------------- Parte de guardar nas listas --------------------------------*/
 
@@ -164,13 +165,13 @@ int validaVendas(char* linhaVenda, char** listaProdutos, char** listaClientes);
  * Passa para um array o elemento da primeira posição da linha lida, ou seja, a letra para ser contada.
  * Retorna o número de clientes válidos inseridos.
  */
-int guardaClientes(FILE *fp, char** lista);
+int guardaClientes(FILE *fp,char** lista, AVLPC* a);
 
 /*
  * Lê do ficheiro produtos e passa cada linha para um array de strings.
  * Retorna o número de produtos válidos inseridos.
  */
-int guardaProdutos(FILE *fp, char** lista);
+int guardaProdutos(FILE *fp, char** lista, AVLPC *a);
 
 /*
  * Lê do ficheiro vendas.
@@ -180,4 +181,4 @@ int guardaProdutos(FILE *fp, char** lista);
  * Escreve num ficheiro de texto apenas as vendas válidas.
  * Retorna o número de vendas válidas.
  */
-int guardaVendas(FILE *fp, char** listaVendas, char** listaProdutos, char** listaClientes, Vendas* vTodas, Vendas* vBoas);
+int guardaVendas(FILE *fp, char** listaVendas, AVLPC rootP, AVLPC rootC, Vendas* vTodas, Vendas* vBoas);
