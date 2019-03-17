@@ -1,35 +1,6 @@
 #include "funcoes.h"
 
-int elem(char** lista, char* key){
-
-    for(int i = 0; lista[i]; i++){
-        if(!strcmp(lista[i],key)) return 1;
-    }
-    return 0;
-}
-
-int contaLinha(char** lista){
-    int i;
-    for(i = 0; lista[i]; i++);
-    return i;
-}
-
-void printArrayDyn(char** array){
-    char* str; int i = 0;
-    if(array[0] == NULL) printf("ARRAY VAZIO !!\n");
-    else{
-        while ((str = array[i]) != NULL) {
-            printf("%s\n", str);
-            i++;
-        }
-    }
-}
 /*-----------------------------------------------------------------------------------------------*/
-
-int height(AVLTree a){ 
-    if(a == NULL) return 0; 
-    return a -> height; 
-} 
 
 int heightPC(AVLPC a){ 
     if(a == NULL) return 0; 
@@ -40,17 +11,7 @@ int max(int a, int b){
     return (a > b)? a : b; 
 }
 
-AVLTree newNode(Vendas v){ 
-
-    AVLTree a = (AVLTree) malloc(sizeof(struct avl)); 
-    a -> venda = v; 
-    a -> left = NULL; 
-    a -> right = NULL; 
-    a -> height = 1;
-    return a;
-}
-
-AVLPC newNodePC(char* code){
+AVLPC newNode(char* code){
 
     AVLPC a = (AVLPC) malloc(sizeof(struct avlPC));
     a -> code = strdup(code);
@@ -60,18 +21,7 @@ AVLPC newNodePC(char* code){
     return a;
 }
 
-AVLTree rightRotate(AVLTree y){ 
-    
-    AVLTree x = y -> left; 
-    AVLTree T2 = x -> right; 
-    x->right = y; 
-    y->left = T2; 
-    y->height = max(height(y->left), height(y->right))+1; 
-    x->height = max(height(x->left), height(x->right))+1; 
-    return x; 
-}
-
-AVLPC rightRotatePC(AVLPC y){ 
+AVLPC rightRotate(AVLPC y){ 
     
     AVLPC x = y -> left; 
     AVLPC T2 = x -> right; 
@@ -82,18 +32,7 @@ AVLPC rightRotatePC(AVLPC y){
     return x; 
 }
 
-AVLTree leftRotate(AVLTree x){ 
-
-    AVLTree y = x -> right; 
-    AVLTree T2 = y -> left; 
-    y -> left = x; 
-    x -> right = T2; 
-    x -> height = max(height(x->left), height(x->right))+1; 
-    y -> height = max(height(y->left), height(y->right))+1; 
-    return y; 
-} 
-
-AVLPC leftRotatePC(AVLPC x){ 
+AVLPC leftRotate(AVLPC x){ 
 
     AVLPC y = x -> right; 
     AVLPC T2 = y -> left; 
@@ -104,119 +43,63 @@ AVLPC leftRotatePC(AVLPC x){
     return y; 
 } 
 
-int getBalance(AVLTree N){ 
-    if (N == NULL) return 0; 
-    return height(N->left) - height(N->right); 
-} 
-
-int getBalancePC(AVLPC N){ 
+int getBalance(AVLPC N){ 
     if (N == NULL) return 0; 
     return heightPC(N->left) - heightPC(N->right); 
 } 
 
-AVLTree insert(AVLTree node, Vendas v) { 
+AVLPC insert(AVLPC node, char* code) { 
 
-    if (node == NULL) return(newNode(v)); 
+    if (node == NULL) return(newNode(code)); 
   
-    if (strcmp(v.produto,node->venda.produto) < 0) node -> left  = insert(node->left,v); 
-    else if (strcmp(v.produto,node -> venda.produto) > 0) node->right = insert(node->right,v); 
+    if (strcmp(code,node->code) < 0) node -> left  = insert(node->left,code); 
+    else if (strcmp(code,node -> code) > 0) node->right = insert(node->right,code); 
     else return node; 
   
-    node -> height = 1 + max(height(node->left),height(node->right)); 
+    node -> height = 1 + max(heightPC(node->left),heightPC(node->right)); 
 
     int balance = getBalance(node); 
   
     /* Left Left Case */
-    if (balance > 1 && strcmp(v.produto,node->left->venda.produto) < 0) return rightRotate(node); 
+    if (balance > 1 && strcmp(code,node->left->code) < 0) return rightRotate(node); 
   
     /* Right Right Case */
-    if (balance < -1 && strcmp(v.produto,node->right->venda.produto) > 0) return leftRotate(node); 
+    if (balance < -1 && strcmp(code,node->right->code) > 0) return leftRotate(node); 
   
     /* Left Right Case */
-    if (balance > 1 && strcmp(v.produto,node->left->venda.produto) > 0){ 
+    if (balance > 1 && strcmp(code,node->left->code) > 0){ 
         node->left = leftRotate(node->left); 
         return rightRotate(node); 
     } 
     /* Right Left Case */
-    if (balance < -1 && strcmp(v.produto,node->right->venda.produto) < 0){ 
+    if (balance < -1 && strcmp(code,node->right->code) < 0){ 
         node->right = rightRotate(node->right); 
         return leftRotate(node); 
     } 
     return node; 
 }
 
-AVLPC insertPC(AVLPC node, char* code) { 
-
-    if (node == NULL) return(newNodePC(code)); 
-  
-    if (strcmp(code,node->code) < 0) node -> left  = insertPC(node->left,code); 
-    else if (strcmp(code,node -> code) > 0) node->right = insertPC(node->right,code); 
-    else return node; 
-  
-    node -> height = 1 + max(heightPC(node->left),heightPC(node->right)); 
-
-    int balance = getBalancePC(node); 
-  
-    /* Left Left Case */
-    if (balance > 1 && strcmp(code,node->left->code) < 0) return rightRotatePC(node); 
-  
-    /* Right Right Case */
-    if (balance < -1 && strcmp(code,node->right->code) > 0) return leftRotatePC(node); 
-  
-    /* Left Right Case */
-    if (balance > 1 && strcmp(code,node->left->code) > 0){ 
-        node->left = leftRotatePC(node->left); 
-        return rightRotatePC(node); 
-    } 
-    /* Right Left Case */
-    if (balance < -1 && strcmp(code,node->right->code) < 0){ 
-        node->right = rightRotatePC(node->right); 
-        return leftRotatePC(node); 
-    } 
-    return node; 
-}
-
-void preOrder(AVLTree root){ 
+void preOrder(AVLPC root){ 
     if(root != NULL){ 
-        printf("%s\n",root->venda.produto); 
+        printf("%s\n",root->code); 
         preOrder(root->left); 
         preOrder(root->right); 
     } 
-} 
-
-void preOrderPC(AVLPC root){ 
-    if(root != NULL){ 
-        printf("%s\n",root->code); 
-        preOrderPC(root->left); 
-        preOrderPC(root->right); 
-    } 
 }
 
-int search(char* key, AVLPC root){
+int search(AVLPC root,char* key){
 
     if(root == NULL) return 0;
-    if(strcmp(key,root->code) < 0) return search(key,root->left);
-    else if(strcmp(key,root->code) > 0) return search(key,root->right);
+    if(strcmp(key,root->code) < 0) return search(root->left,key);
+    else if(strcmp(key,root->code) > 0) return search(root->right,key);
     else return 1;
 }
 
 /*-----------------------------------------------------------------------------------------------*/
 
-/*void linhaToArray(char* linha,char* tokensArray[7]){
-
-    char* line = strdup(linha);
-    char* token = strtok(line," ");
-    int i = 0;
-    while(token != NULL) {
-        tokensArray[i] = token;    
-        token = strtok(NULL," ");
-        i++;
-    }
-}*/
-
 char** tokenizeLinhaVendaDyn(char* vendaRaw) {
     int index = 0;
-    char** campos = (char**) malloc(CAMPOSVENDA * sizeof(char*));
+    char** campos = (char**) malloc(7 * sizeof(char*)); /* 7 pois a struct vendas tem 7 parâmetros.*/
     char* temp = strdup(vendaRaw);
     char* token = strtok(temp," ");
     while(token != NULL){
@@ -311,23 +194,29 @@ int contaPrecos(Vendas* v, int x){
 
 int contaProdutosEnvolvidos(Vendas* v){
     
-    int i = 0;
-
+    int count = 0;
+    AVLPC envolvidosP = NULL;
     for(int j = 0; v[j].produto ; j++){
-        if(!elem(envolvidosP,v[j].produto)) envolvidosP[i++] = strdup(v[j].produto);
+        if(!search(envolvidosP,v[j].produto)){
+            envolvidosP = insert(envolvidosP,strdup(v[j].produto));
+            count++;
+        }
     }
 
-    return i;
+    return count;
 }
 
 int contaClientesEnvolvidos(Vendas* v){
 
-    int i = 0;
-
+    int count = 0;
+    AVLPC envolvidosC = NULL;
     for(int j = 0; v[j].cliente; j++){
-        if(!elem(envolvidosC,v[j].cliente)) envolvidosC[i++] = strdup(v[j].cliente);
+        if(!search(envolvidosC,v[j].cliente)){
+            envolvidosC = insert(envolvidosC,strdup(v[j].cliente));
+            count++;
+        }
     }
-    return i;
+    return count;
 }
 
 int contaUnidades(Vendas* v){
@@ -377,19 +266,21 @@ int validaVendas(char* linhaVenda, AVLPC rootP, AVLPC rootC){
     if(r == 1 && (*tokensArray[3] != 'N'   && *tokensArray[3] != 'P')) r = 0;
     if(r == 1 && (atoi(tokensArray[5]) < 0 || atoi(tokensArray[5]) > 12)) r = 0;
     if(r == 1 && (atoi(tokensArray[6]) < 0 || atoi(tokensArray[6]) > 3)) r = 0;
-    if(r == 1 && (!search(tokensArray[4],rootC))) {
+    if(r == 1 && (!search(rootC,tokensArray[4]))) {
         r = 0;
-        clientesInvalidos[indexCI++] = strdup(tokensArray[4]);
+        indexCI++;
+        clientesInvalidos[indexCI] = strdup(tokensArray[4]); /* Guarda em array a lista de clientes inválidos*/
     }
-    if(!search(tokensArray[0],rootP)) {
+    if(!search(rootP,tokensArray[0])) {
         r = 0;
-        produtosInvalidos[indexPI++] = strdup(tokensArray[0]);
+        produtosInvalidos[indexPI] = strdup(tokensArray[0]); /* Guarda em array a lista de produtos inválidos*/
+        indexPI++;
     }
 
     return r;
 }
 
-int guardaClientes(FILE *fp,char** lista, AVLPC* root){
+int guardaClientes(FILE *fp,AVLPC* root){
 
     char str[MAXBUFCLIENT];
     char* linha;
@@ -398,15 +289,14 @@ int guardaClientes(FILE *fp,char** lista, AVLPC* root){
     while(fgets(str,MAXBUFCLIENT,fp)){
         linha = strtok(str,"\n\r");
         if(validaCliente(linha)){
-            lista[index] = strdup(linha);
-            *root = insertPC(*root,strdup(linha));
+            *root = insert(*root,strdup(linha));
             index++;
         }
     }
     return index;
 }
 
-int guardaProdutos(FILE *fp, char** lista, AVLPC* root){
+int guardaProdutos(FILE *fp,AVLPC* root){
 
     char str[MAXBUFPROD];
     char* linha;
@@ -415,8 +305,7 @@ int guardaProdutos(FILE *fp, char** lista, AVLPC* root){
     while(fgets(str,MAXBUFPROD,fp)){
         linha = strtok(str,"\n\r");
         if(validaProduto(linha)){
-            lista[index] = strdup(linha);
-            *root = insertPC(*root,strdup(linha));
+            *root = insert(*root,strdup(linha));
             index++;
         }
     }

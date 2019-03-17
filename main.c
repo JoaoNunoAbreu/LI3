@@ -20,11 +20,11 @@ int main(int argc, char** argv) {
     /* ------------------------------------ Guarda nas listas -----------------------------------*/
 
     AVLPC rootP = NULL;
-    int pLidos = guardaProdutos(produtoFicheiro,listaProdutos,&rootP);
+    int pLidos = guardaProdutos(produtoFicheiro,&rootP);
     printf("Foram lidas %d linhas válidas do ficheiro produtos.txt\n",pLidos);
 
     AVLPC rootC = NULL;
-    int cLidos = guardaClientes(clientesFicheiro,listaClientes,&rootC);
+    int cLidos = guardaClientes(clientesFicheiro,&rootC);
     printf("Foram lidas %d linhas válidas do ficheiro clientes.txt\n",cLidos);
 
     /* --------- Vendas ---------*/
@@ -37,14 +37,14 @@ int main(int argc, char** argv) {
     printf("\n");
     printf("A linha mais longa das vendas foi: %d\n", contaMaiorLinha(listaVendas));
 
-    /*int prodEnvolvidos = contaProdutosEnvolvidos(vBoas);
+    int prodEnvolvidos = contaProdutosEnvolvidos(vBoas);
     printf("O número de produtos envolvidos foi: %d\n", prodEnvolvidos);
     printf("O número de produtos nunca comprado foi: %d\n", pLidos - prodEnvolvidos);
     int clientEnvolvidos = contaClientesEnvolvidos(vBoas);
     printf("O número de clientes envolvidos foi: %d\n",clientEnvolvidos);
-    printf("O número de clientes nunca comprado foi: %d\n",cLidos - clientEnvolvidos);*/
-    printf("Houve %d códigos de clientes errados\n",indexCI);
-    printf("Houve %d códigos de produtos errados\n",indexPI);
+    printf("O número de clientes nunca comprado foi: %d\n",cLidos - clientEnvolvidos);
+    printf("Houve %d códigos de clientes inválidos nas vendas.\n",indexCI);
+    printf("Houve %d códigos de produtos inválidos nas vendas.\n",indexPI);
 
     printf("O último cliente (válido) foi: %s\n",vBoas[vLidas-1].cliente);
     printf("Este cliente fez %d vendas\n",contaVendas(vBoas,vBoas[vLidas-1].cliente));
@@ -56,14 +56,6 @@ int main(int argc, char** argv) {
     printf("Foram vendidas %d unidades.\n",contaUnidades(vBoas));
     printf("Foram feitas %d vendas com preço 0.\n",contaPrecos(vBoas,0));
     printf("\n");
-
-    /*-------------------------------------------------------------------------------------------*/
-
-    printf("---------- Preorder Tree ----------\n"); 
-    /*preOrderPC(rootP);*/
-    printf("Root: %s\n",rootP->code);
-    if(search("XX1287",rootP)) printf("Encontrou\n");
-    else printf("Nao Encontrou\n");
     
     /* ----------------------------------- Close dos ficheiros ----------------------------------*/
 
