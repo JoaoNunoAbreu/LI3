@@ -17,7 +17,9 @@ struct cat_prods{
 struct lst_prods{
     char** lista;
 };
+
 /*----------------------------------------------------------------*/
+
 int heightP(AVLP a){ 
     if(a == NULL) return 0; 
     return a -> height; 
@@ -115,6 +117,6 @@ Cat_Prods insereProd(Cat_Prods catp, Produto p){
     Cat_Prods cp = inicializa_CatProds();
     int a = getIndex(p,0) - 65;
     printf("%d\n",a);
-    cp->array[a] = insertP(cp->array[a],getLinha(p));
+    cp->array[a] = insertP(cp->array[a],getCodProd(p));
     return cp;
 }

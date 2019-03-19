@@ -3,8 +3,7 @@
 typedef struct cat_prods* Cat_Prods;
 typedef struct lst_prods* Lista_Prods; 
 
-char getIndex(Produto p, int index);
-char* getLinha(Produto p);		
+char getIndex(Produto p, int index);		
 Cat_Prods inicializa_CatProds();
 Cat_Prods insereProd(Cat_Prods catp,Produto p);
 /*int existeProd(Cat_Prods catp, Produto p);
