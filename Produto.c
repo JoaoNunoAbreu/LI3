@@ -6,8 +6,8 @@ struct prod{
     char* linha;
 };
 
-char getIndex(Produto p, int index){
-    return p->linha[index];
+char getChar0P(Produto p){
+    return p->linha[0];
 }
 char* getCodProd(Produto p){
     return p->linha;

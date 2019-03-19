@@ -107,16 +107,27 @@ int searchP(AVLP root,char* key){
 
 /*----------------------------------------------------------------*/
 
+int getIndexP(Produto p){
+    return getChar0P(p) - 65;
+}
+
 Cat_Prods inicializa_CatProds(){
-    Cat_Prods a = malloc(sizeof(struct cat_prods));
+    Cat_Prods a = (Cat_Prods) malloc(sizeof(struct cat_prods));
     return a;
 }
 
 Cat_Prods insereProd(Cat_Prods catp, Produto p){
 
-    Cat_Prods cp = inicializa_CatProds();
-    int a = getIndex(p,0) - 65;
-    printf("%d\n",a);
-    cp->array[a] = insertP(cp->array[a],getCodProd(p));
-    return cp;
+    int a = getIndexP(p);
+    catp->array[a] = insertP(catp->array[a],getCodProd(p));
+    return catp;
+}
+
+int existeProd(Cat_Prods catp, Produto p){
+    return searchP(catp->array[getIndexP(p)],getCodProd(p));
+}
+
+void printCatProds(Cat_Prods cp){
+    for(int i = 0; i < 26; i++)
+        preOrderP(cp->array[i]);
 }

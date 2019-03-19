@@ -57,11 +57,13 @@ int main(int argc, char** argv) {
     printf("Foram vendidas %d unidades.\n",contaUnidades(vBoas));
     printf("Foram feitas %d vendas com preço 0.\n",contaPrecos(vBoas,0));
     printf("\n");
-
     /* ------------------------------------------ TESTES ----------------------------------------*/
 
     Cat_Prods teste = inicializa_CatProds();
-    teste = insereProd(teste,criaProd("AB1234"));
+    char* linha = "AB1234";
+    teste = insereProd(teste,criaProd(linha));
+    printf("--------------------------------------------------------\n");
+    printCatProds(teste);
     
     /* ----------------------------------- Close dos ficheiros ----------------------------------*/
 
