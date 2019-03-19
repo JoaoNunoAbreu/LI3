@@ -1,4 +1,5 @@
 #include "funcoes.h"
+#include "CatProds.h"
 
 int main(int argc, char** argv) {
 
@@ -14,7 +15,7 @@ int main(int argc, char** argv) {
     if(produtoFicheiro == NULL) {printf("Produtos.txt não foi possível ser carregado."); exit (1);}
     FILE *clientesFicheiro = fopen("Clientes.txt","r");
     if(clientesFicheiro == NULL) {printf("Clientes.txt não foi possível ser carregado."); exit (1);}
-    FILE *vendasFicheiro = fopen("Vendas_1M.txt","r");
+    FILE *vendasFicheiro = fopen("FicheirosTeste/testeVendas.txt","r");
     if(vendasFicheiro == NULL) {printf("Vendas.txt não foi possível ser carregado."); exit (1);}
 
     /* ------------------------------------ Guarda nas listas -----------------------------------*/
@@ -56,6 +57,11 @@ int main(int argc, char** argv) {
     printf("Foram vendidas %d unidades.\n",contaUnidades(vBoas));
     printf("Foram feitas %d vendas com preço 0.\n",contaPrecos(vBoas,0));
     printf("\n");
+
+    /* ------------------------------------------ TESTES ----------------------------------------*/
+
+    Cat_Prods teste = inicializa_CatProds();
+    teste = insereProd(teste,criaProd("AB1234"));
     
     /* ----------------------------------- Close dos ficheiros ----------------------------------*/
 
