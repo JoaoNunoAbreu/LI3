@@ -12,13 +12,12 @@ Lista_Prods initListaProds();
 Lista_Prods listaPorLetra(Cat_Prods catp, char letra);
 void printListaProds(Lista_Prods lp);
 
-
 /**
  * Valida um produto de acordo com a sua estrutura.
  */
-int validaProduto(Produto p);
+int validaProdutoP(Produto p);
 /**
  * Lê do ficheiro produtos e passa cada linha para o catálogo de produtos.
  * Retorna o número de produtos válidos inseridos.
  */
-int guardaProdutos(FILE *fp, Cat_Prods catp);
+int guardaProdutosP(FILE *fp, Cat_Prods catp);

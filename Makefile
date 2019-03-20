@@ -20,6 +20,5 @@ catClientes:
 Cliente:
 	$(CC) $(CFLAGS) -c Cliente.c
 
-
 clean:
 	rm program funcoes.o

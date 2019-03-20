@@ -129,7 +129,7 @@ int contaClientesEnvolvidos(Vendas* v);
 int contaUnidades(Vendas* v);
 
 /* --------------------------- Parte de validação (apenas de uma linha) -------------------------*/
-
+int validaProduto(char* linha);
 /**
  * Valida um cliente de acordo com a sua estrutura.
  */
@@ -143,12 +143,15 @@ int validaVendas(char* linhaVenda, AVLPC rootP, AVLPC rootC);
 
 /* --------------------------------- Parte de guardar nas listas --------------------------------*/
 
+int guardaProdutos(FILE *fp, AVLPC *root);
 /**
  * Lê do ficheiro clientes e passa cada linha para um array de strings.
  * Passa para um array o elemento da primeira posição da linha lida, ou seja, a letra para ser contada.
  * Retorna o número de clientes válidos inseridos.
  */
 int guardaClientes(FILE *fp, AVLPC* a);
+
+
 
 /**
  * Lê do ficheiro vendas.

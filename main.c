@@ -11,7 +11,7 @@ int main(int argc, char** argv) {
 
     /* ---------------------------------- Abertura dos ficheiros --------------------------------*/
 
-    FILE *produtoFicheiro = fopen("Produtos.txt","r");
+    FILE *produtoFicheiro = fopen("FicheirosTeste/testeProdutos.txt","r");
     if(produtoFicheiro == NULL) {printf("Produtos.txt não foi possível ser carregado."); exit (1);}
     FILE *clientesFicheiro = fopen("Clientes.txt","r");
     if(clientesFicheiro == NULL) {printf("Clientes.txt não foi possível ser carregado."); exit (1);}
@@ -21,9 +21,11 @@ int main(int argc, char** argv) {
     /* ------------------------------------ Guarda nas listas -----------------------------------*/
 
     printf("--------------------------Início------------------------------\n");
-    //Cat_Prods catp = inicializa_CatProds();
-    //int pLidos = guardaProdutos(produtoFicheiro,catp);
-    //printf("Foram lidas %d linhas válidas do ficheiro produtos.txt\n",pLidos);
+
+    Cat_Prods catp = inicializa_CatProds();
+    int pLidos = guardaProdutosP(produtoFicheiro,catp);
+    printf("Foram lidas %d linhas válidas do ficheiro produtos.txt\n",pLidos);
+    printCatProds(catp);
 
     /*AVLPC rootC = NULL;
     int cLidos = guardaClientes(clientesFicheiro,&rootC);
@@ -60,13 +62,13 @@ int main(int argc, char** argv) {
     printf("\n");*/
     /* ------------------------------------------ TESTES ----------------------------------------*/
 
-    Cat_Prods teste = inicializa_CatProds();
+    /*Cat_Prods teste = inicializa_CatProds();
     char* linha = "AB1234";
-    //teste = insereProd(teste,criaProd(linha));
-    //printCatProds(teste);
-    //Lista_Prods lista = initListaProds();
-    //lista = listaPorLetra(teste,'B');
-    //printListaProds(lista);
+    teste = insereProd(teste,criaProd(linha));
+    printCatProds(teste);
+    Lista_Prods lista = initListaProds();
+    lista = listaPorLetra(teste,'A');
+    printListaProds(lista);*/
     printf("---------------------------Fim--------------------------------\n");
     
     /* ----------------------------------- Close dos ficheiros ----------------------------------*/

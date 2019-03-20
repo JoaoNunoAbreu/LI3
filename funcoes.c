@@ -229,6 +229,19 @@ int contaUnidades(Vendas* v){
 
 /*-----------------------------------------------------------------------------------------------*/
 
+int validaProduto(char* linha){
+
+    int r = 1;
+    if(linha == NULL || strlen(linha) != 6) return 0;
+
+    if(!isupper(linha[0]) || !isupper(linha[1])) r = 0;
+    else{
+        int num1 = atoi(linha+2);
+        if(num1 < 1000 || num1 > 9999) r = 0;
+    }
+    return r;
+}
+
 int validaCliente(char* linha){
 
     int r = 1;
@@ -265,6 +278,21 @@ int validaVendas(char* linhaVenda, AVLPC rootP, AVLPC rootC){
     }
 
     return r;
+}
+
+int guardaProdutos(FILE *fp, AVLPC *root){
+
+    char str[7];
+    char* linha;
+    int index = 0;
+    while(fgets(str,7,fp)){
+        linha = strtok(str,"\n\r");
+        if(validaProduto(linha)){
+            *root = insert(*root,linha);
+            index++;
+        }
+    }
+    return index;
 }
 
 int guardaClientes(FILE *fp,AVLPC* root){

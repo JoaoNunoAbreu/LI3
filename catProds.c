@@ -114,14 +114,17 @@ int getIndexP(Produto p){
 }
 
 Cat_Prods inicializa_CatProds(){
-    Cat_Prods a = (Cat_Prods) malloc(sizeof(struct cat_prods));
-    return a;
+    Cat_Prods catp = (Cat_Prods) malloc(sizeof(struct cat_prods));
+    for(int i = 0; i < 26;i++)
+        catp->array[i] = NULL;
+    return catp;
 }
 
 Cat_Prods insereProd(Cat_Prods catp, Produto p){
 
     int a = getIndexP(p);
-    catp->array[a] = insertP(catp->array[a],getCodProd(p));
+    char* linha = getCodProd(p);
+    catp->array[a] = insertP(catp->array[a],linha);
     return catp;
 }
 
@@ -134,7 +137,7 @@ void printCatProds(Cat_Prods cp){
         preOrderP(cp->array[i]);
 }
 
-// ------------------------------------------------------------------------------------------------
+/* ------------------------------------------------------------------------------------------------*/
 
 Lista_Prods preOrderPLista(AVLP root, Lista_Prods lp,int index){
     if(root != NULL){ 
@@ -164,9 +167,9 @@ void printListaProds(Lista_Prods lp){
         printf("%s\n",lp->lista[i]);
 }
 
-// ------------------------------------------------------------------------------------------------
+/* ------------------------------------------------------------------------------------------------*/
 
-int validaProduto(Produto p){
+int validaProdutoP(Produto p){
 
     int r = 1;
     char* linha = getCodProd(p);
@@ -180,15 +183,15 @@ int validaProduto(Produto p){
     return r;
 }
 
-int guardaProdutos(FILE *fp, Cat_Prods catp){
+int guardaProdutosP(FILE *fp, Cat_Prods catp){
 
-    char str[7];
+    char str[8];
     char* linha;
     int index = 0;
-    while(fgets(str,7,fp)){
+    while(fgets(str,8,fp)){
         linha = strtok(str,"\n\r");
         Produto p = criaProd(linha);
-        if(validaProduto(p)){
+        if(validaProdutoP(p)){
             catp = insereProd(catp,p);
             index++;
         }

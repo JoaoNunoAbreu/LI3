@@ -10,7 +10,7 @@ char getChar0P(Produto p){
     return p->linha[0];
 }
 char* getCodProd(Produto p){
-    return p->linha;
+    return strdup(p->linha);
 }
 Produto criaProd(char* codProd){
     Produto p = malloc(sizeof(struct prod));
