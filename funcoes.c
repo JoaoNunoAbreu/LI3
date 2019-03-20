@@ -243,19 +243,6 @@ int validaCliente(char* linha){
     return r;
 }
 
-int validaProduto(char* linha){
-
-    int r = 1;
-    if(linha == NULL || strlen(linha) != 6) return 0;
-
-    if(!isupper(linha[0]) || !isupper(linha[1])) r = 0;
-    else{
-        int num1 = atoi(linha+2);
-        if(num1 < 1000 || num1 > 9999) r = 0;
-    }
-    return r;
-}
-
 int validaVendas(char* linhaVenda, AVLPC rootP, AVLPC rootC){
 
     int r = 1;
@@ -289,22 +276,6 @@ int guardaClientes(FILE *fp,AVLPC* root){
     while(fgets(str,MAXBUFCLIENT,fp)){
         linha = strtok(str,"\n\r");
         if(validaCliente(linha)){
-            *root = insert(*root,strdup(linha));
-            index++;
-        }
-    }
-    return index;
-}
-
-int guardaProdutos(FILE *fp,AVLPC* root){
-
-    char str[MAXBUFPROD];
-    char* linha;
-
-    int index = 0;
-    while(fgets(str,MAXBUFPROD,fp)){
-        linha = strtok(str,"\n\r");
-        if(validaProduto(linha)){
             *root = insert(*root,strdup(linha));
             index++;
         }

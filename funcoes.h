@@ -136,11 +136,6 @@ int contaUnidades(Vendas* v);
 int validaCliente(char* linha);
 
 /**
- * Valida um produto de acordo com a sua estrutura.
- */
-int validaProduto(char* linha);
-
-/**
  * Valida uma venda.
  * Função de procura (elem) muito pouco eficiente.
  */
@@ -154,12 +149,6 @@ int validaVendas(char* linhaVenda, AVLPC rootP, AVLPC rootC);
  * Retorna o número de clientes válidos inseridos.
  */
 int guardaClientes(FILE *fp, AVLPC* a);
-
-/**
- * Lê do ficheiro produtos e passa cada linha para um array de strings.
- * Retorna o número de produtos válidos inseridos.
- */
-int guardaProdutos(FILE *fp, AVLPC *a);
 
 /**
  * Lê do ficheiro vendas.

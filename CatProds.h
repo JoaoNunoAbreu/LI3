@@ -8,5 +8,17 @@ Cat_Prods insereProd(Cat_Prods catp,Produto p);
 int existeProd(Cat_Prods catp, Produto p);
 void printCatProds(Cat_Prods cp);
  
-/*Lista_Prods listaPorLetra(Cat_Prods catp, char letra);
-Lista_Prods initListaProds();*/
+Lista_Prods initListaProds();
+Lista_Prods listaPorLetra(Cat_Prods catp, char letra);
+void printListaProds(Lista_Prods lp);
+
+
+/**
+ * Valida um produto de acordo com a sua estrutura.
+ */
+int validaProduto(Produto p);
+/**
+ * Lê do ficheiro produtos e passa cada linha para o catálogo de produtos.
+ * Retorna o número de produtos válidos inseridos.
+ */
+int guardaProdutos(FILE *fp, Cat_Prods catp);

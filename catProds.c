@@ -1,6 +1,7 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
+#include <ctype.h>
 #include "CatProds.h"
 
 typedef struct avlP{
@@ -97,6 +98,7 @@ void preOrderP(AVLP root){
         preOrderP(root->right); 
     } 
 }
+
 int searchP(AVLP root,char* key){
 
     if(root == NULL) return 0;
@@ -130,4 +132,66 @@ int existeProd(Cat_Prods catp, Produto p){
 void printCatProds(Cat_Prods cp){
     for(int i = 0; i < 26; i++)
         preOrderP(cp->array[i]);
+}
+
+// ------------------------------------------------------------------------------------------------
+
+Lista_Prods preOrderPLista(AVLP root, Lista_Prods lp,int index){
+    if(root != NULL){ 
+        lp->lista[index] = strdup(root->code);
+        preOrderPLista(root->left,lp,index+6);
+        preOrderPLista(root->right,lp,index+12); 
+    }
+    return lp;
+}
+
+Lista_Prods initListaProds(){
+    Lista_Prods lista = (Lista_Prods) malloc(sizeof(struct lst_prods));
+    char** campos = (char**) malloc(200000 * sizeof(char*));
+    lista->lista = campos;
+    return lista;
+}
+
+Lista_Prods listaPorLetra(Cat_Prods catp, char letra){
+    int posicao = letra - 65;
+    Lista_Prods lp = initListaProds();
+    lp = preOrderPLista(catp->array[posicao],lp,0);
+    return lp;
+}
+
+void printListaProds(Lista_Prods lp){
+    for(int i = 0; lp->lista[i]; i++)
+        printf("%s\n",lp->lista[i]);
+}
+
+// ------------------------------------------------------------------------------------------------
+
+int validaProduto(Produto p){
+
+    int r = 1;
+    char* linha = getCodProd(p);
+    if(linha == NULL || strlen(linha) != 6) return 0;
+
+    if(!isupper(linha[0]) || !isupper(linha[1])) r = 0;
+    else{
+        int num1 = atoi(linha+2);
+        if(num1 < 1000 || num1 > 9999) r = 0;
+    }
+    return r;
+}
+
+int guardaProdutos(FILE *fp, Cat_Prods catp){
+
+    char str[7];
+    char* linha;
+    int index = 0;
+    while(fgets(str,7,fp)){
+        linha = strtok(str,"\n\r");
+        Produto p = criaProd(linha);
+        if(validaProduto(p)){
+            catp = insereProd(catp,p);
+            index++;
+        }
+    }
+    return index;
 }
