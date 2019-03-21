@@ -139,26 +139,28 @@ void printCatProds(Cat_Prods cp){
 
 /* ------------------------------------------------------------------------------------------------*/
 
-Lista_Prods preOrderPLista(AVLP root, Lista_Prods lp,int index){
+Lista_Prods preOrderPLista(AVLP root, Lista_Prods lp,int* index){
     if(root != NULL){ 
-        lp->lista[index] = strdup(root->code);
-        preOrderPLista(root->left,lp,index+6);
-        preOrderPLista(root->right,lp,index+12); 
+        lp->lista[*index] = strdup(root->code);
+        *index = *index + 1;
+        preOrderPLista(root->left,lp,index);
+        preOrderPLista(root->right,lp,index); 
     }
     return lp;
 }
 
 Lista_Prods initListaProds(){
-    Lista_Prods lista = (Lista_Prods) malloc(sizeof(struct lst_prods));
+    Lista_Prods lp = (Lista_Prods) malloc(sizeof(struct lst_prods));
     char** campos = (char**) malloc(200000 * sizeof(char*));
-    lista->lista = campos;
-    return lista;
+    lp->lista = campos;
+    return lp;
 }
 
 Lista_Prods listaPorLetra(Cat_Prods catp, char letra){
     int posicao = letra - 65;
     Lista_Prods lp = initListaProds();
-    lp = preOrderPLista(catp->array[posicao],lp,0);
+    int inx = 0;
+    lp = preOrderPLista(catp->array[posicao],lp,&inx);
     return lp;
 }
 

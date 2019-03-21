@@ -26,6 +26,10 @@ int main(int argc, char** argv) {
     int pLidos = guardaProdutosP(produtoFicheiro,catp);
     printf("Foram lidas %d linhas válidas do ficheiro produtos.txt\n",pLidos);
     printCatProds(catp);
+    Lista_Prods lp = initListaProds();
+    lp = listaPorLetra(catp,'A');
+    printf("Break 1\n");
+    printListaProds(lp);
 
     /*AVLPC rootC = NULL;
     int cLidos = guardaClientes(clientesFicheiro,&rootC);
