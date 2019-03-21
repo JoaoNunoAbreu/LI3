@@ -4,10 +4,10 @@
 #include <string.h>
 #include <ctype.h>
 #include <time.h>
+#include "CatProds.h"
+#include "CatClientes.h"
 
 #define MAXVENDAS 1000000
-#define MAXBUFPROD 7
-#define MAXBUFCLIENT 6
 #define MAXBUFVENDAS 32
 
 typedef struct venda{
@@ -20,56 +20,10 @@ typedef struct venda{
     int filial;
 }Vendas;
 
-typedef struct avlPC{
-
-    char* code;
-    struct avlPC *left,*right;
-    int height;
-}*AVLPC;
-
 char* listaVendas[MAXVENDAS];
 
 char* clientesInvalidos[MAXVENDAS]; int indexCI;
 char* produtosInvalidos[MAXVENDAS]; int indexPI;
-
-/* -------------------------------------- Funções das AVL ---------------------------------------*/
-
-/**
- * Calcula a altura de uma AVL.
- */ 
-int heightPC(AVLPC a);
-/**
- * Calcula o máximo entre 2 números.
- */
-int max(int a, int b);
-/**
- * Cria um novo nodo dado um código de cliente/produto.
- */
-AVLPC newNode(char* code);
-/**
- * Roda a AVL para a direita para fins de balançeamento.
- */
-AVLPC rightRotate(AVLPC y);
-/**
- * Roda a AVL para a esquerda para fins de balançeamento.
- */
-AVLPC leftRotate(AVLPC x);
-/**
- * Calcula o balanço de uma AVL.
- */
-int getBalance(AVLPC N);
-/**
- * Insere numa AVL um código de cliente/produto.
- */
-AVLPC insert(AVLPC node, char* code);
-/**
- * Faz print de uma AVL em pre-order.
- */
-void preOrder(AVLPC root);
-/**
- * Procura numa AVL um código.
- */
-int search(AVLPC root,char* key);
 
 /* ----------------------------------- Funções da struct venda ----------------------------------*/
 
@@ -77,11 +31,6 @@ int search(AVLPC root,char* key);
  * Parte uma string aos bocados e coloca cada bocado numa posição do array.
  */
 char** tokenizeLinhaVendaDyn(char* vendaRaw);
-
-/**
- * Conta quanto caracteres "x" existe numa string.
- */
-int contaChar(Vendas* v, char x);
 
 /**
  * Adiciona uma venda a uma estrutura de dados.
@@ -129,29 +78,10 @@ int contaClientesEnvolvidos(Vendas* v);
 int contaUnidades(Vendas* v);
 
 /* --------------------------- Parte de validação (apenas de uma linha) -------------------------*/
-int validaProduto(char* linha);
-/**
- * Valida um cliente de acordo com a sua estrutura.
- */
-int validaCliente(char* linha);
 
-/**
- * Valida uma venda.
- * Função de procura (elem) muito pouco eficiente.
- */
-int validaVendas(char* linhaVenda, AVLPC rootP, AVLPC rootC);
+int validaVendas(char* linhaVenda, Cat_Prods catp, Cat_Clientes catc);
 
 /* --------------------------------- Parte de guardar nas listas --------------------------------*/
-
-int guardaProdutos(FILE *fp, AVLPC *root);
-/**
- * Lê do ficheiro clientes e passa cada linha para um array de strings.
- * Passa para um array o elemento da primeira posição da linha lida, ou seja, a letra para ser contada.
- * Retorna o número de clientes válidos inseridos.
- */
-int guardaClientes(FILE *fp, AVLPC* a);
-
-
 
 /**
  * Lê do ficheiro vendas.
@@ -161,4 +91,4 @@ int guardaClientes(FILE *fp, AVLPC* a);
  * Escreve num ficheiro de texto apenas as vendas válidas.
  * Retorna o número de vendas válidas.
  */
-int guardaVendas(FILE *fp, char** listaVendas, AVLPC rootP, AVLPC rootC, Vendas* vTodas, Vendas* vBoas);
+int guardaVendas(FILE *fp, char** listaVendas, Cat_Prods catp, Cat_Clientes catc, Vendas* vTodas, Vendas* vBoas);

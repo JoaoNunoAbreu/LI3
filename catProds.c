@@ -1,7 +1,6 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
-#include <ctype.h>
 #include "CatProds.h"
 
 typedef struct avlP{
@@ -98,7 +97,6 @@ void preOrderP(AVLP root){
         preOrderP(root->right); 
     } 
 }
-
 int searchP(AVLP root,char* key){
 
     if(root == NULL) return 0;
@@ -107,7 +105,7 @@ int searchP(AVLP root,char* key){
     else return 1;
 }
 
-/*----------------------------------------------------------------*/
+/*----------------------------------------- Catálogo --------------------------------------------*/
 
 int getIndexP(Produto p){
     return getChar0P(p) - 65;
@@ -137,7 +135,7 @@ void printCatProds(Cat_Prods cp){
         preOrderP(cp->array[i]);
 }
 
-/* ------------------------------------------------------------------------------------------------*/
+/* ------------------------------------------- Lista ------------------------------------------- */
 
 Lista_Prods preOrderPLista(AVLP root, Lista_Prods lp,int* index){
     if(root != NULL){ 
@@ -156,12 +154,18 @@ Lista_Prods initListaProds(){
     return lp;
 }
 
-Lista_Prods listaPorLetra(Cat_Prods catp, char letra){
+Lista_Prods listaPorLetraP(Cat_Prods catp, char letra){
     int posicao = letra - 65;
     Lista_Prods lp = initListaProds();
     int inx = 0;
     lp = preOrderPLista(catp->array[posicao],lp,&inx);
     return lp;
+}
+
+int sizeOfLista_Prods(Lista_Prods lp){
+    int count;
+    for(count = 0; lp->lista[count]; count++);
+    return count;
 }
 
 void printListaProds(Lista_Prods lp){
@@ -171,21 +175,7 @@ void printListaProds(Lista_Prods lp){
 
 /* ------------------------------------------------------------------------------------------------*/
 
-int validaProdutoP(Produto p){
-
-    int r = 1;
-    char* linha = getCodProd(p);
-    if(linha == NULL || strlen(linha) != 6) return 0;
-
-    if(!isupper(linha[0]) || !isupper(linha[1])) r = 0;
-    else{
-        int num1 = atoi(linha+2);
-        if(num1 < 1000 || num1 > 9999) r = 0;
-    }
-    return r;
-}
-
-int guardaProdutosP(FILE *fp, Cat_Prods catp){
+int guardaProdutos(FILE *fp, Cat_Prods catp){
 
     char str[8];
     char* linha;
@@ -193,7 +183,7 @@ int guardaProdutosP(FILE *fp, Cat_Prods catp){
     while(fgets(str,8,fp)){
         linha = strtok(str,"\n\r");
         Produto p = criaProd(linha);
-        if(validaProdutoP(p)){
+        if(validaProduto(p)){
             catp = insereProd(catp,p);
             index++;
         }

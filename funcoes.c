@@ -2,101 +2,6 @@
 
 /*-----------------------------------------------------------------------------------------------*/
 
-int heightPC(AVLPC a){ 
-    if(a == NULL) return 0; 
-    return a -> height; 
-}
-
-int max(int a, int b){ 
-    return (a > b)? a : b; 
-}
-
-AVLPC newNode(char* code){
-
-    AVLPC a = (AVLPC) malloc(sizeof(struct avlPC));
-    a -> code = strdup(code);
-    a -> left = NULL; 
-    a -> right = NULL; 
-    a -> height = 1;
-    return a;
-}
-
-AVLPC rightRotate(AVLPC y){ 
-    
-    AVLPC x = y -> left; 
-    AVLPC T2 = x -> right; 
-    x->right = y; 
-    y->left = T2; 
-    y->height = max(heightPC(y->left), heightPC(y->right))+1; 
-    x->height = max(heightPC(x->left), heightPC(x->right))+1; 
-    return x; 
-}
-
-AVLPC leftRotate(AVLPC x){ 
-
-    AVLPC y = x -> right; 
-    AVLPC T2 = y -> left; 
-    y -> left = x; 
-    x -> right = T2; 
-    x -> height = max(heightPC(x->left), heightPC(x->right))+1; 
-    y -> height = max(heightPC(y->left), heightPC(y->right))+1; 
-    return y; 
-} 
-
-int getBalance(AVLPC N){ 
-    if (N == NULL) return 0; 
-    return heightPC(N->left) - heightPC(N->right); 
-} 
-
-AVLPC insert(AVLPC node, char* code) { 
-
-    if (node == NULL) return(newNode(code)); 
-  
-    if (strcmp(code,node->code) < 0) node -> left  = insert(node->left,code); 
-    else if (strcmp(code,node -> code) > 0) node->right = insert(node->right,code); 
-    else return node; 
-  
-    node -> height = 1 + max(heightPC(node->left),heightPC(node->right)); 
-
-    int balance = getBalance(node); 
-  
-    /* Left Left Case */
-    if (balance > 1 && strcmp(code,node->left->code) < 0) return rightRotate(node); 
-  
-    /* Right Right Case */
-    if (balance < -1 && strcmp(code,node->right->code) > 0) return leftRotate(node); 
-  
-    /* Left Right Case */
-    if (balance > 1 && strcmp(code,node->left->code) > 0){ 
-        node->left = leftRotate(node->left); 
-        return rightRotate(node); 
-    } 
-    /* Right Left Case */
-    if (balance < -1 && strcmp(code,node->right->code) < 0){ 
-        node->right = rightRotate(node->right); 
-        return leftRotate(node); 
-    } 
-    return node; 
-}
-
-void preOrder(AVLPC root){ 
-    if(root != NULL){ 
-        printf("%s\n",root->code); 
-        preOrder(root->left); 
-        preOrder(root->right); 
-    } 
-}
-
-int search(AVLPC root,char* key){
-
-    if(root == NULL) return 0;
-    if(strcmp(key,root->code) < 0) return search(root->left,key);
-    else if(strcmp(key,root->code) > 0) return search(root->right,key);
-    else return 1;
-}
-
-/*-----------------------------------------------------------------------------------------------*/
-
 char** tokenizeLinhaVendaDyn(char* vendaRaw) {
     int index = 0;
     char** campos = (char**) malloc(7 * sizeof(char*)); /* 7 pois a struct vendas tem 7 parâmetros.*/
@@ -108,15 +13,6 @@ char** tokenizeLinhaVendaDyn(char* vendaRaw) {
         index++;
     }
     return campos;
-}
-
-int contaChar(Vendas* v, char x){
-
-    int count = 0;
-    for(int i = 0; v[i].cliente; i++)
-        if(v[i].cliente[0] == x) count++;
-
-    return count;
 }
 
 void addVenda(Vendas* v, char** tokensArray, int index){
@@ -195,24 +91,24 @@ int contaPrecos(Vendas* v, int x){
 int contaProdutosEnvolvidos(Vendas* v){
     
     int count = 0;
-    AVLPC envolvidosP = NULL;
+    Cat_Prods envolvidosP = inicializa_CatProds();
+
     for(int j = 0; v[j].produto ; j++){
-        if(!search(envolvidosP,v[j].produto)){
-            envolvidosP = insert(envolvidosP,strdup(v[j].produto));
+        if(!existeProd(envolvidosP,criaProd(v[j].produto))){
+            envolvidosP = insereProd(envolvidosP,criaProd(v[j].produto));
             count++;
         }
     }
-
     return count;
 }
 
 int contaClientesEnvolvidos(Vendas* v){
 
     int count = 0;
-    AVLPC envolvidosC = NULL;
+    Cat_Clientes envolvidosC = inicializa_CatClientes();
     for(int j = 0; v[j].cliente; j++){
-        if(!search(envolvidosC,v[j].cliente)){
-            envolvidosC = insert(envolvidosC,strdup(v[j].cliente));
+        if(!existeCliente(envolvidosC,criaCliente(v[j].cliente))){
+            envolvidosC = insereCliente(envolvidosC,criaCliente(v[j].cliente));
             count++;
         }
     }
@@ -229,34 +125,7 @@ int contaUnidades(Vendas* v){
 
 /*-----------------------------------------------------------------------------------------------*/
 
-int validaProduto(char* linha){
-
-    int r = 1;
-    if(linha == NULL || strlen(linha) != 6) return 0;
-
-    if(!isupper(linha[0]) || !isupper(linha[1])) r = 0;
-    else{
-        int num1 = atoi(linha+2);
-        if(num1 < 1000 || num1 > 9999) r = 0;
-    }
-    return r;
-}
-
-int validaCliente(char* linha){
-
-    int r = 1;
-    if(linha == NULL || strlen(linha) != 5) return 0;
-    
-    if(!isupper(linha[0])) r = 0;
-    else {
-        int num = atoi(linha+1);
-        if(num < 1000 || num > 5000) r = 0;
-    }
-
-    return r;
-}
-
-int validaVendas(char* linhaVenda, AVLPC rootP, AVLPC rootC){
+int validaVendas(char* linhaVenda, Cat_Prods catp, Cat_Clientes catc){
 
     int r = 1;
     char** tokensArray = tokenizeLinhaVendaDyn(linhaVenda);
@@ -266,52 +135,21 @@ int validaVendas(char* linhaVenda, AVLPC rootP, AVLPC rootC){
     if(r == 1 && (*tokensArray[3] != 'N'   && *tokensArray[3] != 'P')) r = 0;
     if(r == 1 && (atoi(tokensArray[5]) < 0 || atoi(tokensArray[5]) > 12)) r = 0;
     if(r == 1 && (atoi(tokensArray[6]) < 0 || atoi(tokensArray[6]) > 3)) r = 0;
-    if(r == 1 && (!search(rootC,tokensArray[4]))) {
+    if(r == 1 && (!existeCliente(catc,criaCliente(tokensArray[4])))) {
         r = 0;
         indexCI++;
-        clientesInvalidos[indexCI] = strdup(tokensArray[4]); /* Guarda em array a lista de clientes inválidos*/
+        /*clientesInvalidos[indexCI] = strdup(tokensArray[4]);  Guarda em array a lista de clientes inválidos*/
     }
-    if(!search(rootP,tokensArray[0])) {
+    if(!existeProd(catp,criaProd(tokensArray[0]))) {
         r = 0;
-        produtosInvalidos[indexPI] = strdup(tokensArray[0]); /* Guarda em array a lista de produtos inválidos*/
+        /*produtosInvalidos[indexPI] = strdup(tokensArray[0]);  Guarda em array a lista de produtos inválidos*/
         indexPI++;
     }
 
     return r;
 }
 
-int guardaProdutos(FILE *fp, AVLPC *root){
-
-    char str[7];
-    char* linha;
-    int index = 0;
-    while(fgets(str,7,fp)){
-        linha = strtok(str,"\n\r");
-        if(validaProduto(linha)){
-            *root = insert(*root,linha);
-            index++;
-        }
-    }
-    return index;
-}
-
-int guardaClientes(FILE *fp,AVLPC* root){
-
-    char str[MAXBUFCLIENT];
-    char* linha;
-
-    int index = 0;
-    while(fgets(str,MAXBUFCLIENT,fp)){
-        linha = strtok(str,"\n\r");
-        if(validaCliente(linha)){
-            *root = insert(*root,strdup(linha));
-            index++;
-        }
-    }
-    return index;
-}
-
-int guardaVendas(FILE *fp, char** listaVendas, AVLPC rootP, AVLPC rootC, Vendas* vTodas, Vendas* vBoas){
+int guardaVendas(FILE *fp, char** listaVendas, Cat_Prods catp, Cat_Clientes catc, Vendas* vTodas, Vendas* vBoas){
 
     FILE *vValidasFicheiro = fopen("Vendas_1MValidas.txt","w");
     char str[MAXBUFVENDAS];
@@ -322,7 +160,7 @@ int guardaVendas(FILE *fp, char** listaVendas, AVLPC rootP, AVLPC rootC, Vendas*
 
     while(fgets(str,MAXBUFVENDAS,fp)){
         linha = strtok(str,"\n\r");
-        if(validaVendas(strdup(linha),rootP,rootC)){
+        if(validaVendas(strdup(linha),catp,catc)){
             listaVendas[index-fail] = strdup(linha);  /*Guarda em array de strings vendas válidas.*/
             vBoas[index-fail] = mkVenda(strdup(linha));  /*Guarda em array de struct vendas válidas.*/
             fprintf(vValidasFicheiro,"%s\n",listaVendas[index-fail]); /*Escreve no ficheiro vendas válidas.*/

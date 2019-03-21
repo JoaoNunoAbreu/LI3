@@ -9,15 +9,12 @@ int existeProd(Cat_Prods catp, Produto p);
 void printCatProds(Cat_Prods cp);
  
 Lista_Prods initListaProds();
-Lista_Prods listaPorLetra(Cat_Prods catp, char letra);
+Lista_Prods listaPorLetraP(Cat_Prods catp, char letra);
+int sizeOfLista_Prods(Lista_Prods lp);
 void printListaProds(Lista_Prods lp);
 
-/**
- * Valida um produto de acordo com a sua estrutura.
- */
-int validaProdutoP(Produto p);
 /**
  * Lê do ficheiro produtos e passa cada linha para o catálogo de produtos.
  * Retorna o número de produtos válidos inseridos.
  */
-int guardaProdutosP(FILE *fp, Cat_Prods catp);
+int guardaProdutos(FILE *fp, Cat_Prods catp);
