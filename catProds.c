@@ -1,5 +1,8 @@
-#include "CatProds.h"
 #include "AVL.h"
+#include "CatProds.h"
+#include <stdlib.h>
+#include <stdio.h>
+#include <string.h>
 
 struct cat_prods{
     AVL array[26];

@@ -1,5 +1,5 @@
-#include "CatClientes.h"
 #include "AVL.h"
+#include "CatClientes.h"
 
 struct cat_clientes{
     AVL array[26];

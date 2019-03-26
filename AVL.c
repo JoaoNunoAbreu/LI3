@@ -1,4 +1,13 @@
 #include "AVL.h"
+#include <stdlib.h>
+#include <stdio.h>
+#include <string.h>
+
+struct avl{
+    char* code;
+    struct avl *left,*right;
+    int height;
+};
 
 int height(AVL a){ 
     if(a == NULL) return 0; 

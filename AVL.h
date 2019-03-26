@@ -1,12 +1,4 @@
-#include <stdlib.h>
-#include <stdio.h>
-#include <string.h>
-
-typedef struct avl{
-    char* code;
-    struct avl *left,*right;
-    int height;
-}*AVL;
+typedef struct avl* AVL;
 
 int height(AVL a);
 int getBalance(AVL N);
