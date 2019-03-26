@@ -1,4 +1,7 @@
 #include "Cliente.h"
+#include <stdio.h>
+#include <string.h>
+#include <stdlib.h>
 		
 typedef struct cat_clientes* Cat_Clientes;
 typedef struct lst_clientes* Lista_Clientes; 
@@ -13,8 +16,4 @@ Lista_Clientes listaPorLetraC(Cat_Clientes catc, char letra);
 int sizeOfLista_Clientes(Lista_Clientes lc);
 void printListaClientes(Lista_Clientes lc);
 
-/**
- * Lê do ficheiro clientes e passa cada linha para o catálogo de clientes.
- * Retorna o número de clientes válidos inseridos.
- */
 int guardaClientes(FILE *fp,Cat_Clientes catc);

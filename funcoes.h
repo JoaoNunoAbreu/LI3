@@ -20,8 +20,6 @@ typedef struct venda{
     int filial;
 }Vendas;
 
-char* listaVendas[MAXVENDAS];
-
 char* clientesInvalidos[MAXVENDAS]; int indexCI;
 char* produtosInvalidos[MAXVENDAS]; int indexPI;
 
@@ -40,7 +38,7 @@ Vendas mkVenda(char* linhaVenda);
 /**
  * Conta a maior linha da vendas.
  */
-int contaMaiorLinha(char** listaVendas);
+int contaMaiorLinha(Vendas* v);
 
 /**
  * Conta quantas vendas foram feitas por um cliente.
@@ -91,4 +89,4 @@ int validaVendas(char* linhaVenda, Cat_Prods catp, Cat_Clientes catc);
  * Escreve num ficheiro de texto apenas as vendas válidas.
  * Retorna o número de vendas válidas.
  */
-int guardaVendas(FILE *fp, char** listaVendas, Cat_Prods catp, Cat_Clientes catc, Vendas* vTodas, Vendas* vBoas);
+int guardaVendas(FILE *fp, Cat_Prods catp, Cat_Clientes catc, Vendas* vTodas, Vendas* vBoas);

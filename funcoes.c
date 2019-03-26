@@ -43,16 +43,6 @@ Vendas mkVenda(char* linhaVenda){
     return vendaAux;   
 }
 
-int contaMaiorLinha(char** lista){
-
-    int max = 0;
-
-    for(int i = 0; lista[i]; i++)
-        if(strlen(lista[i]) > max) max = strlen(lista[i]);
-
-    return max;
-}
-
 int contaVendas(Vendas* v, char* cliente){
 
     int count = 0;
@@ -149,7 +139,7 @@ int validaVendas(char* linhaVenda, Cat_Prods catp, Cat_Clientes catc){
     return r;
 }
 
-int guardaVendas(FILE *fp, char** listaVendas, Cat_Prods catp, Cat_Clientes catc, Vendas* vTodas, Vendas* vBoas){
+int guardaVendas(FILE *fp, Cat_Prods catp, Cat_Clientes catc, Vendas* vTodas, Vendas* vBoas){
 
     FILE *vValidasFicheiro = fopen("Vendas_1MValidas.txt","w");
     char str[MAXBUFVENDAS];
@@ -161,9 +151,8 @@ int guardaVendas(FILE *fp, char** listaVendas, Cat_Prods catp, Cat_Clientes catc
     while(fgets(str,MAXBUFVENDAS,fp)){
         linha = strtok(str,"\n\r");
         if(validaVendas(strdup(linha),catp,catc)){
-            listaVendas[index-fail] = strdup(linha);  /*Guarda em array de strings vendas válidas.*/
             vBoas[index-fail] = mkVenda(strdup(linha));  /*Guarda em array de struct vendas válidas.*/
-            fprintf(vValidasFicheiro,"%s\n",listaVendas[index-fail]); /*Escreve no ficheiro vendas válidas.*/
+            fprintf(vValidasFicheiro,"%s\n",strdup(linha)); /*Escreve no ficheiro vendas válidas.*/
         }
         else fail++;
         vTodas[index] = mkVenda(strdup(linha)); /* Guarda em array de struct todas as vendas*/

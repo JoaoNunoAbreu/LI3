@@ -1,4 +1,5 @@
 #include "Produto.h"
+#include <stdio.h>
 		
 typedef struct cat_prods* Cat_Prods;
 typedef struct lst_prods* Lista_Prods; 
@@ -13,8 +14,4 @@ Lista_Prods listaPorLetraP(Cat_Prods catp, char letra);
 int sizeOfLista_Prods(Lista_Prods lp);
 void printListaProds(Lista_Prods lp);
 
-/**
- * Lê do ficheiro produtos e passa cada linha para o catálogo de produtos.
- * Retorna o número de produtos válidos inseridos.
- */
 int guardaProdutos(FILE *fp, Cat_Prods catp);

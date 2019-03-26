@@ -24,18 +24,17 @@ int main(int argc, char** argv) {
     Cat_Prods catp = inicializa_CatProds();
     int pLidos = guardaProdutos(produtoFicheiro,catp);
     printf("Foram lidas %d linhas válidas do ficheiro produtos.txt\n",pLidos);
-    
+
     Cat_Clientes catc = inicializa_CatClientes();
     int cLidos = guardaClientes(clientesFicheiro,catc);
     printf("Foram lidas %d linhas válidas do ficheiro clientes.txt\n",cLidos);
-    
 
     /* --------- Vendas ---------*/
 
     Vendas* vTodas = malloc(MAXVENDAS * sizeof *vTodas);
     Vendas* vBoas = malloc(MAXVENDAS * sizeof *vBoas);
 
-    int vLidas = guardaVendas(vendasFicheiro,listaVendas,catp,catc,vTodas,vBoas);
+    int vLidas = guardaVendas(vendasFicheiro,catp,catc,vTodas,vBoas);
     printf("Foram lidas %d linhas válidas do ficheiro vendas.txt\n",vLidas);
 
     /* ------------------------------------------ TESTES ----------------------------------------*/
@@ -48,8 +47,8 @@ int main(int argc, char** argv) {
     Lista_Clientes lc = initListaClientes();
     lc = listaPorLetraC(catc,'A');
     printf("Houve %d produtos a começar com a letra A.\n",sizeOfLista_Clientes(lc));
-    
-    printf("A linha mais longa das vendas foi: %d\n", contaMaiorLinha(listaVendas));
+
+    //printf("A linha mais longa das vendas foi: %d\n", contaMaiorLinha(listaVendas));
     int prodEnvolvidos = contaProdutosEnvolvidos(vBoas);
     printf("O número de produtos envolvidos foi: %d\n", prodEnvolvidos);
     printf("O número de produtos nunca comprado foi: %d\n", pLidos - prodEnvolvidos);
@@ -69,7 +68,7 @@ int main(int argc, char** argv) {
     printf("\n");
 
     printf("--------------------------- Fim --------------------------------\n");
-    
+
     /* ----------------------------------- Close dos ficheiros ----------------------------------*/
 
     fclose(produtoFicheiro);
