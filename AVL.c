@@ -93,3 +93,17 @@ int search(AVL root,char* key){
     else if(strcmp(key,root->code) > 0) return search(root->right,key);
     else return 1;
 }
+
+char* getCode(AVL a){
+    return strdup(a->code);
+}
+
+AVL getLeft(AVL a){
+    if(a == NULL) return NULL;
+    return a->left;
+}
+
+AVL getRight(AVL a){
+    if(a == NULL) return NULL;
+    return a->right;
+}

@@ -43,10 +43,10 @@ void printCatCliente(Cat_Clientes cp){
 
 Lista_Clientes preOrderCLista(AVL root, Lista_Clientes lc, int* index){
     if(root != NULL){ 
-        lc->lista[*index] = strdup(root->code);
+        lc->lista[*index] = strdup(getCode(root));
         *index = *index + 1;
-        preOrderCLista(root->left,lc,index);
-        preOrderCLista(root->right,lc,index); 
+        preOrderCLista(getLeft(root),lc,index);
+        preOrderCLista(getRight(root),lc,index); 
     }
     return lc;
 }

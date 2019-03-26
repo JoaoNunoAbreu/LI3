@@ -46,10 +46,10 @@ void printCatProds(Cat_Prods cp){
 
 Lista_Prods preOrderPLista(AVL root, Lista_Prods lp,int* index){
     if(root != NULL){ 
-        lp->lista[*index] = strdup(root->code);
+        lp->lista[*index] = strdup(getCode(root));
         *index = *index + 1;
-        preOrderPLista(root->left,lp,index);
-        preOrderPLista(root->right,lp,index); 
+        preOrderPLista(getLeft(root),lp,index);
+        preOrderPLista(getRight(root),lp,index); 
     }
     return lp;
 }
