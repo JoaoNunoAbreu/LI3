@@ -6,10 +6,6 @@
 * Hugo Matias
 * Jorge Vieira
 
-## Importante
-
-* Usem a funcoes.h para saber o que cada função faz.
-
 ## Validade de produtos (AB1234)
 
 * 2 letras maiúsculas
