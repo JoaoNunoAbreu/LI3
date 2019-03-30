@@ -1,6 +1,7 @@
 {
     "files.associations": {
         "stdlib.h": "c",
-        "produto.h": "c"
+        "produto.h": "c",
+        "facturacao.h": "c"
     }
 }

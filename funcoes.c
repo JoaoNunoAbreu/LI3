@@ -20,7 +20,7 @@ void addVenda(Vendas* v, char** tokensArray, int index){
     v[index].produto = strdup(tokensArray[0]);
     v[index].preco = atof(tokensArray[1]);
     v[index].quant = atoi(tokensArray[2]);
-    v[index].promo = tokensArray[3];
+    v[index].promo = *tokensArray[3];
     v[index].cliente = strdup(tokensArray[4]);
     v[index].mes = atoi(tokensArray[5]);
     v[index].filial = atoi(tokensArray[6]);
@@ -35,7 +35,7 @@ Vendas mkVenda(char* linhaVenda){
     vendaAux.produto = strdup(campos[0]);
     vendaAux.preco = atof(campos[1]);
     vendaAux.quant = atoi(campos[2]);
-    vendaAux.promo = campos[3];
+    vendaAux.promo = *campos[3];
     vendaAux.cliente = strdup(campos[4]);
     vendaAux.mes = atoi(campos[5]);
     vendaAux.filial = atoi(campos[6]);
@@ -139,7 +139,7 @@ int validaVendas(char* linhaVenda, Cat_Prods catp, Cat_Clientes catc){
     return r;
 }
 
-int guardaVendas(FILE *fp, Cat_Prods catp, Cat_Clientes catc, Vendas* vTodas, Vendas* vBoas){
+int guardaVendas(FILE *fp, Cat_Prods catp, Cat_Clientes catc, Vendas* vTodas, Vendas* vBoas,Facturacao* fat){
 
     FILE *vValidasFicheiro = fopen("Vendas_1MValidas.txt","w");
     char str[MAXBUFVENDAS];
@@ -150,8 +150,9 @@ int guardaVendas(FILE *fp, Cat_Prods catp, Cat_Clientes catc, Vendas* vTodas, Ve
 
     while(fgets(str,MAXBUFVENDAS,fp)){
         linha = strtok(str,"\n\r");
-        if(validaVendas(strdup(linha),catp,catc)){
-            vBoas[index-fail] = mkVenda(strdup(linha));  /*Guarda em array de struct vendas válidas.*/
+        if(validaVendas(linha,catp,catc)){
+            /*vBoas[index-fail] = mkVenda(strdup(linha)); Guarda em array de struct vendas válidas.*/
+            *fat = insertF(*fat,mkNodoVenda(linha));
             fprintf(vValidasFicheiro,"%s\n",strdup(linha)); /*Escreve no ficheiro vendas válidas.*/
         }
         else fail++;

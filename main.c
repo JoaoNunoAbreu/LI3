@@ -14,7 +14,7 @@ int main(int argc, char** argv) {
     if(produtoFicheiro == NULL) {printf("Produtos.txt não foi possível ser carregado."); exit (1);}
     FILE *clientesFicheiro = fopen("Clientes.txt","r");
     if(clientesFicheiro == NULL) {printf("Clientes.txt não foi possível ser carregado."); exit (1);}
-    FILE *vendasFicheiro = fopen("Vendas_1M.txt","r");
+    FILE *vendasFicheiro = fopen("FicheirosTeste/testeVendas2.txt","r");
     if(vendasFicheiro == NULL) {printf("Vendas.txt não foi possível ser carregado."); exit (1);}
 
     /* ----------------------------------- Guarda nos catálogos ---------------------------------*/
@@ -33,8 +33,9 @@ int main(int argc, char** argv) {
 
     Vendas* vTodas = malloc(MAXVENDAS * sizeof *vTodas);
     Vendas* vBoas = malloc(MAXVENDAS * sizeof *vBoas);
+    Facturacao fat = inicializa_Facturacao();
 
-    int vLidas = guardaVendas(vendasFicheiro,catp,catc,vTodas,vBoas);
+    int vLidas = guardaVendas(vendasFicheiro,catp,catc,vTodas,vBoas,&fat);
     printf("Foram lidas %d linhas válidas do ficheiro vendas.txt\n",vLidas);
 
     /* ------------------------------------------ TESTES ----------------------------------------*/
@@ -67,10 +68,15 @@ int main(int argc, char** argv) {
     printf("Foram feitas %d vendas com preço 0.\n",contaPrecos(vBoas,0));
     printf("\n");
 
+    printf("-------------------------- Testes ------------------------------\n");
+
+    SGV sgv = inicializa_SGV(catp,catc,fat);
+    query3(sgv,9,"OP1244");
+
     printf("--------------------------- Fim --------------------------------\n");
 
     /* ----------------------------------- Close dos ficheiros ----------------------------------*/
-
+    
     fclose(produtoFicheiro);
     fclose(clientesFicheiro);
     fclose(vendasFicheiro);

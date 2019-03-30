@@ -6,6 +6,8 @@
 #include <time.h>
 #include "CatProds.h"
 #include "CatClientes.h"
+#include "Facturacao.h"
+#include "SGV.h"
 
 #define MAXVENDAS 1000000
 #define MAXBUFVENDAS 32
@@ -14,7 +16,7 @@ typedef struct venda{
     char *produto;
     float preco;
     int quant;
-    char *promo;
+    char promo;
     char *cliente;
     int mes;
     int filial;
@@ -89,4 +91,4 @@ int validaVendas(char* linhaVenda, Cat_Prods catp, Cat_Clientes catc);
  * Escreve num ficheiro de texto apenas as vendas válidas.
  * Retorna o número de vendas válidas.
  */
-int guardaVendas(FILE *fp, Cat_Prods catp, Cat_Clientes catc, Vendas* vTodas, Vendas* vBoas);
+int guardaVendas(FILE *fp, Cat_Prods catp, Cat_Clientes catc, Vendas* vTodas, Vendas* vBoas, Facturacao* f);
