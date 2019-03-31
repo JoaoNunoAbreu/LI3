@@ -1,4 +1,10 @@
-#include "funcoes.h"
+#define _GNU_SOURCE
+#include <stdlib.h>
+#include <stdio.h>
+#include <string.h>
+#include <ctype.h>
+#include <time.h>
+#include "SGV.h"
 
 int main(int argc, char** argv) {
 
@@ -8,48 +14,21 @@ int main(int argc, char** argv) {
     double cpu_time_used;
     start = clock();
 
-    /* ---------------------------------- Abertura dos ficheiros --------------------------------*/
-
-    FILE *produtoFicheiro = fopen("Produtos.txt","r");
-    if(produtoFicheiro == NULL) {printf("Produtos.txt não foi possível ser carregado."); exit (1);}
-    FILE *clientesFicheiro = fopen("Clientes.txt","r");
-    if(clientesFicheiro == NULL) {printf("Clientes.txt não foi possível ser carregado."); exit (1);}
-    FILE *vendasFicheiro = fopen("FicheirosTeste/testeVendas2.txt","r");
-    if(vendasFicheiro == NULL) {printf("Vendas.txt não foi possível ser carregado."); exit (1);}
-
-    /* ----------------------------------- Guarda nos catálogos ---------------------------------*/
-
+    query1();
     printf("-------------------------- Início ------------------------------\n\n");
-
-    Cat_Prods catp = inicializa_CatProds();
-    int pLidos = guardaProdutos(produtoFicheiro,catp);
-    printf("Foram lidas %d linhas válidas do ficheiro produtos.txt\n",pLidos);
-
-    Cat_Clientes catc = inicializa_CatClientes();
-    int cLidos = guardaClientes(clientesFicheiro,catc);
-    printf("Foram lidas %d linhas válidas do ficheiro clientes.txt\n",cLidos);
-
-    /* --------- Vendas ---------*/
-
-    Vendas* vTodas = malloc(MAXVENDAS * sizeof *vTodas);
-    Vendas* vBoas = malloc(MAXVENDAS * sizeof *vBoas);
-    Facturacao fat = inicializa_Facturacao();
-
-    int vLidas = guardaVendas(vendasFicheiro,catp,catc,vTodas,vBoas,&fat);
-    printf("Foram lidas %d linhas válidas do ficheiro vendas.txt\n",vLidas);
 
     /* ------------------------------------------ TESTES ----------------------------------------*/
 
     printf("\n");
-    Lista_Prods lp = initListaProds();
+    /*Lista_Prods lp = initListaProds();
     lp = listaPorLetraP(catp,'A');
-    printf("Houve %d produtos a começar com a letra A.\n",sizeOfLista_Prods(lp));
+    printf("Houve %d produtos a começar com a letra A.\n",sizeOfLista_Prods(lp));*/
 
-    Lista_Clientes lc = initListaClientes();
+    /*Lista_Clientes lc = initListaClientes();
     lc = listaPorLetraC(catc,'A');
-    printf("Houve %d produtos a começar com a letra A.\n",sizeOfLista_Clientes(lc));
+    printf("Houve %d produtos a começar com a letra A.\n",sizeOfLista_Clientes(lc));*/
 
-    //printf("A linha mais longa das vendas foi: %d\n", contaMaiorLinha(listaVendas));
+    /*printf("A linha mais longa das vendas foi: %d\n", contaMaiorLinha(listaVendas));
     int prodEnvolvidos = contaProdutosEnvolvidos(vBoas);
     printf("O número de produtos envolvidos foi: %d\n", prodEnvolvidos);
     printf("O número de produtos nunca comprado foi: %d\n", pLidos - prodEnvolvidos);
@@ -66,20 +45,9 @@ int main(int argc, char** argv) {
     printf("A faturação total foi: %e\n",contaFaturacao(vBoas));
     printf("Foram vendidas %d unidades.\n",contaUnidades(vBoas));
     printf("Foram feitas %d vendas com preço 0.\n",contaPrecos(vBoas,0));
-    printf("\n");
-
-    printf("-------------------------- Testes ------------------------------\n");
-
-    SGV sgv = inicializa_SGV(catp,catc,fat);
-    query3(sgv,9,"OP1244");
+    printf("\n");*/
 
     printf("--------------------------- Fim --------------------------------\n");
-
-    /* ----------------------------------- Close dos ficheiros ----------------------------------*/
-    
-    fclose(produtoFicheiro);
-    fclose(clientesFicheiro);
-    fclose(vendasFicheiro);
 
     /* ------------------------------------- Medição Texec --------------------------------------*/
 

@@ -9,22 +9,6 @@
 #include "Facturacao.h"
 #include "SGV.h"
 
-#define MAXVENDAS 1000000
-#define MAXBUFVENDAS 32
-
-typedef struct venda{
-    char *produto;
-    float preco;
-    int quant;
-    char promo;
-    char *cliente;
-    int mes;
-    int filial;
-}Vendas;
-
-char* clientesInvalidos[MAXVENDAS]; int indexCI;
-char* produtosInvalidos[MAXVENDAS]; int indexPI;
-
 /* ----------------------------------- Funções da struct venda ----------------------------------*/
 
 /**

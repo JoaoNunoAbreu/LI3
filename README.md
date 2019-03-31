@@ -39,7 +39,7 @@
 * Numero de Clientes com codigo começado por A, B, ..
 * Facturação Total registada
 
-## O que falta fazer
+## TO DO
 
 * Query 1
 * Query 2
@@ -53,3 +53,4 @@
 * Query 10
 * Query 11
 * Query 12
+* Remover por completo ficheiros funcoes.c e funcoes.h
