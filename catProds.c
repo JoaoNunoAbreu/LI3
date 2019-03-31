@@ -69,10 +69,8 @@ Lista_Prods listaPorLetraP(Cat_Prods catp, char letra){
     return lp;
 }
 
-int sizeOfLista_Prods(Lista_Prods lp){
-    int count;
-    for(count = 0; lp->lista[count]; count++);
-    return count;
+char** getListaProds(Lista_Prods lp){
+    return lp->lista;
 }
 
 void printListaProds(Lista_Prods lp){

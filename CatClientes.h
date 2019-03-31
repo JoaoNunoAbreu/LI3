@@ -13,7 +13,7 @@ void printCatCliente(Cat_Clientes cp);
  
 Lista_Clientes initListaClientes();
 Lista_Clientes listaPorLetraC(Cat_Clientes catc, char letra);
-int sizeOfLista_Clientes(Lista_Clientes lc);
+char** getListaClientes(Lista_Clientes lc);
 void printListaClientes(Lista_Clientes lc);
 
 int guardaClientes(FILE *fp,Cat_Clientes catc);

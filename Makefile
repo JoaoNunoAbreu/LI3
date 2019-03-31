@@ -1,9 +1,9 @@
 CC = gcc
 CFLAGS = -Wall -ansi -O2 -std=c99
-OBJFILES = catProds Produto catClientes Cliente AVL Facturacao SGV
+OBJFILES = catProds Produto catClientes Cliente AVL Facturacao SGV Pagina
 
 program: $(OBJFILES)
-	$(CC) $(CFLAGS) main.c -o main catProds.o Produto.o catClientes.o Cliente.o AVL.o Facturacao.o SGV.o
+	$(CC) $(CFLAGS) main.c -o main catProds.o Produto.o catClientes.o Cliente.o AVL.o Facturacao.o SGV.o Pagina.o
 
 catProds:
 	$(CC) $(CFLAGS) -c catProds.c
@@ -25,6 +25,9 @@ Facturacao:
 
 SGV:
 	$(CC) $(CFLAGS) -c SGV.c
+
+Pagina:
+	$(CC) $(CFLAGS) -c Pagina.c	
 
 clean:
 	rm program funcoes.o

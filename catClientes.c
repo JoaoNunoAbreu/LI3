@@ -34,6 +34,10 @@ int existeCliente(Cat_Clientes catc, Cliente c){
     return search(catc->array[getIndexC(c)],getCodCliente(c));
 }
 
+char** getListaClientes(Lista_Clientes lc){
+    return lc->lista;
+}
+
 void printCatCliente(Cat_Clientes cp){
     for(int i = 0; i < 26; i++)
         preOrder(cp->array[i]);
@@ -64,12 +68,6 @@ Lista_Clientes listaPorLetraC(Cat_Clientes catc, char letra){
     int inx = 0;
     lc = preOrderCLista(catc->array[posicao],lc,&inx);
     return lc;
-}
-
-int sizeOfLista_Clientes(Lista_Clientes lc){
-    int count;
-    for(count = 0; lc->lista[count]; count++);
-    return count;
 }
 
 void printListaClientes(Lista_Clientes lc){

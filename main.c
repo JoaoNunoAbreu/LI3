@@ -14,19 +14,20 @@ int main(int argc, char** argv) {
     double cpu_time_used;
     start = clock();
 
-    query1();
+    Cat_Prods catp = inicializa_CatProds();
+    Cat_Clientes catc = inicializa_CatClientes();
+    Facturacao fat = inicializa_Facturacao();
+
+    query1(catp,catc,fat);
+    SGV sgv = inicializa_SGV(catp,catc,fat);
+
+    query2(catp);
+
     printf("-------------------------- Início ------------------------------\n\n");
 
     /* ------------------------------------------ TESTES ----------------------------------------*/
 
     printf("\n");
-    /*Lista_Prods lp = initListaProds();
-    lp = listaPorLetraP(catp,'A');
-    printf("Houve %d produtos a começar com a letra A.\n",sizeOfLista_Prods(lp));*/
-
-    /*Lista_Clientes lc = initListaClientes();
-    lc = listaPorLetraC(catc,'A');
-    printf("Houve %d produtos a começar com a letra A.\n",sizeOfLista_Clientes(lc));*/
 
     /*printf("A linha mais longa das vendas foi: %d\n", contaMaiorLinha(listaVendas));
     int prodEnvolvidos = contaProdutosEnvolvidos(vBoas);

@@ -1,13 +1,12 @@
-#include "CatProds.h"
-#include "CatClientes.h"
 #include "Facturacao.h"
+#include "Pagina.h"
 
 typedef struct sgv* SGV;
 
 SGV inicializa_SGV(Cat_Prods catp, Cat_Clientes catc, Facturacao fat); /*Falta Filial filiais[3]*/
 
-void query1();
-//void query2;
+void query1(Cat_Prods catp, Cat_Clientes catc, Facturacao fat);
+void query2(Cat_Prods catp);
 void query3(SGV sgv,int mes, char* p);
 /*void query4;
 void query5;

@@ -11,7 +11,7 @@ void printCatProds(Cat_Prods cp);
  
 Lista_Prods initListaProds();
 Lista_Prods listaPorLetraP(Cat_Prods catp, char letra);
-int sizeOfLista_Prods(Lista_Prods lp);
+char** getListaProds(Lista_Prods lp);
 void printListaProds(Lista_Prods lp);
 
 int guardaProdutos(FILE *fp, Cat_Prods catp);

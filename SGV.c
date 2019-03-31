@@ -263,7 +263,7 @@ SGV inicializa_SGV(Cat_Prods catp, Cat_Clientes catc, Facturacao fat){ /*Falta F
     return sgv;
 }
 
-void query1(){
+void query1(Cat_Prods catp, Cat_Clientes catc, Facturacao fat){
     char readerFile[256];
     int reader = 0;
     char* file_name = NULL;
@@ -306,30 +306,45 @@ void query1(){
     if(vendasFicheiro == NULL) {printf("Vendas.txt não foi possível ser carregado.\n"); exit (1);}
     else printf("Ficheiro %s lido com sucesso\n\n",file_name);
 
-    /* --------- Catálogos ---------*/
+    // --------- Catálogos ---------
 
-    Cat_Prods catp = inicializa_CatProds();
     int pLidos = guardaProdutos(produtoFicheiro,catp);
     printf("Foram lidas %d linhas válidas do ficheiro produtos.txt\n",pLidos);
 
-    Cat_Clientes catc = inicializa_CatClientes();
+    
     int cLidos = guardaClientes(clientesFicheiro,catc);
     printf("Foram lidas %d linhas válidas do ficheiro clientes.txt\n",cLidos);
 
-    /* --------- Vendas ---------*/
+    // ---------- Vendas -----------
 
     Vendas* vTodas = malloc(MAXVENDAS * sizeof *vTodas);
     Vendas* vBoas = malloc(MAXVENDAS * sizeof *vBoas);
-    Facturacao fat = inicializa_Facturacao();
 
     int vLidas = guardaVendas(vendasFicheiro,catp,catc,vTodas,vBoas,&fat);
     printf("Foram lidas %d linhas válidas do ficheiro vendas.txt\n",vLidas);
 
-    SGV sgv = inicializa_SGV(catp,catc,fat);
-
     fclose(produtoFicheiro);
     fclose(clientesFicheiro);
     fclose(vendasFicheiro);
+}
+
+void query2(Cat_Prods catp){ // -------- Falta criar as páginas --------
+
+    Lista_Prods lp = initListaProds();
+    lp = listaPorLetraP(catp,'A');
+    List_Strings ls = criaLsLp(lp);
+    printf("Houve %d produtos a começar com a letra A.\n",sizeList_Strings(ls));
+    Pagina p = getPagSeguinte(ls);
+    /*for(int i = 0; getLine(getPorcao(p),i) != NULL; i++){ 
+        printPag(p);
+        p = getPagSeguinte(ls);
+    }*/
+    int page = 0;
+    printf("Que número de página pretende ler?\n");
+    scanf("%d",&page);
+    for(int i = 0; i < page; i++)
+        p = getPagSeguinte(ls);
+    printPag(p);
 }
 
 void query3(SGV sgv,int mes, char* p){
@@ -340,7 +355,6 @@ void query3(SGV sgv,int mes, char* p){
     float facturado1Total,facturado1N,facturado1P; facturado1Total = facturado1N = facturado1P = 0;
     float facturado2Total,facturado2N,facturado2P; facturado2Total = facturado2N = facturado2P = 0;
     float facturado3Total,facturado3N,facturado3P; facturado3Total = facturado3N = facturado3P = 0;
-
 
     Nodo n = editNodo(mes,p);
     sgv->fat = searchF(sgv->fat,n);
