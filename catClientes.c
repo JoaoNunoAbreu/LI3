@@ -45,12 +45,12 @@ void printCatCliente(Cat_Clientes cp){
 
 /* ------------------------------------------- Lista ------------------------------------------- */
 
-Lista_Clientes preOrderCLista(AVL root, Lista_Clientes lc, int* index){
+Lista_Clientes inOrderCLista(AVL root, Lista_Clientes lc, int* index){
     if(root != NULL){ 
+        inOrderCLista(getLeft(root),lc,index);
         lc->lista[*index] = strdup(getCode(root));
         *index = *index + 1;
-        preOrderCLista(getLeft(root),lc,index);
-        preOrderCLista(getRight(root),lc,index); 
+        inOrderCLista(getRight(root),lc,index); 
     }
     return lc;
 }
@@ -66,7 +66,7 @@ Lista_Clientes listaPorLetraC(Cat_Clientes catc, char letra){
     int posicao = letra - 65;
     Lista_Clientes lc = initListaClientes();
     int inx = 0;
-    lc = preOrderCLista(catc->array[posicao],lc,&inx);
+    lc = inOrderCLista(catc->array[posicao],lc,&inx);
     return lc;
 }
 

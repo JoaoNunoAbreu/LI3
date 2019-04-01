@@ -18,12 +18,14 @@ int main(int argc, char** argv) {
     Cat_Clientes catc = inicializa_CatClientes();
     Facturacao fat = inicializa_Facturacao();
 
+    printf("-------------------------- Início ------------------------------\n\n");
+
     query1(catp,catc,fat);
     SGV sgv = inicializa_SGV(catp,catc,fat);
 
     query2(catp);
 
-    printf("-------------------------- Início ------------------------------\n\n");
+    
 
     /* ------------------------------------------ TESTES ----------------------------------------*/
 

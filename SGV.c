@@ -265,12 +265,12 @@ SGV inicializa_SGV(Cat_Prods catp, Cat_Clientes catc, Facturacao fat){ /*Falta F
 
 void query1(Cat_Prods catp, Cat_Clientes catc, Facturacao fat){
     char readerFile[256];
-    int reader = 0;
+    char c;
     char* file_name = NULL;
 
-    printf("Pretende inserir nome do ficheiro de Produtos? (1/2)\n");
-    scanf("%d",&reader);
-    if(reader == 1){
+    printf("Pretende inserir nome do ficheiro de Produtos? (s/n)\n");
+    scanf(" %c",&c);
+    if(c == 's'){
         printf("Nome do ficheiros com Produtos.txt: \n");
         scanf("%s",readerFile);
         file_name = &readerFile[0];
@@ -278,12 +278,12 @@ void query1(Cat_Prods catp, Cat_Clientes catc, Facturacao fat){
     else file_name = "Produtos.txt";
     FILE *produtoFicheiro = fopen(file_name,"r");
     if(produtoFicheiro == NULL) {printf("Produtos.txt não foi possível ser carregado.\n"); exit (1);}
-    else printf("Ficheiro %s lido com sucesso\n\n",file_name);
+    else printf("Ficheiro %s lido com sucesso\n",file_name);
 
 
-    printf("Pretende inserir nome do ficheiro de Clientes? (1/2)\n");
-    scanf("%d",&reader);
-    if(reader == 1){
+    printf("Pretende inserir nome do ficheiro de Clientes? (s/n)\n");
+    scanf(" %c",&c);
+    if(c == 's'){
         printf("Nome do ficheiros com Clientes.txt: \n");
         scanf("%s",readerFile);
         file_name = &readerFile[0];
@@ -291,12 +291,12 @@ void query1(Cat_Prods catp, Cat_Clientes catc, Facturacao fat){
     else file_name = "Clientes.txt";
     FILE *clientesFicheiro = fopen(file_name,"r");
     if(clientesFicheiro == NULL) {printf("Clientes.txt não foi possível ser carregado.\n"); exit (1);}
-    else printf("Ficheiro %s lido com sucesso\n\n",file_name);
+    else printf("Ficheiro %s lido com sucesso\n",file_name);
 
 
-    printf("Pretende inserir nome do ficheiro de Vendas? (1/2)\n");
-    scanf("%d",&reader);
-    if(reader == 1){
+    printf("Pretende inserir nome do ficheiro de Vendas? (s/n)\n");
+    scanf(" %c",&c);
+    if(c == 's'){
         printf("Nome do ficheiros com Vendas.txt: \n");
         scanf("%s",readerFile);
         file_name = &readerFile[0];
@@ -304,7 +304,7 @@ void query1(Cat_Prods catp, Cat_Clientes catc, Facturacao fat){
     else file_name = "FicheirosTeste/testeVendas2.txt";
     FILE *vendasFicheiro = fopen(file_name,"r");
     if(vendasFicheiro == NULL) {printf("Vendas.txt não foi possível ser carregado.\n"); exit (1);}
-    else printf("Ficheiro %s lido com sucesso\n\n",file_name);
+    else printf("Ficheiro %s lido com sucesso\n",file_name);
 
     // --------- Catálogos ---------
 
@@ -328,23 +328,31 @@ void query1(Cat_Prods catp, Cat_Clientes catc, Facturacao fat){
     fclose(vendasFicheiro);
 }
 
-void query2(Cat_Prods catp){ // -------- Falta criar as páginas --------
+void query2(Cat_Prods catp){
 
     Lista_Prods lp = initListaProds();
-    lp = listaPorLetraP(catp,'A');
+    char c;
+    printf("Insira uma letra para determinar a lista e o nº total de produtos cujo código se inicia por essa letra\n");
+    scanf(" %c",&c);
+    lp = listaPorLetraP(catp,c);
     List_Strings ls = criaLsLp(lp);
-    printf("Houve %d produtos a começar com a letra A.\n",sizeList_Strings(ls));
-    Pagina p = getPagSeguinte(ls);
+    int tamanhoLsInit = sizeList_Strings(ls);
+    printf("Houve %d produtos a começar com a letra %c.\n",tamanhoLsInit,c);
     /*for(int i = 0; getLine(getPorcao(p),i) != NULL; i++){ 
         printPag(p);
         p = getPagSeguinte(ls);
     }*/
-    int page = 0;
+    int page;
     printf("Que número de página pretende ler?\n");
     scanf("%d",&page);
-    for(int i = 0; i < page; i++)
-        p = getPagSeguinte(ls);
-    printPag(p);
+    int numPaginas = tamanhoLsInit / 10;
+    if(page > numPaginas) printf("Número de página demasiado grande\n");
+    else{
+        Pagina p = initPag(ls);
+        for(int i = 0; i < page ; i++)
+            p = getPagSeguinte(ls);
+        printPag(p);
+    }
 }
 
 void query3(SGV sgv,int mes, char* p){

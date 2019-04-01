@@ -15,5 +15,6 @@ void printList_Strings(List_Strings ls);
 
 char* getLine(List_Strings ls,int i);
 List_Strings getPorcao(Pagina p);
+Pagina initPag(List_Strings ls);
 Pagina getPagSeguinte(List_Strings ls);
 void printPag(Pagina p);

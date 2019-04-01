@@ -44,12 +44,12 @@ void printCatProds(Cat_Prods cp){
 
 /* ------------------------------------------- Lista ------------------------------------------- */
 
-Lista_Prods preOrderPLista(AVL root, Lista_Prods lp,int* index){
+Lista_Prods inOrderPLista(AVL root, Lista_Prods lp,int* index){
     if(root != NULL){ 
+        inOrderPLista(getLeft(root),lp,index);
         lp->lista[*index] = strdup(getCode(root));
         *index = *index + 1;
-        preOrderPLista(getLeft(root),lp,index);
-        preOrderPLista(getRight(root),lp,index); 
+        inOrderPLista(getRight(root),lp,index); 
     }
     return lp;
 }
@@ -65,7 +65,7 @@ Lista_Prods listaPorLetraP(Cat_Prods catp, char letra){
     int posicao = letra - 65;
     Lista_Prods lp = initListaProds();
     int inx = 0;
-    lp = preOrderPLista(catp->array[posicao],lp,&inx);
+    lp = inOrderPLista(catp->array[posicao],lp,&inx);
     return lp;
 }
 
