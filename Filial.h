@@ -19,8 +19,9 @@ int getQuantFil(InfoFil i);
 int getMesFil(InfoFil i);
 char getPromoFil(InfoFil i);
 
+
 Filial insertFi(Filial node, NodoFil n);
-int searchFi(Filial root,char* cliente);
+Filial searchFi(Filial root,char* cliente);
 void inOrderFi(Filial root);
 
 Filial inicializa_Filial();

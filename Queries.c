@@ -104,17 +104,17 @@ void query1(SGV sgv){
     // --------- Catálogos ---------
 
     int pLidos = guardaProdutos(produtoFicheiro,getCatp(sgv));
-    printf("Foram lidas %d linhas válidas do ficheiro produtos.txt\n",pLidos);
+    printf("Foram lidas %d linhas válidas do ficheiro dos produtos\n",pLidos);
     
     int cLidos = guardaClientes(clientesFicheiro,getCatc(sgv));
-    printf("Foram lidas %d linhas válidas do ficheiro clientes.txt\n",cLidos);
+    printf("Foram lidas %d linhas válidas do ficheiro dos clientes\n",cLidos);
 
     // ---------- Vendas -----------
 
     Facturacao f = getFat(sgv);
     Filial* fil = getFilial(sgv);
     int vLidas = guardaVendas(vendasFicheiro,getCatp(sgv),getCatc(sgv),&f,fil);
-    printf("Foram lidas %d linhas válidas do ficheiro vendas.txt\n",vLidas);
+    printf("Foram lidas %d linhas válidas do ficheiro das vendas\n",vLidas);
     setFat(sgv,f);
 
     fclose(produtoFicheiro);
@@ -224,7 +224,7 @@ void query3(SGV sgv,int mes, char* p){
 }
 
 /**
- *  Percorre o catálogo de produtos e vê se cada produto está na faturção.
+ *  Percorre o catálogo de produtos e vê se cada produto está na facturção.
  *  Se não estiver, adicionar esse produto a uma lista e calcular tamanho da lista.
  */
 void query4(SGV sgv){
@@ -235,12 +235,33 @@ void query4(SGV sgv){
     int fail = 0;
     List_Strings ls = initListaStrings();
 
-    for(int i = 0; getListaProds(lp)[i]; i++){
-        if(searchF(f,getListaProds(lp)[i]) == NULL){
-            ls = addLinha(ls,getListaProds(lp)[i],fail);
-            fail++;
+    char c;
+    printf("Valores totais ou divididos pelas filiais? (t/f)\n");
+    scanf(" %c",&c);
+    
+    if(c == 't'){
+        for(int i = 0; getListaProds(lp)[i]; i++){
+            if(searchF(f,getListaProds(lp)[i]) == NULL){
+                ls = addLinha(ls,getListaProds(lp)[i],fail);
+                fail++;
+            }
         }
     }
+    else if(c == 'f'){
+        int reader;
+        printf("Qual é a filial?\n");
+        scanf(" %d",&reader);
+        if(reader < 1 || reader > 3) {printf("Filial inserida inválida\n"); exit(1);}
+        for(int i = 0; getListaProds(lp)[i]; i++){
+            if(searchF(f,getListaProds(lp)[i]) == NULL || !procuraFilialNaInfo(getInfo(searchF(f,getListaProds(lp)[i])),reader)){
+                ls = addLinha(ls,getListaProds(lp)[i],fail);
+                fail++;
+            }
+        }
+    }
+    else {printf("Char inserido inválido\n");exit(1);}
+
+    
     //printList_Strings(ls);
     printf("O número de produtos que ninguém comprou foi: %d.\n",fail);
 }
@@ -255,7 +276,7 @@ void query5(SGV sgv){
     for(int i = 0; getListaClientes(lc)[i]; i++){
         notFound = 0;
         if(!searchFi(getFilial(sgv)[0],getListaClientes(lc)[i])) notFound = 1;
-        if(notFound == 0 && !searchFi(getFilial(sgv)[1],getListaClientes(lc)[i]))notFound = 1;
+        if(notFound == 0 && !searchFi(getFilial(sgv)[1],getListaClientes(lc)[i])) notFound = 1;
         if(notFound == 0 && !searchFi(getFilial(sgv)[2],getListaClientes(lc)[i])) notFound = 1;
 
         if(notFound == 0){
@@ -265,4 +286,69 @@ void query5(SGV sgv){
     }
     printList_Strings(ls);
     printf("O número de códigos de clientes que realizaram compras em todas as filiais é: %d.\n",numCliente);
+}
+
+/**
+ *  Percorre os catálogos de produtos e de clientes e vê se estes estão na facturação e na filial, respetivamente.
+ */
+void query6(SGV sgv){
+    Cat_Prods catp = getCatp(sgv);
+    Lista_Prods lp = catpToLista(catp);
+
+    Cat_Clientes catc = getCatc(sgv);
+    Lista_Clientes lc = catcToLista(catc);
+
+    int countC,countP; countC = countP = 0;
+
+    int found = 0;
+    // Nº de clientes que não realizaram compras
+    for(int i = 0; getListaClientes(lc)[i]; i++){
+        found = 0;
+        if(searchFi(getFilial(sgv)[0],getListaClientes(lc)[i])) found = 1;
+        if(found == 0 && searchFi(getFilial(sgv)[1],getListaClientes(lc)[i])) found = 1;
+        if(found == 0 && searchFi(getFilial(sgv)[2],getListaClientes(lc)[i])) found = 1;
+
+        if(found == 0) countC++;
+    }
+    // Nº de produtos que ninguém comprou
+    for(int i = 0; getListaProds(lp)[i]; i++)
+        if(searchF(getFat(sgv),getListaProds(lp)[i]) == NULL) countP++;
+
+    printf("Nº clientes que não realizaram compras: %d\n",countC);
+    printf("Nº de produtos que ninguém comprou: %d\n",countP);
+}
+
+void query7(SGV sgv, char* cliente){
+    int tabela[12][3];
+    for(int i = 0; i < 12; i++)
+        for(int j = 0; j < 3; j++)
+            tabela[i][j] = 0;
+
+    if(searchFi(getFilial(sgv)[0],cliente)){
+        InfoFil i = getInfoFil(searchFi(getFilial(sgv)[0],cliente));
+        while(i != NULL){
+            tabela[getMesFil(i)-1][0] += getQuantFil(i);
+            i = getInfoNextFil(i);
+        }
+    }
+    if(searchFi(getFilial(sgv)[1],cliente)){
+        InfoFil i = getInfoFil(searchFi(getFilial(sgv)[1],cliente));
+        while(i != NULL){
+            tabela[getMesFil(i)-1][1] += getQuantFil(i);
+            i = getInfoNextFil(i);
+        }
+    }
+    if(searchFi(getFilial(sgv)[2],cliente)){
+        InfoFil i = getInfoFil(searchFi(getFilial(sgv)[2],cliente));
+        while(i != NULL){
+            tabela[getMesFil(i)-1][2] += getQuantFil(i);
+            i = getInfoNextFil(i);
+        }
+    }
+    for(int i = 0; i < 12; i++){
+        for(int j = 0; j < 3; j++)
+            if(j == 2) printf("%d",tabela[i][j]);
+            else printf("%d, ",tabela[i][j]);
+        printf("\n");
+    }            
 }

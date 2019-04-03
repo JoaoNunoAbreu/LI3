@@ -46,7 +46,7 @@
 * ~~Query 3~~
 * ~~Query 4~~
 * ~~Query 5~~
-* Query 6
+* ~~Query 6~~
 * Query 7
 * Query 8
 * Query 9

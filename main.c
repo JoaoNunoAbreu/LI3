@@ -29,12 +29,12 @@ int main(int argc, char** argv) {
     query1(sgv);
     //query2(sgv);
     //query3(sgv,2,"KR1583");
-    query4(sgv);
+    //query4(sgv);
     //query5(sgv);
+    //query6(sgv);
+    query7(sgv,"K4984");
 
     /* ------------------------------------------ TESTES ----------------------------------------*/
-
-    printf("\n");
 
     /*printf("A linha mais longa das vendas foi: %d\n", contaMaiorLinha(listaVendas));
     int prodEnvolvidos = contaProdutosEnvolvidos(vBoas);
@@ -55,7 +55,7 @@ int main(int argc, char** argv) {
     printf("Foram feitas %d vendas com preço 0.\n",contaPrecos(vBoas,0));
     printf("\n");*/
 
-    printf("--------------------------- Fim --------------------------------\n");
+    printf("\n--------------------------- Fim --------------------------------\n");
 
     /* ------------------------------------- Medição Texec --------------------------------------*/
 

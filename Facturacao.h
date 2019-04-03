@@ -16,7 +16,7 @@ int getQuant(Info i);
 int getMes(Info i);
 int getNumFilial(Info i);
 char getPromo(Info i);
-void setProduto(Nodo n, char* produto);
+int procuraFilialNaInfo(Info i, int filial);
 
 Nodo mkNodoVenda(char* linhaVenda);
 

@@ -68,7 +68,9 @@ Facturacao insertF(Facturacao node, Nodo n){
     if (strcmp(n.produto,node->n.produto) < 0) node -> left  = insertF(node->left,n); 
     else if (strcmp(n.produto,node -> n.produto) > 0) node->right = insertF(node->right,n); 
     else {
-        node->n.i->next = n.i;
+        Info *temp = &node->n.i;
+        while(*temp) temp = &(*temp)->next;
+        *temp = n.i;
         return node; 
     }
   
@@ -125,15 +127,12 @@ Facturacao getRightF(Facturacao f){
 }
 
 Info getInfo(Facturacao f){
+    if(f == NULL) return NULL;
     return f->n.i;
 }
 Info getInfoNext(Info i){
     if(i == NULL) return NULL;
     return i->next;
-}
-
-void setProduto(Nodo n, char* produto){
-    n.produto = strdup(produto);
 }
 
 float getPreco(Info i){
@@ -150,6 +149,15 @@ int getNumFilial(Info i){
 }
 char getPromo(Info i){
     return i->promo;
+}
+
+int procuraFilialNaInfo(Info i, int filial){
+    int found = 1;
+    while(i && found){
+        if(i->filial == filial) found = 0;
+        i = i->next;
+    }
+    return found;
 }
 
 char** tokenizeLinhaNodoDyn(char* vendaRaw) {

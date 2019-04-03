@@ -70,10 +70,12 @@ Filial insertFi(Filial node, NodoFil n){
     if (strcmp(n.cliente,node->n.cliente) < 0) node -> left  = insertFi(node->left,n); 
     else if (strcmp(n.cliente,node -> n.cliente) > 0) node->right = insertFi(node->right,n); 
     else{
-        node->n.i = n.i;
+        InfoFil *temp = &node->n.i;
+        while(*temp) temp = &(*temp)->next;
+        *temp = n.i;
         return node; 
     }
-  
+
     node -> height = 1 + maxFi(heightFi(node->left),heightFi(node->right)); 
 
     int balance = getBalanceFi(node);
@@ -103,12 +105,12 @@ void inOrderFi(Filial root){
         inOrderFi(root->right); 
     } 
 }
-int searchFi(Filial root,char* cliente){
+Filial searchFi(Filial root,char* cliente){
 
-    if(root == NULL) return 0;
+    if(root == NULL) return NULL;
     if(strcmp(cliente,root->n.cliente) < 0) return searchFi(root->left,cliente);
     else if(strcmp(cliente,root->n.cliente) > 0) return searchFi(root->right,cliente);
-    else return 1;
+    else return root;
 }
 
 // ------------------------------------------------------------------------------------------------
