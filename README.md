@@ -53,5 +53,5 @@
 * Query 10
 * Query 11
 * Query 12
-* Remover por completo ficheiros funcoes.c e funcoes.h
+* ~~Remover por completo ficheiros funcoes.c e funcoes.h~~
 * Fazer módulo navegador
