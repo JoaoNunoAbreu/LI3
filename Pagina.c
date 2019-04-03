@@ -29,6 +29,11 @@ List_Strings criaLsLc(Lista_Clientes lc){
     return ls;
 }
 
+List_Strings addLinha(List_Strings ls, char* linha,int index){
+    ls->lista[index] = strdup(linha);
+    return ls;
+}   
+
 int sizeList_Strings(List_Strings ls){
     int i;
     for(i = 0; ls->lista[i] != NULL ; i++);
@@ -52,23 +57,26 @@ List_Strings getPorcao(Pagina p){
 
 Pagina initPag(List_Strings ls){
     Pagina p = (Pagina) malloc(sizeof(struct pag));
-    p->porcao = ls; // Partilha o mesmo apontador
+    p->porcao = ls;
     return p;
 }
 
 Pagina getPagSeguinte(List_Strings ls){
     Pagina p = initPag(ls);
-    if(sizeList_Strings(ls) > 10){
-        p->porcao->lista = p->porcao->lista + 10;
+    if(sizeList_Strings(ls) > 10) {
+        p->porcao->lista += 10;
     }
     return p;
 }
 
 void printPag(Pagina p){
-    int num = sizeList_Strings(p->porcao);
-    if(sizeList_Strings(p->porcao) > 10) num = 10;
-    
-    for(int i = 0; p != NULL && i < num; i++)
-        printf("%s\n",p->porcao->lista[i]);
-    printf("----------------- Fim de página -----------------\n");
+    if(p != NULL){
+        int num = sizeList_Strings(p->porcao);
+        if(sizeList_Strings(p->porcao) > 10) num = 10;
+
+        printf("--------------- Início de página ----------------\n");
+        for(int i = 0; i < num; i++)
+            printf("%s\n",p->porcao->lista[i]);
+        printf("----------------- Fim de página -----------------\n");
+    }
 }

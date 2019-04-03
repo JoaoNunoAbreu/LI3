@@ -70,6 +70,16 @@ Lista_Clientes listaPorLetraC(Cat_Clientes catc, char letra){
     return lc;
 }
 
+Lista_Clientes catcToLista(Cat_Clientes catc){
+    Lista_Clientes lc = initListaClientes();
+    int inx = 0;
+
+    for(int i = 0; i < 26; i++){
+        lc = inOrderCLista(catc->array[i],lc,&inx);
+    }
+    return lc;
+}
+
 void printListaClientes(Lista_Clientes lc){
     for(int i = 0; lc->lista[i]; i++)
         printf("%s\n",lc->lista[i]);

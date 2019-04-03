@@ -30,7 +30,7 @@ int maxF(int a, int b){
 Facturacao newNodeF(Nodo n){
 
     Facturacao a = (Facturacao) malloc(sizeof(struct avlf));
-    a -> n = n; // ---------------------------- PROVAVEL ERRO AQUI ----------------------------
+    a -> n = n;
     a -> left = NULL; 
     a -> right = NULL; 
     a -> height = 1;
@@ -141,7 +141,7 @@ int getQuant(Info i){
 int getMes(Info i){
     return i->mes;
 }
-int getFilial(Info i){
+int getNumFilial(Info i){
     return i->filial;
 }
 char getPromo(Info i){

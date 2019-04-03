@@ -14,7 +14,7 @@ Info getInfoNext(Info i);
 float getPreco(Info i);
 int getQuant(Info i);
 int getMes(Info i);
-int getFilial(Info i);
+int getNumFilial(Info i);
 char getPromo(Info i);
 
 Nodo mkNodoVenda(char* linhaVenda);

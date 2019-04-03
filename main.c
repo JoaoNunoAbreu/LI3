@@ -4,7 +4,7 @@
 #include <string.h>
 #include <ctype.h>
 #include <time.h>
-#include "SGV.h"
+#include "Queries.h"
 
 int main(int argc, char** argv) {
 
@@ -17,15 +17,20 @@ int main(int argc, char** argv) {
     Cat_Prods catp = inicializa_CatProds();
     Cat_Clientes catc = inicializa_CatClientes();
     Facturacao fat = inicializa_Facturacao();
+    Filial fil[3];
+    fil[0] = inicializa_Filial();
+    fil[1] = inicializa_Filial();
+    fil[2] = inicializa_Filial();
+
+    SGV sgv = inicializa_SGV(catp,catc,fat,fil);
 
     printf("-------------------------- Início ------------------------------\n\n");
 
-    query1(catp,catc,fat);
-    SGV sgv = inicializa_SGV(catp,catc,fat);
-
-    query2(catp);
-
-    
+    query1(sgv);
+    //query2(sgv);
+    //query3(sgv,2,"KR1583");
+    //query4(sgv);
+    query5(sgv);
 
     /* ------------------------------------------ TESTES ----------------------------------------*/
 

@@ -3,6 +3,9 @@
         "stdlib.h": "c",
         "produto.h": "c",
         "facturacao.h": "c",
-        "catclientes.h": "c"
+        "catclientes.h": "c",
+        "sgv.h": "c",
+        "queries.h": "c",
+        "catprods.h": "c"
     }
 }
