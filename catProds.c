@@ -33,6 +33,7 @@ Cat_Prods insereProd(Cat_Prods catp, Produto p){
     return catp;
 }
 
+
 int existeProd(Cat_Prods catp, Produto p){
     return search(catp->array[getIndexP(p)],getCodProd(p));
 }
@@ -66,6 +67,16 @@ Lista_Prods listaPorLetraP(Cat_Prods catp, char letra){
     Lista_Prods lp = initListaProds();
     int inx = 0;
     lp = inOrderPLista(catp->array[posicao],lp,&inx);
+    return lp;
+}
+
+Lista_Prods catpToLista(Cat_Prods catp){
+    Lista_Prods lp = initListaProds();
+    int inx = 0;
+
+    for(int i = 0; i < 26; i++){
+        lp = inOrderPLista(catp->array[i],lp,&inx);
+    }
     return lp;
 }
 

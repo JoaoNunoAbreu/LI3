@@ -164,9 +164,8 @@ void query3(SGV sgv,int mes, char* p){
     float facturado2Total,facturado2N,facturado2P; facturado2Total = facturado2N = facturado2P = 0;
     float facturado3Total,facturado3N,facturado3P; facturado3Total = facturado3N = facturado3P = 0;
 
-    Nodo n = editNodo(mes,p);
     Facturacao f = getFat(sgv);
-    f = searchF(f,n);
+    f = searchF(f,p);
     if(f != NULL){ // Se for NULL significa que não encontrou
 
         Info i = getInfo(f);
@@ -224,9 +223,26 @@ void query3(SGV sgv,int mes, char* p){
     
 }
 
+/**
+ *  Percorre o catálogo de produtos e vê se cada produto está na faturção.
+ *  Se não estiver, adicionar esse produto a uma lista e calcular tamanho da lista.
+ */
 void query4(SGV sgv){
-    Filial *fil = getFilial(sgv);
-    inOrderFi(fil[2]);
+    
+    Cat_Prods catp = getCatp(sgv);
+    Facturacao f = getFat(sgv);
+    Lista_Prods lp = catpToLista(catp);
+    int fail = 0;
+    List_Strings ls = initListaStrings();
+
+    for(int i = 0; getListaProds(lp)[i]; i++){
+        if(searchF(f,getListaProds(lp)[i]) == NULL){
+            ls = addLinha(ls,getListaProds(lp)[i],fail);
+            fail++;
+        }
+    }
+    //printList_Strings(ls);
+    printf("O número de produtos que ninguém comprou foi: %d.\n",fail);
 }
 
 void query5(SGV sgv){
@@ -237,11 +253,10 @@ void query5(SGV sgv){
     List_Strings ls = initListaStrings();
 
     for(int i = 0; getListaClientes(lc)[i]; i++){
-        NodoFil n = editNodoFi(getListaClientes(lc)[i]);
         notFound = 0;
-        if(!searchFi(getFilial(sgv)[0],n)) notFound = 1;
-        if(notFound == 0 && !searchFi(getFilial(sgv)[1],n))notFound = 1;
-        if(notFound == 0 && !searchFi(getFilial(sgv)[2],n)) notFound = 1;
+        if(!searchFi(getFilial(sgv)[0],getListaClientes(lc)[i])) notFound = 1;
+        if(notFound == 0 && !searchFi(getFilial(sgv)[1],getListaClientes(lc)[i]))notFound = 1;
+        if(notFound == 0 && !searchFi(getFilial(sgv)[2],getListaClientes(lc)[i])) notFound = 1;
 
         if(notFound == 0){
             ls = addLinha(ls,getListaClientes(lc)[i],numCliente);
@@ -249,5 +264,5 @@ void query5(SGV sgv){
         }
     }
     printList_Strings(ls);
-    printf("O número de códigos de clientes que realizaram compras em todas as filiais é: %d\n",numCliente);
+    printf("O número de códigos de clientes que realizaram compras em todas as filiais é: %d.\n",numCliente);
 }

@@ -16,11 +16,11 @@ int getQuant(Info i);
 int getMes(Info i);
 int getNumFilial(Info i);
 char getPromo(Info i);
+void setProduto(Nodo n, char* produto);
 
 Nodo mkNodoVenda(char* linhaVenda);
-Nodo editNodo(int mes, char* p);
 
 Facturacao inicializa_Facturacao();
 Facturacao insertF(Facturacao node, Nodo n);
-Facturacao searchF(Facturacao root,Nodo n);
+Facturacao searchF(Facturacao root,char* produto);
 void preOrderF(Facturacao root);

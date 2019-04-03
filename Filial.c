@@ -103,11 +103,11 @@ void inOrderFi(Filial root){
         inOrderFi(root->right); 
     } 
 }
-int searchFi(Filial root,NodoFil n){
+int searchFi(Filial root,char* cliente){
 
     if(root == NULL) return 0;
-    if(strcmp(n.cliente,root->n.cliente) < 0) return searchFi(root->left,n);
-    else if(strcmp(n.cliente,root->n.cliente) > 0) return searchFi(root->right,n);
+    if(strcmp(cliente,root->n.cliente) < 0) return searchFi(root->left,cliente);
+    else if(strcmp(cliente,root->n.cliente) > 0) return searchFi(root->right,cliente);
     else return 1;
 }
 

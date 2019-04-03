@@ -29,8 +29,8 @@ int main(int argc, char** argv) {
     query1(sgv);
     //query2(sgv);
     //query3(sgv,2,"KR1583");
-    //query4(sgv);
-    query5(sgv);
+    query4(sgv);
+    //query5(sgv);
 
     /* ------------------------------------------ TESTES ----------------------------------------*/
 

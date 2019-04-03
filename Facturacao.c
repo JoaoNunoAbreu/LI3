@@ -101,11 +101,11 @@ void preOrderF(Facturacao root){
         preOrderF(root->right); 
     } 
 }
-Facturacao searchF(Facturacao root,Nodo n){
+Facturacao searchF(Facturacao root,char* produto){
 
     if(root == NULL) return NULL;
-    if(strcmp(n.produto,root->n.produto) < 0) return searchF(root->left,n);
-    else if(strcmp(n.produto,root->n.produto) > 0) return searchF(root->right,n);
+    if(strcmp(produto,root->n.produto) < 0) return searchF(root->left,produto);
+    else if(strcmp(produto,root->n.produto) > 0) return searchF(root->right,produto);
     else return root;
 }
 
@@ -130,6 +130,10 @@ Info getInfo(Facturacao f){
 Info getInfoNext(Info i){
     if(i == NULL) return NULL;
     return i->next;
+}
+
+void setProduto(Nodo n, char* produto){
+    n.produto = strdup(produto);
 }
 
 float getPreco(Info i){
@@ -178,16 +182,6 @@ Nodo mkNodoVenda(char* linhaVenda){
     f.produto = strdup(campos[0]);
     f.i = i;
     return f; 
-}
-
-Nodo editNodo(int mes, char* p){
-
-    Nodo f;
-    f.produto = strdup(p);
-    Info i = malloc(sizeof(struct info)); 
-    i->mes = mes;
-    f.i = i;
-    return f;
 }
 
 Facturacao inicializa_Facturacao(){ // ---------------------------- Provável erro aqui ---------------
