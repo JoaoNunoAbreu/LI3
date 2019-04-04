@@ -115,6 +115,10 @@ Filial searchFi(Filial root,char* cliente){
 
 // ------------------------------------------------------------------------------------------------
 
+char* getCliente(Filial f){
+    return f->n.cliente;
+}
+
 NodoFil getNodoFil(Filial f){
     return f->n;
 }
@@ -196,4 +200,33 @@ NodoFil editNodoFi(char* c){
     i = NULL;
     f.i = i;
     return f;
+}
+
+void updateListaCodigo(Filial fil, char* produto, List_Strings lsN, List_Strings lsP, int* indexN, int* indexP){
+
+    InfoFil infoF = getInfoFil(fil);
+    InfoFil* temp = &infoF;
+    int found = 0;
+    while(*temp && found == 0){
+        if(!strcmp((*temp)->produto,produto)){
+            if((*temp)->promo == 'N'){
+                lsN = addLinha(lsN,getCliente(fil),*indexN);
+                *indexN = *indexN + 1;
+            }
+            if((*temp)->promo == 'P'){
+                lsP = addLinha(lsP,getCliente(fil),*indexP);
+                *indexP = *indexP + 1;
+            }
+            found = 1;
+        }
+        temp =&((*temp)->next);
+    }
+}
+
+void query9Aux(Filial fil, char* produto, List_Strings lsN, List_Strings lsP, int* indexN, int* indexP){
+    if(fil != NULL){ 
+        query9Aux(fil->left,produto,lsN,lsP,indexN,indexP); 
+        updateListaCodigo(fil,produto,lsN,lsP,indexN,indexP);
+        query9Aux(fil->right,produto,lsN,lsP,indexN,indexP); 
+    } 
 }

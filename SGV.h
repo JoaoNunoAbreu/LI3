@@ -1,6 +1,5 @@
 #include "Facturacao.h"
 #include "Filial.h"
-#include "Pagina.h"
 
 typedef struct sgv* SGV;
 

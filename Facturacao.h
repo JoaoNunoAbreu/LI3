@@ -16,6 +16,7 @@ int getQuant(Info i);
 int getMes(Info i);
 int getNumFilial(Info i);
 char getPromo(Info i);
+void query8Aux(Facturacao f, int mes1, int mes2, int* totalVendas, float* totalFaturado);
 int procuraFilialNaInfo(Info i, int filial);
 
 Nodo mkNodoVenda(char* linhaVenda);

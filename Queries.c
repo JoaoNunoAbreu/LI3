@@ -352,3 +352,24 @@ void query7(SGV sgv, char* cliente){
         printf("\n");
     }            
 }
+
+void query8(SGV sgv, int mes1, int mes2){
+    Facturacao f = getFat(sgv);
+    int totalVendas = 0;
+    float totalFaturado = 0;
+    query8Aux(f,mes1,mes2,&totalVendas,&totalFaturado);
+    printf("O total de vendas entre os meses %d e %d foi: %d.\n",mes1,mes2,totalVendas);
+    printf("O total faturado entre os meses %d e %d foi: %f.\n",mes1,mes2,totalFaturado);
+}
+
+void query9(SGV sgv, char* produto, int filial){
+    List_Strings lsN = initListaStrings();
+    List_Strings lsP = initListaStrings();
+    Filial fil = getFilial(sgv)[filial-1];
+    int indexN,indexP; indexN = indexP = 0;
+    query9Aux(fil,produto,lsN,lsP,&indexN,&indexP);
+    printf("Lista dos clientes que compraram o produto %s na filial %d com promoção N\n",produto,filial);
+    printList_Strings(lsN);
+    printf("Lista dos clientes que compraram o produto %s na filial %d com promoção P\n",produto,filial);
+    printList_Strings(lsP);
+}

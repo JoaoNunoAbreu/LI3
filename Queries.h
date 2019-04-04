@@ -7,8 +7,5 @@ void query4(SGV sgv);
 void query5(SGV sgv);
 void query6(SGV sgv);
 void query7(SGV sgv,char* cliente);
-/*void query8;
-void query9;
-void query10;
-void query11;
-void query12;*/
+void query8(SGV sgv, int mes1, int mes2);
+void query9(SGV sgv, char* produto, int filial);

@@ -44,14 +44,15 @@
 * ~~Query 1~~
 * ~~Query 2~~
 * ~~Query 3~~
-* ~~Query 4~~
+* ~~Query 4~~ Rever
 * ~~Query 5~~
 * ~~Query 6~~
-* Query 7
-* Query 8
-* Query 9
+* ~~Query 7~~
+* ~~Query 8~~
+* ~~Query 9~~
 * Query 10
 * Query 11
 * Query 12
 * ~~Remover por completo ficheiros funcoes.c e funcoes.h~~
 * Fazer módulo navegador
+* Fazer relatório

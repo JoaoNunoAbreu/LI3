@@ -150,11 +150,29 @@ int getNumFilial(Info i){
 char getPromo(Info i){
     return i->promo;
 }
+void updateVendFat(Info i,int mes1, int mes2, int* totalVendas, float* totalFaturado){
+    Info* temp = &i;
+    while(*temp){
+        if((*temp)->mes >= mes1 && (*temp)->mes <= mes2){
+            *totalVendas = *totalVendas + 1;
+            *totalFaturado += (*temp)->quant * (*temp)->preco;
+        }
+        temp =&((*temp)->next);
+    }
+}
+
+void query8Aux(Facturacao f, int mes1, int mes2, int* totalVendas, float* totalFaturado){
+    if(f != NULL){ 
+        query8Aux(f->left,mes1,mes2,totalVendas,totalFaturado); 
+        updateVendFat(getInfo(f),mes1,mes2,totalVendas,totalFaturado);
+        query8Aux(f->right,mes1,mes2,totalVendas,totalFaturado);
+    } 
+}
 
 int procuraFilialNaInfo(Info i, int filial){
-    int found = 1;
-    while(i && found){
-        if(i->filial == filial) found = 0;
+    int found = 0;
+    while(i && !found){
+        if(i->filial == filial) found = 1;
         i = i->next;
     }
     return found;
@@ -192,7 +210,7 @@ Nodo mkNodoVenda(char* linhaVenda){
     return f; 
 }
 
-Facturacao inicializa_Facturacao(){ // ---------------------------- Provável erro aqui ---------------
+Facturacao inicializa_Facturacao(){
     Facturacao a = (Facturacao) malloc(sizeof(struct avlf));
     a = NULL;
     return a;
