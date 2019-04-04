@@ -405,7 +405,7 @@ void query10(SGV sgv, char* cliente, int mes){
         }
     }
     int index = 0;
-    MergeSort(&a); //printList(a);
+    MergeSort(&a);
     while(a){
         ls = addLinha(ls,getLinha(a),index);
         index++;
