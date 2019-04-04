@@ -29,12 +29,13 @@ int main(int argc, char** argv) {
     query1(sgv);
     //query2(sgv);
     //query3(sgv,2,"KR1583");
-    query4(sgv);
+    //query4(sgv);
     //query5(sgv);
     //query6(sgv);
     //query7(sgv,"K4984");
     //query8(sgv,5,9);
     //query9(sgv,"DV1293",1);
+    query10(sgv,"Q3869",9);
 
     /* ------------------------------------------ TESTES ----------------------------------------*/
 

@@ -260,9 +260,8 @@ void query4(SGV sgv){
         }
     }
     else {printf("Char inserido inválido\n");exit(1);}
-
     
-    //printList_Strings(ls);
+    printList_Strings(ls);
     printf("O número de produtos que ninguém comprou foi: %d.\n",fail);
 }
 
@@ -373,3 +372,57 @@ void query9(SGV sgv, char* produto, int filial){
     printf("Lista dos clientes que compraram o produto %s na filial %d com promoção P\n",produto,filial);
     printList_Strings(lsP);
 }
+
+void query10(SGV sgv, char* cliente, int mes){
+    List_Strings ls = initListaStrings();
+    Lligada a = NULL;
+
+    if(searchFi(getFilial(sgv)[0],cliente)){
+        InfoFil i = getInfoFil(searchFi(getFilial(sgv)[0],cliente));
+        while(i != NULL){
+            if(getMesFil(i) == mes){
+                push(&a,getQuantFil(i),getProduto(i));
+            }
+            i = getInfoNextFil(i);
+        }
+    }
+    if(searchFi(getFilial(sgv)[1],cliente)){
+        InfoFil i = getInfoFil(searchFi(getFilial(sgv)[1],cliente));
+        while(i != NULL){
+            if(getMesFil(i) == mes){
+                push(&a,getQuantFil(i),getProduto(i));
+            }
+            i = getInfoNextFil(i);
+        }
+    }
+    if(searchFi(getFilial(sgv)[2],cliente)){
+        InfoFil i = getInfoFil(searchFi(getFilial(sgv)[2],cliente));
+        while(i != NULL){
+            if(getMesFil(i) == mes){
+                push(&a,getQuantFil(i),getProduto(i));
+            }
+            i = getInfoNextFil(i);
+        }
+    }
+    int index = 0;
+    MergeSort(&a); //printList(a);
+    while(a){
+        ls = addLinha(ls,getLinha(a),index);
+        index++;
+        a = getNext(a);
+    }    
+    printList_Strings(ls);
+}
+
+/*void query12(SGV sgv, char* cliente){
+    float maior1 = 0;
+    float maior2 = 0;
+    float maior3 = 0;
+    if(searchFi(getFilial(sgv)[0],cliente)){
+        InfoFil i = getInfoFil(searchFi(getFilial(sgv)[0],cliente));
+        while(i != NULL){
+            
+            i = getInfoNextFil(i);
+        }
+    }
+}*/

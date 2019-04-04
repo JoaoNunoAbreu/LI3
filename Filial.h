@@ -15,6 +15,7 @@ Filial getLeftFil(Filial f);
 Filial getRightFil(Filial f);
 InfoFil getInfoFil(Filial f);
 InfoFil getInfoNextFil(InfoFil i);
+char* getProduto(InfoFil i);
 float getPrecoFil(InfoFil i);
 int getQuantFil(InfoFil i);
 int getMesFil(InfoFil i);

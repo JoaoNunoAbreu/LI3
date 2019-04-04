@@ -6,6 +6,7 @@
         "catclientes.h": "c",
         "sgv.h": "c",
         "queries.h": "c",
-        "catprods.h": "c"
+        "catprods.h": "c",
+        "linkedlist.h": "c"
     }
 }
