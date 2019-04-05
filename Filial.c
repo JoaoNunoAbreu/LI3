@@ -143,6 +143,9 @@ InfoFil getInfoNextFil(InfoFil i){
 char* getProduto(InfoFil i){
     return i->produto;
 }
+float getFaturadoFil(InfoFil i){
+    return i->preco * i->quant;
+}
 float getPrecoFil(InfoFil i){
     return i->preco;
 }

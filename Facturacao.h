@@ -1,3 +1,4 @@
+#include "LinkedList.h"
 typedef struct info* Info;
 typedef struct node{
     char* produto;
@@ -18,6 +19,7 @@ int getNumFilial(Info i);
 char getPromo(Info i);
 void query8Aux(Facturacao f, int mes1, int mes2, int* totalVendas, float* totalFaturado);
 int procuraFilialNaInfo(Info i, int filial);
+void query11Aux(Facturacao f,Lligada* a, int filial);
 
 Nodo mkNodoVenda(char* linhaVenda);
 

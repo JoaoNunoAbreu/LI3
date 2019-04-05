@@ -150,24 +150,6 @@ int getNumFilial(Info i){
 char getPromo(Info i){
     return i->promo;
 }
-void updateVendFat(Info i,int mes1, int mes2, int* totalVendas, float* totalFaturado){
-    Info* temp = &i;
-    while(*temp){
-        if((*temp)->mes >= mes1 && (*temp)->mes <= mes2){
-            *totalVendas = *totalVendas + 1;
-            *totalFaturado += (*temp)->quant * (*temp)->preco;
-        }
-        temp =&((*temp)->next);
-    }
-}
-
-void query8Aux(Facturacao f, int mes1, int mes2, int* totalVendas, float* totalFaturado){
-    if(f != NULL){ 
-        query8Aux(f->left,mes1,mes2,totalVendas,totalFaturado); 
-        updateVendFat(getInfo(f),mes1,mes2,totalVendas,totalFaturado);
-        query8Aux(f->right,mes1,mes2,totalVendas,totalFaturado);
-    } 
-}
 
 int procuraFilialNaInfo(Info i, int filial){
     int found = 0;
@@ -214,4 +196,45 @@ Facturacao inicializa_Facturacao(){
     Facturacao a = (Facturacao) malloc(sizeof(struct avlf));
     a = NULL;
     return a;
+}
+
+// ------------------------------------------------------------------------------------------------
+
+void updateVendFat(Info i,int mes1, int mes2, int* totalVendas, float* totalFaturado){
+    Info* temp = &i;
+    while(*temp){
+        if((*temp)->mes >= mes1 && (*temp)->mes <= mes2){
+            *totalVendas = *totalVendas + 1;
+            *totalFaturado += (*temp)->quant * (*temp)->preco;
+        }
+        temp =&((*temp)->next);
+    }
+}
+
+void query8Aux(Facturacao f, int mes1, int mes2, int* totalVendas, float* totalFaturado){
+    if(f != NULL){ 
+        query8Aux(f->left,mes1,mes2,totalVendas,totalFaturado); 
+        updateVendFat(getInfo(f),mes1,mes2,totalVendas,totalFaturado);
+        query8Aux(f->right,mes1,mes2,totalVendas,totalFaturado);
+    } 
+}
+
+// -----------------
+
+void updateLligada(Facturacao f, Lligada* a, int filial){
+    Info info = f->n.i;
+    while(info != NULL){
+        if(info->filial == filial){
+            push(a,info->quant,f->n.produto);
+        }
+        info = info -> next;
+    }
+}
+
+void query11Aux(Facturacao f,Lligada* a, int filial){
+    if(f != NULL){ 
+        query11Aux(f->left,a,filial); 
+        updateLligada(f,a,filial);
+        query11Aux(f->right,a,filial); 
+    }
 }

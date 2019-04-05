@@ -50,9 +50,9 @@
 * ~~Query 7~~
 * ~~Query 8~~
 * ~~Query 9~~
-* Query 10
-* Query 11
-* Query 12
+* ~~Query 10~~
+* ~~Query 11~~ Só que demora muito tempo (texec = 3.5 min)
+* ~~Query 12~~
 * ~~Remover por completo ficheiros funcoes.c e funcoes.h~~
 * Fazer módulo navegador
 * Fazer relatório

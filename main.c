@@ -35,7 +35,9 @@ int main(int argc, char** argv) {
     //query7(sgv,"K4984");
     //query8(sgv,5,9);
     //query9(sgv,"DV1293",1);
-    query10(sgv,"Q3869",9);
+    //query10(sgv,"Q3869",9);
+    query11(sgv,3);
+    //query12(sgv,"Q3869");
 
     /* ------------------------------------------ TESTES ----------------------------------------*/
 

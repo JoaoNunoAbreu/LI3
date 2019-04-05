@@ -381,7 +381,7 @@ void query10(SGV sgv, char* cliente, int mes){
         InfoFil i = getInfoFil(searchFi(getFilial(sgv)[0],cliente));
         while(i != NULL){
             if(getMesFil(i) == mes){
-                push(&a,getQuantFil(i),getProduto(i));
+                push(&a,(float) getQuantFil(i),getProduto(i));
             }
             i = getInfoNextFil(i);
         }
@@ -390,7 +390,7 @@ void query10(SGV sgv, char* cliente, int mes){
         InfoFil i = getInfoFil(searchFi(getFilial(sgv)[1],cliente));
         while(i != NULL){
             if(getMesFil(i) == mes){
-                push(&a,getQuantFil(i),getProduto(i));
+                push(&a,(float) getQuantFil(i),getProduto(i));
             }
             i = getInfoNextFil(i);
         }
@@ -399,7 +399,7 @@ void query10(SGV sgv, char* cliente, int mes){
         InfoFil i = getInfoFil(searchFi(getFilial(sgv)[2],cliente));
         while(i != NULL){
             if(getMesFil(i) == mes){
-                push(&a,getQuantFil(i),getProduto(i));
+                push(&a,(float) getQuantFil(i),getProduto(i));
             }
             i = getInfoNextFil(i);
         }
@@ -414,15 +414,128 @@ void query10(SGV sgv, char* cliente, int mes){
     printList_Strings(ls);
 }
 
-/*void query12(SGV sgv, char* cliente){
-    float maior1 = 0;
-    float maior2 = 0;
-    float maior3 = 0;
+void query11(SGV sgv, int N){
+
+    List_Strings ls1 = initListaStrings();
+    List_Strings ls2 = initListaStrings();
+    List_Strings ls3 = initListaStrings();
+
+    Facturacao f = getFat(sgv);
+
+    Lligada a1 = NULL;
+    Lligada a2 = NULL;
+    Lligada a3 = NULL;    
+
+    query11Aux(f,&a1,1);
+    query11Aux(f,&a2,2);
+    query11Aux(f,&a3,3);
+
+    for(int i = 0; i < N; i++){
+        swapNodes(&a1,getKdata(a1,i),maxLligada(a1,i));
+    } 
+
+    for(int i = 0; i < N; i++){
+        swapNodes(&a2,getKdata(a2,i),maxLligada(a2,i));
+    }
+
+    for(int i = 0; i < N; i++){
+        swapNodes(&a3,getKdata(a3,i),maxLligada(a3,i));
+    }
+
+    // Passar isto para o navegador
+
+    int index = 0;
+    while(a1 && index < N){
+        ls1 = addLinha(ls1,getLinha(a1),index);
+        index++;
+        a1 = getNext(a1);
+    }
+    index = 0;
+    while(a2 && index < N){
+        ls2 = addLinha(ls2,getLinha(a2),index);
+        index++;
+        a2 = getNext(a2);
+    }
+    index = 0;
+    while(a3 && index < N){
+        ls3 = addLinha(ls3,getLinha(a3),index);
+        index++;
+        a3 = getNext(a3);
+    }
+
+    int count1 = 0;
+    for(int i = 0; getLine(ls1,i) != NULL; i++){
+        Info info = getInfo(searchF(f,getLine(ls1,i)));
+        while(info != NULL){
+            count1++;
+            info = getInfoNext(info);
+        }
+    }
+
+    int count2 = 0;
+    for(int i = 0; getLine(ls2,i) != NULL; i++){
+        Info info = getInfo(searchF(f,getLine(ls2,i)));
+        while(info != NULL){
+            count2++;
+            info = getInfoNext(info);
+        }
+    }
+
+    int count3 = 0;
+    for(int i = 0; getLine(ls3,i) != NULL; i++){
+        Info info = getInfo(searchF(f,getLine(ls3,i)));
+        while(info != NULL){
+            count3++;
+            info = getInfoNext(info);
+        }
+    }
+
+    printf("---- Filial 1 ----\n");
+    printNList(a1,N);
+    printf("%d\n",count1);
+    printf("---- Filial 2 ----\n");
+    printNList(a2,N);
+    printf("%d\n",count2);
+    printf("---- Filial 3 ----\n");
+    printNList(a3,N);
+    printf("%d\n",count3);
+}
+
+void query12(SGV sgv, char* cliente){
+
+    List_Strings ls = initListaStrings();
+    Lligada a = NULL;
+
     if(searchFi(getFilial(sgv)[0],cliente)){
         InfoFil i = getInfoFil(searchFi(getFilial(sgv)[0],cliente));
         while(i != NULL){
-            
+            push(&a,getFaturadoFil(i),getProduto(i));
             i = getInfoNextFil(i);
         }
     }
-}*/
+
+    if(searchFi(getFilial(sgv)[1],cliente)){
+        InfoFil i = getInfoFil(searchFi(getFilial(sgv)[1],cliente));
+        while(i != NULL){
+            push(&a,getFaturadoFil(i),getProduto(i));
+            i = getInfoNextFil(i);
+        }
+    }
+
+    if(searchFi(getFilial(sgv)[2],cliente)){
+        InfoFil i = getInfoFil(searchFi(getFilial(sgv)[2],cliente));
+        while(i != NULL){
+            push(&a,getFaturadoFil(i),getProduto(i));
+            i = getInfoNextFil(i);
+        }
+    }
+    MergeSort(&a);
+    
+    int index = 0;
+    while(a && index < 3){
+        ls = addLinha(ls,getLinha(a),index);
+        index++;
+        a = getNext(a);
+    }
+    printList_Strings(ls);
+}
