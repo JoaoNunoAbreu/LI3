@@ -54,9 +54,10 @@
 * ~~Query 11~~ Só que demora muito tempo (texec = 3.5 min)
 * ~~Query 12~~
 * ~~Remover por completo ficheiros funcoes.c e funcoes.h~~
-* Fazer módulo navegador
 * ~~Fazer Io's~~
-* Ver se dá para fazer várias queries de numa só execução do programa
-* Mudar o conteúdo da query1 quando se muda o conteúdo do ficheiro
-* Tentar melhorar a valida vendas
+* ~~Ver se dá para fazer várias queries de numa só execução do programa~~
+* ~~Tentar melhorar a valida vendas~~
+* Fazer módulo navegador
+* Tentar melhorar tempo query11
+* Ver se dá para vendas_5M
 * Fazer relatório

@@ -12,7 +12,7 @@ int runMenu(){
     printf("Query 4 - Lista produtos ordenados que ninguém comprou.\n");
     printf("Query 5 - Lista de clientes compraram nas 3 filiais.\n");
     printf("Query 6 - Produtos e clientes não utilizados.\n");
-    printf("Query 7 - Código -> tabela produtos comprados por filial.\n");
+    printf("Query 7 - Cliente -> tabela produtos comprados por filial.\n");
     printf("Query 8 - Intervalo meses -> total vendas e facturado.\n");
     printf("Query 9 - Produto/filial -> clientes que o compraram em N e P.\n");
     printf("Query 10 - Cliente/mês -> lista de produtos que mais compraram ordem descendente.\n");
