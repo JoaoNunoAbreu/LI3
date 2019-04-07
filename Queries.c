@@ -408,7 +408,6 @@ List_Strings query12(SGV sgv, char* cliente){
         }
     }
     MergeSort(&a);
-    
     int index = 0;
     while(a && index < 3){
         ls = addLinha(ls,getLinha(a),index);

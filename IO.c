@@ -4,9 +4,8 @@
 
 int runMenu(){
     int reader = 0;
-    printf("Inserir número negativo para parar\n");
     printf("\n-------------------------- Início ------------------------------\n\n");
-    printf("Que query pretende executar?\n");
+    printf("Que query pretende executar? (Inserir número <= 0 para sair) \n");
     printf("Query 1 - Ler os 3 ficheiros.\n");
     printf("Query 2 - Lista de produtos que começam por uma letra.\n");
     printf("Query 3 - Mês/código -> num vendas e total facturado.\n");
