@@ -55,71 +55,38 @@ int guardaVendas(FILE *fp, Cat_Prods catp, Cat_Clientes catc,Facturacao* fat, Fi
 
 // ------------------------------------------------------------------------------------------------
 
-void query1(SGV sgv){
-    char readerFile[256];
-    char c;
-    char* file_name = NULL;
+int query1(SGV sgv, char* file_nameProds, char* file_nameClient, char* file_nameVendas, int* pLidos, int* cLidos, int* vLidas){
 
-    printf("Pretende inserir nome do ficheiro de Produtos? (s/n)\n");
-    scanf(" %c",&c);
-    if(c == 's'){
-        printf("Nome do ficheiros com Produtos.txt: \n");
-        scanf("%s",readerFile);
-        file_name = &readerFile[0];
-    }
-    else if(c == 'n') file_name = "Produtos.txt";
-    else {printf("Char inserido inválido\n");exit(1);}
-    FILE *produtoFicheiro = fopen(file_name,"r");
-    if(produtoFicheiro == NULL) {printf("Produtos.txt não foi possível ser carregado.\n"); exit (1);}
-    else printf("Ficheiro %s lido com sucesso\n",file_name);
+    printf("Aqui %s\n",file_nameProds);
+    printf("Aqui %s\n",file_nameClient);
+    printf("Aqui %s\n",file_nameVendas);
 
+    FILE *produtoFicheiro = fopen(file_nameProds,"r");
+    if(produtoFicheiro == NULL) return 1;
 
-    printf("Pretende inserir nome do ficheiro de Clientes? (s/n)\n");
-    scanf(" %c",&c);
-    if(c == 's'){
-        printf("Nome do ficheiros com Clientes.txt: \n");
-        scanf("%s",readerFile);
-        file_name = &readerFile[0];
-    }
-    else if(c == 'n') file_name = "Clientes.txt";
-    else {printf("Char inserido inválido\n");exit(1);}
-    FILE *clientesFicheiro = fopen(file_name,"r");
-    if(clientesFicheiro == NULL) {printf("Clientes.txt não foi possível ser carregado.\n"); exit (1);}
-    else printf("Ficheiro %s lido com sucesso\n",file_name);
+    FILE *clientesFicheiro = fopen(file_nameClient,"r");
+    if(clientesFicheiro == NULL) return 2;
 
-
-    printf("Pretende inserir nome do ficheiro de Vendas? (s/n)\n");
-    scanf(" %c",&c);
-    if(c == 's'){
-        printf("Nome do ficheiros com Vendas.txt: \n");
-        scanf("%s",readerFile);
-        file_name = &readerFile[0];
-    }
-    else if(c == 'n') file_name = "FicheirosTeste/testeVendas2.txt";
-    else {printf("Char inserido inválido\n");exit(1);}
-    FILE *vendasFicheiro = fopen(file_name,"r");
-    if(vendasFicheiro == NULL) {printf("Vendas.txt não foi possível ser carregado.\n"); exit (1);}
-    else printf("Ficheiro %s lido com sucesso\n",file_name);
+    FILE *vendasFicheiro = fopen(file_nameVendas,"r");
+    if(vendasFicheiro == NULL) return 3;
 
     // --------- Catálogos ---------
 
-    int pLidos = guardaProdutos(produtoFicheiro,getCatp(sgv));
-    printf("Foram lidas %d linhas válidas do ficheiro dos produtos\n",pLidos);
-    
-    int cLidos = guardaClientes(clientesFicheiro,getCatc(sgv));
-    printf("Foram lidas %d linhas válidas do ficheiro dos clientes\n",cLidos);
+    *pLidos = guardaProdutos(produtoFicheiro,getCatp(sgv));
+    *cLidos = guardaClientes(clientesFicheiro,getCatc(sgv));
 
     // ---------- Vendas -----------
 
     Facturacao f = getFat(sgv);
     Filial* fil = getFilial(sgv);
-    int vLidas = guardaVendas(vendasFicheiro,getCatp(sgv),getCatc(sgv),&f,fil);
-    printf("Foram lidas %d linhas válidas do ficheiro das vendas\n",vLidas);
+    *vLidas = guardaVendas(vendasFicheiro,getCatp(sgv),getCatc(sgv),&f,fil);
     setFat(sgv,f);
 
     fclose(produtoFicheiro);
     fclose(clientesFicheiro);
     fclose(vendasFicheiro);
+
+    return 0;
 }
 
 void query2(SGV sgv){

@@ -1,9 +1,9 @@
 CC = gcc
 CFLAGS = -Wall -ansi -O2 -std=c99
-OBJFILES = catProds Produto catClientes Cliente AVL Facturacao Filial Queries Pagina SGV LinkedList
+OBJFILES = catProds Produto catClientes Cliente AVL Facturacao Filial Queries Pagina SGV LinkedList IO
 
 program: $(OBJFILES)
-	$(CC) $(CFLAGS) main.c -o main catProds.o Produto.o catClientes.o Cliente.o AVL.o Facturacao.o Filial.o Queries.o Pagina.o SGV.o LinkedList.o
+	$(CC) $(CFLAGS) main.c -o main catProds.o Produto.o catClientes.o Cliente.o AVL.o Facturacao.o Filial.o Queries.o Pagina.o SGV.o LinkedList.o IO.o
 
 catProds:
 	$(CC) $(CFLAGS) -c catProds.c
@@ -38,5 +38,8 @@ SGV:
 LinkedList:
 	$(CC) $(CFLAGS) -c LinkedList.c	
 
+IO:
+	$(CC) $(CFLAGS) -c IO.c	
+
 clean:
-	rm catProds.o Produto.o catClientes.o Cliente.o AVL.o Facturacao.o Filial.o Queries.o Pagina.o SGV.o LinkedList.o
+	rm catProds.o Produto.o catClientes.o Cliente.o AVL.o Facturacao.o Filial.o Queries.o Pagina.o SGV.o LinkedList.o IO.o

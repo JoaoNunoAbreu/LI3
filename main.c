@@ -5,6 +5,7 @@
 #include <ctype.h>
 #include <time.h>
 #include "Queries.h"
+#include "IO.h"
 
 int main(int argc, char** argv) {
 
@@ -26,7 +27,22 @@ int main(int argc, char** argv) {
 
     printf("-------------------------- Início ------------------------------\n\n");
 
-    query1(sgv);
+    int x = runMenu();
+    if(x == 1){
+        char* file_nameProds = NULL;
+        char* file_nameClient = NULL;
+        char* file_nameVendas = NULL;
+        int pLidos,cLidos,vLidas; pLidos = cLidos = vLidas = 0;
+
+        inputQuery1(&file_nameProds,&file_nameClient,&file_nameVendas);
+        int x = query1(sgv,file_nameProds,file_nameClient,file_nameVendas,&pLidos,&cLidos,&vLidas);
+        printf("%d\n",x);
+        printf("%s\n",file_nameProds);
+        printf("%s\n",file_nameClient);
+        printf("%s\n",file_nameVendas);
+        outputQuery1(file_nameProds,file_nameClient,file_nameVendas,x,pLidos,cLidos,vLidas);
+    }
+    //query1(sgv);
     //query2(sgv);
     //query3(sgv,2,"KR1583");
     //query4(sgv);
@@ -36,29 +52,8 @@ int main(int argc, char** argv) {
     //query8(sgv,5,9);
     //query9(sgv,"DV1293",1);
     //query10(sgv,"Q3869",9);
-    query11(sgv,3);
+    //query11(sgv,3);
     //query12(sgv,"Q3869");
-
-    /* ------------------------------------------ TESTES ----------------------------------------*/
-
-    /*printf("A linha mais longa das vendas foi: %d\n", contaMaiorLinha(listaVendas));
-    int prodEnvolvidos = contaProdutosEnvolvidos(vBoas);
-    printf("O número de produtos envolvidos foi: %d\n", prodEnvolvidos);
-    printf("O número de produtos nunca comprado foi: %d\n", pLidos - prodEnvolvidos);
-    int clientEnvolvidos = contaClientesEnvolvidos(vBoas);
-    printf("O número de clientes envolvidos foi: %d\n",clientEnvolvidos);
-    printf("O número de clientes nunca comprado foi: %d\n",cLidos - clientEnvolvidos);
-    printf("Houve %d códigos de clientes inválidos nas vendas.\n",indexCI);
-    printf("Houve %d códigos de produtos inválidos nas vendas.\n",indexPI);
-    printf("O último cliente (válido) foi: %s\n",vBoas[vLidas-1].cliente);
-    printf("Este cliente fez %d vendas\n",contaVendas(vBoas,vBoas[vLidas-1].cliente));
-    printf("Foram feitas %d vendas na filial 1\n",contaFilial(vBoas,1));
-    printf("Foram feitas %d vendas na filial 2\n",contaFilial(vBoas,2));
-    printf("Foram feitas %d vendas na filial 3\n",contaFilial(vBoas,3));
-    printf("A faturação total foi: %e\n",contaFaturacao(vBoas));
-    printf("Foram vendidas %d unidades.\n",contaUnidades(vBoas));
-    printf("Foram feitas %d vendas com preço 0.\n",contaPrecos(vBoas,0));
-    printf("\n");*/
 
     printf("\n--------------------------- Fim --------------------------------\n");
 

@@ -1,6 +1,6 @@
 #include "SGV.h"
 
-void query1(SGV sgv);
+int query1(SGV sgv, char* file_nameProds, char* file_nameClient, char* file_nameVendas, int* pLidos, int* cLidos, int* vLidas);
 void query2(SGV sgv);
 void query3(SGV sgv,int mes, char* p);
 void query4(SGV sgv);
