@@ -1,5 +1,6 @@
 typedef struct Node *Lligada;
 char* getLinha(Lligada a);
+void getValor_Produto(Lligada a,char** line);
 float getData(Lligada a);
 Lligada getNext(Lligada a);
 float maxLligada(Lligada a, int k);
@@ -8,4 +9,4 @@ void swapNodes(Lligada *headr, float key1, float key2);
 void push(Lligada* head_ref, float new_data, char* produto);
 void MergeSort(Lligada* headRef);
 void printList(struct Node *node);
-void printNList(Lligada node, int k);
+int sizeLligada(Lligada a);

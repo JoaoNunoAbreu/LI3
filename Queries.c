@@ -57,10 +57,6 @@ int guardaVendas(FILE *fp, Cat_Prods catp, Cat_Clientes catc,Facturacao* fat, Fi
 
 int query1(SGV sgv, char* file_nameProds, char* file_nameClient, char* file_nameVendas, int* pLidos, int* cLidos, int* vLidas){
 
-    printf("Aqui %s\n",file_nameProds);
-    printf("Aqui %s\n",file_nameClient);
-    printf("Aqui %s\n",file_nameVendas);
-
     FILE *produtoFicheiro = fopen(file_nameProds,"r");
     if(produtoFicheiro == NULL) return 1;
 
@@ -89,20 +85,18 @@ int query1(SGV sgv, char* file_nameProds, char* file_nameClient, char* file_name
     return 0;
 }
 
-void query2(SGV sgv){
+List_Strings query2(SGV sgv, char c){
 
     Lista_Prods lp = initListaProds();
-    char c;
-    printf("Insira uma letra para determinar a lista e o nº total de produtos cujo código se inicia por essa letra\n");
-    scanf(" %c",&c);
     lp = listaPorLetraP(getCatp(sgv),c);
     List_Strings ls = criaLsLp(lp);
 
+    return ls;
+
     // --------------------- Por colocar no navegador ---------------------
-    int tamanhoLsInit = sizeList_Strings(ls);
-    printf("Houve %d produtos a começar com a letra %c.\n",tamanhoLsInit,c); 
-    int page = 0;
-    int numPaginas = tamanhoLsInit / 10; 
+    
+    /*int page = 0;
+    int numPaginas = *tamanhoLsInit / 10; 
 
     while(page >= 0){
         printf("Que número de página pretende ler? (para parar inserir número negativo)\n");
@@ -118,93 +112,58 @@ void query2(SGV sgv){
             }
             printPag(p);
         }
-    }
-    // --------------------------------------------------------------------
+    }*/
 }
 
-void query3(SGV sgv,int mes, char* p){
-    int nVendas = 0;
-    int reader = 0; // Leitor da opção do user
-
-    float facturadoTotal ,facturadoN ,facturadoP ; facturadoTotal  = facturadoN  = facturadoP  = 0;
-    float facturado1Total,facturado1N,facturado1P; facturado1Total = facturado1N = facturado1P = 0;
-    float facturado2Total,facturado2N,facturado2P; facturado2Total = facturado2N = facturado2P = 0;
-    float facturado3Total,facturado3N,facturado3P; facturado3Total = facturado3N = facturado3P = 0;
+void query3(SGV sgv,int mes, char* p, char c,float* fat1T,float* fat1N,float* fat1P,float* fat2T,float* fat2N,float* fat2P, float* fat3T,float* fat3N,float* fat3P, int* nVendas){
 
     Facturacao f = getFat(sgv);
     f = searchF(f,p);
     if(f != NULL){ // Se for NULL significa que não encontrou
 
         Info i = getInfo(f);
-        printf("Resultado global ou filial a filial? (1/2)\n");
-        scanf("%d",&reader);
-
         while(i != NULL){
             if(mes == getMes(i)){
-                if(reader == 1) {
-                    facturadoTotal += getPreco(i) * getQuant(i);
-                    if(getPromo(i) == 'N') facturadoN += getPreco(i) * getQuant(i);
-                    if(getPromo(i) == 'P') facturadoP += getPreco(i) * getQuant(i);
+                if(c == 'g'){ // Para poupar criar mais 3 variáveis
+                    *fat1T += getPreco(i) * getQuant(i);
+                    if(getPromo(i) == 'N') *fat1N += getPreco(i) * getQuant(i);
+                    if(getPromo(i) == 'P') *fat1P += getPreco(i) * getQuant(i);
                 }
-                else{
+                else if(c == 'f'){
                     if(getNumFilial(i) == 1) {
-                        facturado1Total += getPreco(i) * getQuant(i);
-                        if(getPromo(i) == 'N') facturado1N += getPreco(i) * getQuant(i);
-                        if(getPromo(i) == 'P') facturado1P += getPreco(i) * getQuant(i);
+                        *fat1T += getPreco(i) * getQuant(i);
+                        if(getPromo(i) == 'N') *fat1N += getPreco(i) * getQuant(i);
+                        if(getPromo(i) == 'P') *fat1P += getPreco(i) * getQuant(i);
                     }
                     if(getNumFilial(i) == 2){
-                        facturado2Total += getPreco(i) * getQuant(i);
-                        if(getPromo(i) == 'N') facturado2N += getPreco(i) * getQuant(i);
-                        if(getPromo(i) == 'P') facturado2P += getPreco(i) * getQuant(i);
+                        *fat2T += getPreco(i) * getQuant(i);
+                        if(getPromo(i) == 'N') *fat2N += getPreco(i) * getQuant(i);
+                        if(getPromo(i) == 'P') *fat2P += getPreco(i) * getQuant(i);
                     }
                     if(getNumFilial(i) == 3){
-                        facturado3Total += getPreco(i) * getQuant(i);
-                        if(getPromo(i) == 'N') facturado3N += getPreco(i) * getQuant(i);
-                        if(getPromo(i) == 'P') facturado3P += getPreco(i) * getQuant(i);
+                        *fat3T += getPreco(i) * getQuant(i);
+                        if(getPromo(i) == 'N') *fat3N += getPreco(i) * getQuant(i);
+                        if(getPromo(i) == 'P') *fat3P += getPreco(i) * getQuant(i);
                     }
                 }
-                nVendas++;   
+                *nVendas = *nVendas + 1;
             }
             i = getInfoNext(i);
         }
-        printf("Para o produto %s no mês %d, os resultados são os seguintes:\n",p,mes);
-        printf("O número total de vendas foi: %d\n",nVendas);
-        if(reader == 1) {
-            printf("A faturação total foi: %f\n", facturadoTotal);
-            printf("A faturação em modo N foi: %f\n", facturadoN);
-            printf("A faturação em modo P foi: %f\n", facturadoP);
-        }
-        else {
-            printf("Filial Facturação 1: %f\n",facturado1Total);
-            printf("Filial Facturação 1 em modo N : %f\n",facturado1N);
-            printf("Filial Facturação 1 em modo P : %f\n",facturado1P);
-            printf("Filial Facturação 2: %f\n",facturado2Total);
-            printf("Filial Facturação 2 em modo N : %f\n",facturado2N);
-            printf("Filial Facturação 2 em modo P : %f\n",facturado2P);
-            printf("Filial Facturação 3: %f\n",facturado3Total);
-            printf("Filial Facturação 3 em modo N : %f\n",facturado3N);
-            printf("Filial Facturação 3 em modo P : %f\n",facturado3P);
-        }
     }
-    else printf("Não foram encontradas vendas onde o produto %s foi comprado no mês %d",p,mes);
-    
 }
 
 /**
  *  Percorre o catálogo de produtos e vê se cada produto está na facturção.
  *  Se não estiver, adicionar esse produto a uma lista e calcular tamanho da lista.
  */
-void query4(SGV sgv){
+List_Strings query4(SGV sgv,char c, int filial){
     
     Cat_Prods catp = getCatp(sgv);
     Facturacao f = getFat(sgv);
     Lista_Prods lp = catpToLista(catp);
     int fail = 0;
     List_Strings ls = initListaStrings();
-
-    char c;
-    printf("Valores totais ou divididos pelas filiais? (t/f)\n");
-    scanf(" %c",&c);
     
     if(c == 't'){
         for(int i = 0; getListaProds(lp)[i]; i++){
@@ -215,24 +174,18 @@ void query4(SGV sgv){
         }
     }
     else if(c == 'f'){
-        int reader;
-        printf("Qual é a filial?\n");
-        scanf(" %d",&reader);
-        if(reader < 1 || reader > 3) {printf("Filial inserida inválida\n"); exit(1);}
-        for(int i = 0; getListaProds(lp)[i]; i++){
-            if(searchF(f,getListaProds(lp)[i]) == NULL || !procuraFilialNaInfo(getInfo(searchF(f,getListaProds(lp)[i])),reader)){
-                ls = addLinha(ls,getListaProds(lp)[i],fail);
-                fail++;
-            }
+        if(filial >= 1 && filial <= 3) {
+            for(int i = 0; getListaProds(lp)[i]; i++)
+                if(searchF(f,getListaProds(lp)[i]) == NULL || !procuraFilialNaInfo(getInfo(searchF(f,getListaProds(lp)[i])),filial)){
+                    ls = addLinha(ls,getListaProds(lp)[i],fail);
+                    fail++;
+                }
         }
     }
-    else {printf("Char inserido inválido\n");exit(1);}
-    
-    printList_Strings(ls);
-    printf("O número de produtos que ninguém comprou foi: %d.\n",fail);
+    return ls;
 }
 
-void query5(SGV sgv){
+List_Strings query5(SGV sgv){
     Cat_Clientes catc = getCatc(sgv);
     Lista_Clientes lc = catcToLista(catc);
     int notFound = 0;
@@ -250,21 +203,18 @@ void query5(SGV sgv){
             numCliente++;
         }
     }
-    printList_Strings(ls);
-    printf("O número de códigos de clientes que realizaram compras em todas as filiais é: %d.\n",numCliente);
+    return ls;
 }
 
 /**
  *  Percorre os catálogos de produtos e de clientes e vê se estes estão na facturação e na filial, respetivamente.
  */
-void query6(SGV sgv){
+void query6(SGV sgv, int* countC, int* countP){
     Cat_Prods catp = getCatp(sgv);
     Lista_Prods lp = catpToLista(catp);
 
     Cat_Clientes catc = getCatc(sgv);
     Lista_Clientes lc = catcToLista(catc);
-
-    int countC,countP; countC = countP = 0;
 
     int found = 0;
     // Nº de clientes que não realizaram compras
@@ -274,18 +224,15 @@ void query6(SGV sgv){
         if(found == 0 && searchFi(getFilial(sgv)[1],getListaClientes(lc)[i])) found = 1;
         if(found == 0 && searchFi(getFilial(sgv)[2],getListaClientes(lc)[i])) found = 1;
 
-        if(found == 0) countC++;
+        if(found == 0) *countC = *countC + 1;
     }
     // Nº de produtos que ninguém comprou
     for(int i = 0; getListaProds(lp)[i]; i++)
-        if(searchF(getFat(sgv),getListaProds(lp)[i]) == NULL) countP++;
-
-    printf("Nº clientes que não realizaram compras: %d\n",countC);
-    printf("Nº de produtos que ninguém comprou: %d\n",countP);
+        if(searchF(getFat(sgv),getListaProds(lp)[i]) == NULL) *countP = *countP + 1;
 }
 
-void query7(SGV sgv, char* cliente){
-    int tabela[12][3];
+void query7(SGV sgv, char* cliente,int tabela[12][3]){
+
     for(int i = 0; i < 12; i++)
         for(int j = 0; j < 3; j++)
             tabela[i][j] = 0;
@@ -310,37 +257,21 @@ void query7(SGV sgv, char* cliente){
             tabela[getMesFil(i)-1][2] += getQuantFil(i);
             i = getInfoNextFil(i);
         }
-    }
-    for(int i = 0; i < 12; i++){
-        for(int j = 0; j < 3; j++)
-            if(j == 2) printf("%d",tabela[i][j]);
-            else printf("%d, ",tabela[i][j]);
-        printf("\n");
-    }            
+    }          
 }
 
-void query8(SGV sgv, int mes1, int mes2){
+void query8(SGV sgv, int mes1, int mes2, int* totalVendas, float* totalFaturado){
     Facturacao f = getFat(sgv);
-    int totalVendas = 0;
-    float totalFaturado = 0;
-    query8Aux(f,mes1,mes2,&totalVendas,&totalFaturado);
-    printf("O total de vendas entre os meses %d e %d foi: %d.\n",mes1,mes2,totalVendas);
-    printf("O total faturado entre os meses %d e %d foi: %f.\n",mes1,mes2,totalFaturado);
+    query8Aux(f,mes1,mes2,totalVendas,totalFaturado);
 }
 
-void query9(SGV sgv, char* produto, int filial){
-    List_Strings lsN = initListaStrings();
-    List_Strings lsP = initListaStrings();
+void query9(SGV sgv, List_Strings lsN, List_Strings lsP, char* produto, int filial){
     Filial fil = getFilial(sgv)[filial-1];
     int indexN,indexP; indexN = indexP = 0;
     query9Aux(fil,produto,lsN,lsP,&indexN,&indexP);
-    printf("Lista dos clientes que compraram o produto %s na filial %d com promoção N\n",produto,filial);
-    printList_Strings(lsN);
-    printf("Lista dos clientes que compraram o produto %s na filial %d com promoção P\n",produto,filial);
-    printList_Strings(lsP);
 }
 
-void query10(SGV sgv, char* cliente, int mes){
+List_Strings query10(SGV sgv, char* cliente, int mes){
     List_Strings ls = initListaStrings();
     Lligada a = NULL;
 
@@ -378,14 +309,10 @@ void query10(SGV sgv, char* cliente, int mes){
         index++;
         a = getNext(a);
     }    
-    printList_Strings(ls);
+    return ls;
 }
 
-void query11(SGV sgv, int N){
-
-    List_Strings ls1 = initListaStrings();
-    List_Strings ls2 = initListaStrings();
-    List_Strings ls3 = initListaStrings();
+void query11(SGV sgv, int N,List_Strings ls1,List_Strings ls2,List_Strings ls3,int* count1, int* count2, int* count3){
 
     Facturacao f = getFat(sgv);
 
@@ -397,78 +324,62 @@ void query11(SGV sgv, int N){
     query11Aux(f,&a2,2);
     query11Aux(f,&a3,3);
 
-    for(int i = 0; i < N; i++){
+    for(int i = 0; i < N && i < sizeLligada(a1); i++)
         swapNodes(&a1,getKdata(a1,i),maxLligada(a1,i));
-    } 
 
-    for(int i = 0; i < N; i++){
+    for(int i = 0; i < N && i < sizeLligada(a2); i++)
         swapNodes(&a2,getKdata(a2,i),maxLligada(a2,i));
-    }
 
-    for(int i = 0; i < N; i++){
+    for(int i = 0; i < N && i < sizeLligada(a3); i++)
         swapNodes(&a3,getKdata(a3,i),maxLligada(a3,i));
-    }
-
-    // Passar isto para o navegador
 
     int index = 0;
+    char* line = malloc(sizeof(char*));
     while(a1 && index < N){
-        ls1 = addLinha(ls1,getLinha(a1),index);
+        getValor_Produto(a1,&line);
+        ls1 = addLinha(ls1,line,index);
         index++;
         a1 = getNext(a1);
     }
     index = 0;
     while(a2 && index < N){
-        ls2 = addLinha(ls2,getLinha(a2),index);
+        getValor_Produto(a2,&line);
+        ls2 = addLinha(ls2,line,index);
         index++;
         a2 = getNext(a2);
     }
     index = 0;
     while(a3 && index < N){
-        ls3 = addLinha(ls3,getLinha(a3),index);
+        getValor_Produto(a3,&line);
+        ls3 = addLinha(ls3,line,index);
         index++;
         a3 = getNext(a3);
     }
-
-    int count1 = 0;
+    
     for(int i = 0; getLine(ls1,i) != NULL; i++){
         Info info = getInfo(searchF(f,getLine(ls1,i)));
         while(info != NULL){
-            count1++;
+            *count1 = *count1 + 1;
             info = getInfoNext(info);
         }
     }
-
-    int count2 = 0;
     for(int i = 0; getLine(ls2,i) != NULL; i++){
         Info info = getInfo(searchF(f,getLine(ls2,i)));
         while(info != NULL){
-            count2++;
+            *count2 = *count2 + 1;
             info = getInfoNext(info);
         }
     }
-
-    int count3 = 0;
     for(int i = 0; getLine(ls3,i) != NULL; i++){
         Info info = getInfo(searchF(f,getLine(ls3,i)));
         while(info != NULL){
-            count3++;
+            *count3 = *count3 + 1;
             info = getInfoNext(info);
         }
     }
-
-    printf("---- Filial 1 ----\n");
-    printNList(a1,N);
-    printf("%d\n",count1);
-    printf("---- Filial 2 ----\n");
-    printNList(a2,N);
-    printf("%d\n",count2);
-    printf("---- Filial 3 ----\n");
-    printNList(a3,N);
-    printf("%d\n",count3);
 }
 
-void query12(SGV sgv, char* cliente){
+List_Strings query12(SGV sgv, char* cliente){
 
     List_Strings ls = initListaStrings();
     Lligada a = NULL;
@@ -504,5 +415,5 @@ void query12(SGV sgv, char* cliente){
         index++;
         a = getNext(a);
     }
-    printList_Strings(ls);
+    return ls;
 }

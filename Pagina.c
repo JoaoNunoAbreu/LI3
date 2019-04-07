@@ -45,10 +45,22 @@ void printList_Strings(List_Strings ls){
         printf("%s\n",ls->lista[i]);
 }
 
+void printNList(List_Strings ls, int k){
+    int count = 0;
+    while(ls->lista[count] != NULL && count < k){ 
+        printf("%s\n",ls->lista[count]);
+        count++;
+    }
+}
+
 // ---------------- Página ----------------
 
 char* getLine(List_Strings ls,int i){
-    return ls->lista[i];
+    if(ls == NULL || ls->lista[i] == NULL) return NULL;
+    char* temp = strdup(ls->lista[i]);
+    char* token = strtok(temp," ");
+    token = strtok(NULL," ");
+    return token;
 }
 
 List_Strings getPorcao(Pagina p){

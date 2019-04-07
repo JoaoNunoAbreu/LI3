@@ -55,4 +55,8 @@
 * ~~Query 12~~
 * ~~Remover por completo ficheiros funcoes.c e funcoes.h~~
 * Fazer módulo navegador
+* Fazer Io's
+* Ver se dá para fazer várias queries de numa só execução do programa
+* Mudar o conteúdo da query1 quando se muda o conteúdo do ficheiro
+* Tentar melhorar a valida vendas
 * Fazer relatório

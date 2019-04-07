@@ -19,6 +19,12 @@ float getData(Lligada a){
 char* getLinha(Lligada a){
     return a->produto;
 }
+void getValor_Produto(Lligada a,char** line){
+
+    sprintf(*line,"%f ",a->data);
+    strcat(*line,a->produto);
+}
+
 Lligada getNext(Lligada a){
     return a->next;
 }
@@ -86,15 +92,6 @@ void printList(Lligada node){
         printf("%f %s\n",node->data,node->produto);
         node = node->next; 
     } 
-}
-
-void printNList(Lligada node, int k){
-    int count = 0;
-    while(node != NULL && count < k){ 
-        printf("%f %s\n",node->data,node->produto);
-        node = node->next; 
-        count++;
-    }
 }
 
 float getKdata(Lligada a, int k){
@@ -169,3 +166,13 @@ void push(Lligada* head_ref, float new_data, char* produto){
         (*head_ref) = new_node; 
     }
 }  
+
+int sizeLligada(Lligada a){
+    Lligada *temp = &a;
+    int count = 0;
+    while(*temp){
+        count++;
+        temp =&((*temp)->next);
+    }
+    return count;
+}

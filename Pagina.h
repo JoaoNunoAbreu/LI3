@@ -12,6 +12,7 @@ List_Strings criaLsLc(Lista_Clientes lc);
 List_Strings addLinha(List_Strings ls, char* linha,int index);
 int sizeList_Strings(List_Strings ls);
 void printList_Strings(List_Strings ls);
+void printNList(List_Strings ls, int k);
 
 // ---------------- Página ----------------
 
