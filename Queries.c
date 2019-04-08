@@ -47,7 +47,7 @@ void guardaVendas(FILE *fp, Cat_Prods catp, Cat_Clientes catc,Facturacao* fat, F
             *vLidas = *vLidas + 1;
         }
         *vTotal = *vTotal + 1;
-    }e
+    }
 }
 
 // ------------------------------------------------------------------------------------------------
