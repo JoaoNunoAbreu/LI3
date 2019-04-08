@@ -15,4 +15,4 @@ Lista_Prods catpToLista(Cat_Prods catp);
 char** getListaProds(Lista_Prods lp);
 void printListaProds(Lista_Prods lp);
 
-int guardaProdutos(FILE *fp, Cat_Prods catp);
+void guardaProdutos(FILE *fp, Cat_Prods catp, int* pLidos, int* pTotal);

@@ -23,6 +23,7 @@ int main(int argc, char** argv) {
     SGV sgv = inicializa_SGV(catp,catc,fat,fil);
 
     int pLidos,cLidos,vLidas; pLidos = cLidos = vLidas = 0;
+    int pTotal,cTotal,vTotal; pTotal = cTotal = vTotal = 0;
     List_Strings ls = initListaStrings();
 
     int query = 0;
@@ -36,8 +37,8 @@ int main(int argc, char** argv) {
             char* file_nameVendas = malloc(sizeof(char*));
 
             inputQuery1(&file_nameProds,&file_nameClient,&file_nameVendas);
-            int x = query1(sgv,file_nameProds,file_nameClient,file_nameVendas,&pLidos,&cLidos,&vLidas);
-            outputQuery1(file_nameProds,file_nameClient,file_nameVendas,x,pLidos,cLidos,vLidas);
+            int x = query1(sgv,file_nameProds,file_nameClient,file_nameVendas,&pLidos,&pTotal,&cLidos,&cTotal,&vLidas,&vTotal);
+            outputQuery1(file_nameProds,file_nameClient,file_nameVendas,x,pLidos,pTotal,cLidos,cTotal,vLidas,vTotal);
         }
         else if(query == 2 && vLidas != 0){
             c = inputQuery2();

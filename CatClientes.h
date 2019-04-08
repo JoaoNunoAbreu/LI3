@@ -17,4 +17,4 @@ Lista_Clientes catcToLista(Cat_Clientes catc);
 char** getListaClientes(Lista_Clientes lc);
 void printListaClientes(Lista_Clientes lc);
 
-int guardaClientes(FILE *fp,Cat_Clientes catc);
+void guardaClientes(FILE *fp,Cat_Clientes catc, int* cLidos, int* cTotal);

@@ -87,19 +87,18 @@ void printListaClientes(Lista_Clientes lc){
 
 /* ------------------------------------------------------------------------------------------------*/
 
-int guardaClientes(FILE *fp,Cat_Clientes catc){
+void guardaClientes(FILE *fp,Cat_Clientes catc, int* cLidos, int* cTotal){
 
     char str[7];
     char* linha;
 
-    int index = 0;
     while(fgets(str,7,fp)){
         linha = strtok(str,"\n\r");
         Cliente c = criaCliente(linha);
         if(validaCliente(c)){
             catc = insereCliente(catc,c);
-            index++;
+            *cLidos = *cLidos + 1;
         }
+        *cTotal = *cTotal + 1;
     }
-    return index;
 }

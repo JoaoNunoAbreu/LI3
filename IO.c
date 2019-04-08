@@ -57,7 +57,7 @@ void inputQuery1(char** file_nameProds, char** file_nameClient, char** file_name
     else {printf("Char inserido inválido\n");exit(1);}
 }
 
-void outputQuery1(char* file_nameProds,char* file_nameClient,char* file_nameVendas,int x,int pLidos,int cLidos,int vLidas){
+void outputQuery1(char* file_nameProds,char* file_nameClient,char* file_nameVendas,int x,int pLidos,int pTotal,int cLidos,int cTotal, int vLidas,int vTotal){
     if(x == 1) {printf("Ficheiro %s não foi possível ser carregado.\n",file_nameProds);exit(1);}
     else if(x == 2) {printf("Ficheiro %s não foi possível ser carregado.\n",file_nameClient);exit(1);}
     else if(x == 3) {printf("Ficheiro %s não foi possível ser carregado.\n",file_nameVendas);exit(1);}
@@ -66,9 +66,10 @@ void outputQuery1(char* file_nameProds,char* file_nameClient,char* file_nameVend
         printf("Ficheiro %s foi carregado com sucesso.\n",file_nameClient);
         printf("Ficheiro %s foi carregado com sucesso.\n",file_nameVendas);
         
-        printf("Foram lidas %d linhas válidas do ficheiro dos produtos.\n",pLidos);
-        printf("Foram lidas %d linhas válidas do ficheiro dos clientes.\n",cLidos);
-        printf("Foram lidas %d linhas válidas do ficheiro dos vendas.\n",vLidas);
+        printf("Foram lidas %d linhas das quais %d são válidas do ficheiro dos produtos.\n",pTotal,pLidos);
+        printf("Foram lidas %d linhas das quais %d são válidas do ficheiro dos clientes.\n",cTotal,cLidos);
+        printf("Foram lidas %d linhas das quais %d são válidas do ficheiro dos vendas.\n"  ,vTotal,vLidas);
+
     }
 }
 

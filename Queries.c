@@ -31,13 +31,11 @@ int validaVendas(char* linhaVenda, Cat_Prods catp, Cat_Clientes catc){
     return r;
 }
 
-int guardaVendas(FILE *fp, Cat_Prods catp, Cat_Clientes catc,Facturacao* fat, Filial fil[3]){
+void guardaVendas(FILE *fp, Cat_Prods catp, Cat_Clientes catc,Facturacao* fat, Filial fil[3], int* vLidas, int* vTotal){
 
     FILE *vValidasFicheiro = fopen("Vendas_1MValidas.txt","w");
     char str[32];
     char* linha; 
-    int index = 0;
-    int fail = 0; // conta quantas linhas inválidas foram lidas
 
     while(fgets(str,32,fp)){
         linha = strtok(str,"\n\r");
@@ -46,16 +44,15 @@ int guardaVendas(FILE *fp, Cat_Prods catp, Cat_Clientes catc,Facturacao* fat, Fi
             int i = (int) (linha[strlen(linha)-1]) - 49; // Transforma a filial da linha da venda em int
             fil[i] = insertFi(fil[i],mkNodeVenda(linha));
             fprintf(vValidasFicheiro,"%s\n",strdup(linha)); //Escreve no ficheiro vendas válidas
+            *vLidas = *vLidas + 1;
         }
-        else fail++;
-        index++;
+        *vTotal = *vTotal + 1;
     }
-    return index-fail;
 }
 
 // ------------------------------------------------------------------------------------------------
 
-int query1(SGV sgv, char* file_nameProds, char* file_nameClient, char* file_nameVendas, int* pLidos, int* cLidos, int* vLidas){
+int query1(SGV sgv, char* file_nameProds, char* file_nameClient, char* file_nameVendas, int* pLidos, int* pTotal, int* cLidos,int* cTotal, int* vLidas, int* vTotal){
 
     FILE *produtoFicheiro = fopen(file_nameProds,"r");
     if(produtoFicheiro == NULL) return 1;
@@ -68,14 +65,14 @@ int query1(SGV sgv, char* file_nameProds, char* file_nameClient, char* file_name
 
     // --------- Catálogos ---------
 
-    *pLidos = guardaProdutos(produtoFicheiro,getCatp(sgv));
-    *cLidos = guardaClientes(clientesFicheiro,getCatc(sgv));
+    guardaProdutos(produtoFicheiro,getCatp(sgv),pLidos,pTotal);
+    guardaClientes(clientesFicheiro,getCatc(sgv),cLidos,cTotal);
 
     // ---------- Vendas -----------
 
     Facturacao f = getFat(sgv);
     Filial* fil = getFilial(sgv);
-    *vLidas = guardaVendas(vendasFicheiro,getCatp(sgv),getCatc(sgv),&f,fil);
+    guardaVendas(vendasFicheiro,getCatp(sgv),getCatc(sgv),&f,fil,vLidas,vTotal);
     setFat(sgv,f);
 
     fclose(produtoFicheiro);

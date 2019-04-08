@@ -91,18 +91,17 @@ void printListaProds(Lista_Prods lp){
 
 /* ------------------------------------------------------------------------------------------------*/
 
-int guardaProdutos(FILE *fp, Cat_Prods catp){
+void guardaProdutos(FILE *fp, Cat_Prods catp, int* pLidos, int* pTotal){
 
     char str[8];
     char* linha;
-    int index = 0;
     while(fgets(str,8,fp)){
         linha = strtok(str,"\n\r");
         Produto p = criaProd(linha);
         if(validaProduto(p)){
             catp = insereProd(catp,p);
-            index++;
+            *pLidos = *pLidos + 1;
         }
+        *pTotal = *pTotal + 1;
     }
-    return index;
 }

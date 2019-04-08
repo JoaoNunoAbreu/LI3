@@ -3,7 +3,7 @@
 int runMenu();
 
 void inputQuery1(char** file_nameProds, char** file_nameClient, char** file_nameVendas);
-void outputQuery1(char* file_nameProds, char* file_nameClient,char* file_nameVendas,int x,int pLidos,int cLidos,int vLidas);
+void outputQuery1(char* file_nameProds,char* file_nameClient,char* file_nameVendas,int x,int pLidos,int pTotal,int cLidos,int cTotal, int vLidas,int vTotal);
 // ------------------------------------------------------------------------------------------------
 char inputQuery2();
 void outputQuery2(List_Strings ls);
