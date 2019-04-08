@@ -57,7 +57,7 @@
 * ~~Fazer Io's~~
 * ~~Ver se dá para fazer várias queries de numa só execução do programa~~
 * ~~Tentar melhorar a valida vendas~~
-* Fazer módulo navegador
+* ~~ módulo navegador~~
 * Tentar melhorar tempo query11
-* Ver se dá para vendas_5M
+* ~~Ver se dá para vendas_5M~~
 * Fazer relatório

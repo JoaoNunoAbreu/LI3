@@ -67,6 +67,21 @@ List_Strings getPorcao(Pagina p){
     return p->porcao;
 }
 
+void printPag(Pagina p){
+    if(p != NULL){
+        int num = sizeList_Strings(p->porcao);
+        if(sizeList_Strings(p->porcao) > 10) num = 10;
+
+        if(num == 0) printf("Página vazia\n");
+        else{
+            printf("--------------- Início de página ----------------\n");
+            for(int i = 0; i < num; i++)
+                printf("%s\n",p->porcao->lista[i]);
+            printf("----------------- Fim de página -----------------\n");
+        }
+    }
+}
+
 Pagina initPag(List_Strings ls){
     Pagina p = (Pagina) malloc(sizeof(struct pag));
     p->porcao = ls;
@@ -74,21 +89,37 @@ Pagina initPag(List_Strings ls){
 }
 
 Pagina getPagSeguinte(List_Strings ls){
+    
     Pagina p = initPag(ls);
     if(sizeList_Strings(ls) > 10) {
-        p->porcao->lista += 10;
+        p->porcao->lista = (ls)->lista + 10;
     }
     return p;
 }
 
-void printPag(Pagina p){
-    if(p != NULL){
-        int num = sizeList_Strings(p->porcao);
-        if(sizeList_Strings(p->porcao) > 10) num = 10;
+// ---------------- Navegador ----------------
 
-        printf("--------------- Início de página ----------------\n");
-        for(int i = 0; i < num; i++)
-            printf("%s\n",p->porcao->lista[i]);
-        printf("----------------- Fim de página -----------------\n");
+void navegador(List_Strings ls){
+
+    int page = 0;
+    int numPaginas = sizeList_Strings(ls) / 10; 
+    Pagina p = NULL;
+
+    while(page >= 0){
+        List_Strings tmp = initListaStrings();
+        for(int i = 0; ls->lista[i]; i++){
+            *(tmp->lista+i) = *(ls->lista+i);
+        }
+        printf("Que número de página pretende ler? (para parar inserir número negativo)\n");
+        scanf(" %d",&page);
+        if(page > numPaginas) printf("Número de página demasiado grande\n");
+        else if(page >= 0){
+            p = initPag(tmp);
+            if(page != 0){
+                for(int i = 0; i < page ; i++)
+                    p = getPagSeguinte(tmp);
+            }
+            printPag(p);
+        }
     }
 }

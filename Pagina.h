@@ -21,3 +21,5 @@ List_Strings getPorcao(Pagina p);
 Pagina initPag(List_Strings ls);
 Pagina getPagSeguinte(List_Strings ls);
 void printPag(Pagina p);
+// -------------- Navegador ---------------
+void navegador(List_Strings ls);

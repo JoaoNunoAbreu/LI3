@@ -30,7 +30,7 @@ void inputQuery1(char** file_nameProds, char** file_nameClient, char** file_name
     printf("Pretende inserir nome do ficheiro de Produtos? (s/n)\n");
     scanf(" %c",&c);
     if(c == 's'){
-        printf("Nome do ficheiros com Produtos.txt: \n");
+        printf("Nome do ficheiros com produtos: \n");
         scanf("%s",*file_nameProds);
     }
     else if(c == 'n') *file_nameProds = "Produtos.txt";
@@ -40,7 +40,7 @@ void inputQuery1(char** file_nameProds, char** file_nameClient, char** file_name
     printf("Pretende inserir nome do ficheiro de Clientes? (s/n)\n");
     scanf(" %c",&c);
     if(c == 's'){
-        printf("Nome do ficheiros com Clientes.txt: \n");
+        printf("Nome do ficheiros com clientes: \n");
         scanf("%s",*file_nameClient);
     }
     else if(c == 'n') *file_nameClient = "Clientes.txt";
@@ -50,7 +50,7 @@ void inputQuery1(char** file_nameProds, char** file_nameClient, char** file_name
     printf("Pretende inserir nome do ficheiro de Vendas? (s/n)\n");
     scanf(" %c",&c);
     if(c == 's'){
-        printf("Nome do ficheiros com Vendas.txt: \n");
+        printf("Nome do ficheiros com vendas: \n");
         scanf("%s",*file_nameVendas);
     }
     else if(c == 'n') *file_nameVendas = "FicheirosTeste/testeVendas2.txt";
@@ -58,9 +58,9 @@ void inputQuery1(char** file_nameProds, char** file_nameClient, char** file_name
 }
 
 void outputQuery1(char* file_nameProds,char* file_nameClient,char* file_nameVendas,int x,int pLidos,int cLidos,int vLidas){
-    if(x == 1) printf("Ficheiro %s não foi possível ser carregado.\n",file_nameProds);
-    else if(x == 2) printf("Ficheiro %s não foi possível ser carregado.\n",file_nameClient);
-    else if(x == 3) printf("Ficheiro %s não foi possível ser carregado.\n",file_nameVendas);
+    if(x == 1) {printf("Ficheiro %s não foi possível ser carregado.\n",file_nameProds);exit(1);}
+    else if(x == 2) {printf("Ficheiro %s não foi possível ser carregado.\n",file_nameClient);exit(1);}
+    else if(x == 3) {printf("Ficheiro %s não foi possível ser carregado.\n",file_nameVendas);exit(1);}
     else{
         printf("Ficheiro %s foi carregado com sucesso.\n",file_nameProds);
         printf("Ficheiro %s foi carregado com sucesso.\n",file_nameClient);
@@ -81,9 +81,8 @@ char inputQuery2(){
     return c;
 }
 
-// Por em paginas
 void outputQuery2(List_Strings ls){    
-    printList_Strings(ls);
+    navegador(ls);
     printf("O número total de produtos é: %d\n",sizeList_Strings(ls));
 }
 
@@ -137,17 +136,15 @@ void inputQuery4(char* c, int* filial){
     }
 }
 
-// Por em paginas
 void outputQuery4(List_Strings ls){
-    printList_Strings(ls);
+    navegador(ls);
     printf("O número total de produtos é: %d\n",sizeList_Strings(ls));
 }
 
 // ------------------------------------------------------------------------------------------------
 
-// Por em paginas
 void outputQuery5(List_Strings ls){
-    printList_Strings(ls);
+    navegador(ls);
     printf("O número de códigos de clientes que realizaram compras em todas as filiais é: %d.\n",sizeList_Strings(ls));
 }
 
@@ -203,11 +200,11 @@ void inputQuery9(char** produto, int* filial){
 
 void outputQuery9(List_Strings lsN, List_Strings lsP, char* produto, int filial){
     printf("Lista dos clientes que compraram o produto %s na filial %d com promoção N\n",produto,filial);
-    printList_Strings(lsN);
+    navegador(lsN);
     printf("Tamanho da lista N: %d\n",sizeList_Strings(lsN));
 
     printf("Lista dos clientes que compraram o produto %s na filial %d com promoção P\n",produto,filial);
-    printList_Strings(lsP);
+    navegador(lsP);
     printf("Tamanho da lista P: %d\n",sizeList_Strings(lsP));
 }
 
@@ -219,9 +216,9 @@ void inputQuery10(char** cliente,int* mes){
     printf("Número do mês:\n");
     scanf(" %d",mes);
 }
-// Colocar em pagina.
+
 void outputQuery10(List_Strings ls){
-    printList_Strings(ls);
+    navegador(ls);
 }
 // ------------------------------------------------------------------------------------------------
 
@@ -253,5 +250,5 @@ void inputQuery12(char** cliente){
 }
 
 void outputQuery12(List_Strings ls){
-    printList_Strings(ls);
+    navegador(ls);
 }

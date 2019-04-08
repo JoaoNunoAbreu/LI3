@@ -8,8 +8,6 @@
 
 int main(int argc, char** argv) {
 
-    /* -------------------------------------- Medição Texec -------------------------------------*/
-
     clock_t start, end;
     double cpu_time_used;
     start = clock();
@@ -123,9 +121,6 @@ int main(int argc, char** argv) {
         }
         else break;
     }
-    //query12(sgv,"Q3869");
-
-    /* ------------------------------------- Medição Texec --------------------------------------*/
 
     end = clock();
     cpu_time_used = ((double) (end - start)) / CLOCKS_PER_SEC;

@@ -1,10 +1,10 @@
 #include "Queries.h"
 
-/*-----------------------------------------------------------------------------------------------*/
+//-----------------------------------------------------------------------------------------------
 
 char** tokenizeLinhaVendaDyn(char* vendaRaw) {
     int index = 0;
-    char** campos = (char**) malloc(7 * sizeof(char*)); /* 7 pois a struct vendas tem 7 parâmetros.*/
+    char** campos = (char**) malloc(7 * sizeof(char*));
     char* temp = strdup(vendaRaw);
     char* token = strtok(temp," ");
     while(token != NULL){
@@ -90,29 +90,7 @@ List_Strings query2(SGV sgv, char c){
     Lista_Prods lp = initListaProds();
     lp = listaPorLetraP(getCatp(sgv),c);
     List_Strings ls = criaLsLp(lp);
-
     return ls;
-
-    // --------------------- Por colocar no navegador ---------------------
-    
-    /*int page = 0;
-    int numPaginas = *tamanhoLsInit / 10; 
-
-    while(page >= 0){
-        printf("Que número de página pretende ler? (para parar inserir número negativo)\n");
-        scanf("%d",&page);
-        if(page > numPaginas) printf("Número de página demasiado grande\n");
-        else if(page >= 0){
-            Pagina p = NULL;
-            if(page == 0) p = initPag(ls);
-            else{
-                List_Strings tmp = criaLsLp(lp);
-                for(int i = 0; i < page ; i++)
-                    p = getPagSeguinte(tmp);
-            }
-            printPag(p);
-        }
-    }*/
 }
 
 void query3(SGV sgv,int mes, char* p, char c,float* fat1T,float* fat1N,float* fat1P,float* fat2T,float* fat2N,float* fat2P, float* fat3T,float* fat3N,float* fat3P, int* nVendas){
@@ -323,16 +301,16 @@ void query11(SGV sgv, int N,List_Strings ls1,List_Strings ls2,List_Strings ls3,i
     query11Aux(f,&a1,1);
     query11Aux(f,&a2,2);
     query11Aux(f,&a3,3);
-
+    
     for(int i = 0; i < N && i < sizeLligada(a1); i++)
         swapNodes(&a1,getKdata(a1,i),maxLligada(a1,i));
-
+    
     for(int i = 0; i < N && i < sizeLligada(a2); i++)
         swapNodes(&a2,getKdata(a2,i),maxLligada(a2,i));
-
+   
     for(int i = 0; i < N && i < sizeLligada(a3); i++)
         swapNodes(&a3,getKdata(a3,i),maxLligada(a3,i));
-
+    
     int index = 0;
     char* line = malloc(sizeof(char*));
     while(a1 && index < N){
