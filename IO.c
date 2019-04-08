@@ -16,7 +16,7 @@ int runMenu(){
     printf("Query 8 - Intervalo meses -> total vendas e facturado.\n");
     printf("Query 9 - Produto/filial -> clientes que o compraram em N e P.\n");
     printf("Query 10 - Cliente/mês -> lista de produtos que mais compraram ordem descendente.\n");
-    printf("Query 11 - Lista dos N produtos mais vendidos em todo o ano\n");
+    printf("Query 11 - Lista dos N produtos mais vendidos em todo o ano (Demora cerca de 2 min)\n");
     printf("Query 12 - Cliente -> 3 produtos em que gastou mais dinheiro.\n\n");
     printf("-------------------------- Fim ------------------------------\n");
     
