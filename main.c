@@ -54,7 +54,7 @@ int main(int argc, char** argv) {
             char* p = malloc(sizeof(char*));
 
             inputQuery3(&reader,&mes,&p);
-            query3(sgv,mes,p,reader,&fat1T,&fat1N,&fat1P,&fat2T,&fat2N,&fat2P,&fat3T,&fat3N,&fat3P,&nVendas);
+            query3(sgv,mes,criaProd(p),reader,&fat1T,&fat1N,&fat1P,&fat2T,&fat2N,&fat2P,&fat3T,&fat3N,&fat3P,&nVendas);
             outputQuery3(mes,p,reader,fat1T,fat1N,fat1P,fat2T,fat2N,fat2P,fat3T,fat3N,fat3P,nVendas);
         }
         else if(query == 4 && vLidas != 0){
@@ -77,7 +77,7 @@ int main(int argc, char** argv) {
             int tabela[12][3];
             char* cliente = malloc(sizeof(char*));
             inputQuery7(&cliente);
-            query7(sgv,cliente,tabela);
+            query7(sgv,criaCliente(cliente),tabela);
             outputQuery7(tabela);
         }
         else if(query == 8 && vLidas != 0){
@@ -94,14 +94,14 @@ int main(int argc, char** argv) {
             char* produto = malloc(sizeof(char*));
             int filial = 0;
             inputQuery9(&produto,&filial);
-            query9(sgv,lsN,lsP,produto,filial);
+            query9(sgv,lsN,lsP,criaProd(produto),filial);
             outputQuery9(lsN,lsP,produto,filial);
         }
         else if(query == 10 && vLidas != 0){
             char* cliente = malloc(sizeof(char*));
             int mes = 0;
             inputQuery10(&cliente,&mes);
-            ls = query10(sgv,cliente,mes);
+            ls = query10(sgv,criaCliente(cliente),mes);
             outputQuery10(ls);
         }
         else if(query == 11 && vLidas != 0){
@@ -116,7 +116,7 @@ int main(int argc, char** argv) {
         else if(query == 12 && vLidas != 0){
             char* cliente = malloc(sizeof(char*));
             inputQuery12(&cliente);
-            ls = query12(sgv,cliente);
+            ls = query12(sgv,criaCliente(cliente));
             outputQuery12(ls);
         }
         else break;

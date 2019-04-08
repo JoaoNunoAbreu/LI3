@@ -12,7 +12,7 @@ struct pag{
 
 List_Strings initListaStrings(){
     List_Strings ls = (List_Strings) malloc(sizeof(struct list_strings));
-    char** campos = (char**) malloc(1000000 * sizeof(char*));
+    char** campos = (char**) malloc(5000000 * sizeof(char*));
     ls->lista = campos;
     return ls;
 }

@@ -93,10 +93,10 @@ List_Strings query2(SGV sgv, char c){
     return ls;
 }
 
-void query3(SGV sgv,int mes, char* p, char c,float* fat1T,float* fat1N,float* fat1P,float* fat2T,float* fat2N,float* fat2P, float* fat3T,float* fat3N,float* fat3P, int* nVendas){
+void query3(SGV sgv,int mes, Produto p, char c,float* fat1T,float* fat1N,float* fat1P,float* fat2T,float* fat2N,float* fat2P, float* fat3T,float* fat3N,float* fat3P, int* nVendas){
 
     Facturacao f = getFat(sgv);
-    f = searchF(f,p);
+    f = searchF(f,getCodProd(p));
     if(f != NULL){ // Se for NULL significa que não encontrou
 
         Info i = getInfo(f);
@@ -209,28 +209,28 @@ void query6(SGV sgv, int* countC, int* countP){
         if(searchF(getFat(sgv),getListaProds(lp)[i]) == NULL) *countP = *countP + 1;
 }
 
-void query7(SGV sgv, char* cliente,int tabela[12][3]){
+void query7(SGV sgv, Cliente cliente,int tabela[12][3]){
 
     for(int i = 0; i < 12; i++)
         for(int j = 0; j < 3; j++)
             tabela[i][j] = 0;
 
-    if(searchFi(getFilial(sgv)[0],cliente)){
-        InfoFil i = getInfoFil(searchFi(getFilial(sgv)[0],cliente));
+    if(searchFi(getFilial(sgv)[0],getCodCliente(cliente))){
+        InfoFil i = getInfoFil(searchFi(getFilial(sgv)[0],getCodCliente(cliente)));
         while(i != NULL){
             tabela[getMesFil(i)-1][0] += getQuantFil(i);
             i = getInfoNextFil(i);
         }
     }
-    if(searchFi(getFilial(sgv)[1],cliente)){
-        InfoFil i = getInfoFil(searchFi(getFilial(sgv)[1],cliente));
+    if(searchFi(getFilial(sgv)[1],getCodCliente(cliente))){
+        InfoFil i = getInfoFil(searchFi(getFilial(sgv)[1],getCodCliente(cliente)));
         while(i != NULL){
             tabela[getMesFil(i)-1][1] += getQuantFil(i);
             i = getInfoNextFil(i);
         }
     }
-    if(searchFi(getFilial(sgv)[2],cliente)){
-        InfoFil i = getInfoFil(searchFi(getFilial(sgv)[2],cliente));
+    if(searchFi(getFilial(sgv)[2],getCodCliente(cliente))){
+        InfoFil i = getInfoFil(searchFi(getFilial(sgv)[2],getCodCliente(cliente)));
         while(i != NULL){
             tabela[getMesFil(i)-1][2] += getQuantFil(i);
             i = getInfoNextFil(i);
@@ -243,18 +243,18 @@ void query8(SGV sgv, int mes1, int mes2, int* totalVendas, float* totalFaturado)
     query8Aux(f,mes1,mes2,totalVendas,totalFaturado);
 }
 
-void query9(SGV sgv, List_Strings lsN, List_Strings lsP, char* produto, int filial){
+void query9(SGV sgv, List_Strings lsN, List_Strings lsP, Produto produto, int filial){
     Filial fil = getFilial(sgv)[filial-1];
     int indexN,indexP; indexN = indexP = 0;
-    query9Aux(fil,produto,lsN,lsP,&indexN,&indexP);
+    query9Aux(fil,getCodProd(produto),lsN,lsP,&indexN,&indexP);
 }
 
-List_Strings query10(SGV sgv, char* cliente, int mes){
+List_Strings query10(SGV sgv, Cliente cliente, int mes){
     List_Strings ls = initListaStrings();
     Lligada a = NULL;
 
-    if(searchFi(getFilial(sgv)[0],cliente)){
-        InfoFil i = getInfoFil(searchFi(getFilial(sgv)[0],cliente));
+    if(searchFi(getFilial(sgv)[0],getCodCliente(cliente))){
+        InfoFil i = getInfoFil(searchFi(getFilial(sgv)[0],getCodCliente(cliente)));
         while(i != NULL){
             if(getMesFil(i) == mes){
                 push(&a,(float) getQuantFil(i),getProduto(i));
@@ -262,8 +262,8 @@ List_Strings query10(SGV sgv, char* cliente, int mes){
             i = getInfoNextFil(i);
         }
     }
-    if(searchFi(getFilial(sgv)[1],cliente)){
-        InfoFil i = getInfoFil(searchFi(getFilial(sgv)[1],cliente));
+    if(searchFi(getFilial(sgv)[1],getCodCliente(cliente))){
+        InfoFil i = getInfoFil(searchFi(getFilial(sgv)[1],getCodCliente(cliente)));
         while(i != NULL){
             if(getMesFil(i) == mes){
                 push(&a,(float) getQuantFil(i),getProduto(i));
@@ -271,8 +271,8 @@ List_Strings query10(SGV sgv, char* cliente, int mes){
             i = getInfoNextFil(i);
         }
     }
-    if(searchFi(getFilial(sgv)[2],cliente)){
-        InfoFil i = getInfoFil(searchFi(getFilial(sgv)[2],cliente));
+    if(searchFi(getFilial(sgv)[2],getCodCliente(cliente))){
+        InfoFil i = getInfoFil(searchFi(getFilial(sgv)[2],getCodCliente(cliente)));
         while(i != NULL){
             if(getMesFil(i) == mes){
                 push(&a,(float) getQuantFil(i),getProduto(i));
@@ -357,29 +357,29 @@ void query11(SGV sgv, int N,List_Strings ls1,List_Strings ls2,List_Strings ls3,i
     }
 }
 
-List_Strings query12(SGV sgv, char* cliente){
+List_Strings query12(SGV sgv, Cliente cliente){
 
     List_Strings ls = initListaStrings();
     Lligada a = NULL;
 
-    if(searchFi(getFilial(sgv)[0],cliente)){
-        InfoFil i = getInfoFil(searchFi(getFilial(sgv)[0],cliente));
+    if(searchFi(getFilial(sgv)[0],getCodCliente(cliente))){
+        InfoFil i = getInfoFil(searchFi(getFilial(sgv)[0],getCodCliente(cliente)));
         while(i != NULL){
             push(&a,getFaturadoFil(i),getProduto(i));
             i = getInfoNextFil(i);
         }
     }
 
-    if(searchFi(getFilial(sgv)[1],cliente)){
-        InfoFil i = getInfoFil(searchFi(getFilial(sgv)[1],cliente));
+    if(searchFi(getFilial(sgv)[1],getCodCliente(cliente))){
+        InfoFil i = getInfoFil(searchFi(getFilial(sgv)[1],getCodCliente(cliente)));
         while(i != NULL){
             push(&a,getFaturadoFil(i),getProduto(i));
             i = getInfoNextFil(i);
         }
     }
 
-    if(searchFi(getFilial(sgv)[2],cliente)){
-        InfoFil i = getInfoFil(searchFi(getFilial(sgv)[2],cliente));
+    if(searchFi(getFilial(sgv)[2],getCodCliente(cliente))){
+        InfoFil i = getInfoFil(searchFi(getFilial(sgv)[2],getCodCliente(cliente)));
         while(i != NULL){
             push(&a,getFaturadoFil(i),getProduto(i));
             i = getInfoNextFil(i);
