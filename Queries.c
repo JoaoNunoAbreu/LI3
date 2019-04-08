@@ -301,15 +301,10 @@ void query11(SGV sgv, int N,List_Strings ls1,List_Strings ls2,List_Strings ls3,i
     query11Aux(f,&a1,1);
     query11Aux(f,&a2,2);
     query11Aux(f,&a3,3);
-    
-    for(int i = 0; i < N && i < sizeLligada(a1); i++)
-        swapNodes(&a1,getKdata(a1,i),maxLligada(a1,i));
-    
-    for(int i = 0; i < N && i < sizeLligada(a2); i++)
-        swapNodes(&a2,getKdata(a2,i),maxLligada(a2,i));
-   
-    for(int i = 0; i < N && i < sizeLligada(a3); i++)
-        swapNodes(&a3,getKdata(a3,i),maxLligada(a3,i));
+
+    MergeSort(&a1);
+    MergeSort(&a2);
+    MergeSort(&a3);
     
     int index = 0;
     char* line = malloc(sizeof(char*));

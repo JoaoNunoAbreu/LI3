@@ -121,32 +121,6 @@ float maxLligada(Lligada a, int k){
     return max;
 }
 
-void swap(Lligada *first, Lligada *second){
-    struct Node *tmp = *first;
-    *first = *second;
-    *second = tmp;
-}
-
-void swapNodes(Lligada *headr, float key1, float key2){
-
-    if(key1 == key2) return;
-
-    struct Node **first = headr;
-
-    while (*first && (*first)->data != key1) first = &(*first)->next;
-
-    if (*first == NULL) return;
-
-    struct Node **second = headr;
-
-    while (*second && (*second)->data != key2) second = &(*second)->next;
-
-    if (*second == NULL) return;
-
-    swap(first,second);
-    swap(&(*first)->next,&(*second)->next);
-}
-
 void push(Lligada* head_ref, float new_data, char* produto){ 
 
     struct Node* new_node = (struct Node*) malloc(sizeof(struct Node)); 
