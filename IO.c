@@ -32,9 +32,8 @@ void inputQuery1(char** file_nameProds, char** file_nameClient, char** file_name
     if(c == 's'){
         printf("Nome do ficheiros com produtos: \n");
         scanf("%s",*file_nameProds);
-        *file_nameProds = pwd(*file_nameProds);
     }
-    else if(c == 'n') *file_nameProds = pwd("Produtos.txt");
+    else if(c == 'n') *file_nameProds = "Produtos.txt";
     else {printf("Char inserido inválido\n");exit(1);}
 
 
@@ -43,9 +42,8 @@ void inputQuery1(char** file_nameProds, char** file_nameClient, char** file_name
     if(c == 's'){
         printf("Nome do ficheiros com clientes: \n");
         scanf("%s",*file_nameClient);
-        *file_nameClient = pwd(*file_nameClient);
     }
-    else if(c == 'n') *file_nameClient = pwd("Clientes.txt");
+    else if(c == 'n') *file_nameClient = "Clientes.txt";
     else {printf("Char inserido inválido\n");exit(1);}
 
 
@@ -54,9 +52,8 @@ void inputQuery1(char** file_nameProds, char** file_nameClient, char** file_name
     if(c == 's'){
         printf("Nome do ficheiros com vendas: \n");
         scanf("%s",*file_nameVendas);
-        *file_nameVendas = pwd(*file_nameVendas);
     }
-    else if(c == 'n') *file_nameVendas = pwd("FicheirosTeste/testeVendas2.txt");
+    else if(c == 'n') *file_nameVendas = "FicheirosTeste/testeVendas2.txt";
     else {printf("Char inserido inválido\n");exit(1);}
 }
 

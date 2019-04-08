@@ -1,6 +1,5 @@
 #include "SGV.h"
 
-char* pwd(char* file);
 int query1(SGV sgv, char* file_nameProds, char* file_nameClient, char* file_nameVendas, int* pLidos, int* cLidos, int* vLidas);
 List_Strings query2(SGV sgv, char c);
 void query3(SGV sgv,int mes, Produto p, char c,float* fat1T,float* fat1N,float* fat1P,float* fat2T,float* fat2N,float* fat2P, float* fat3T,float* fat3N,float* fat3P, int* nVendas);

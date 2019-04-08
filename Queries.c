@@ -2,22 +2,6 @@
 #include <unistd.h>
 //-----------------------------------------------------------------------------------------------
 
-char* pwd(char* file){
-
-    long size;
-    char *buf;
-    char *ptr = NULL;
-    
-    size = pathconf(".", _PC_PATH_MAX);
-    
-    if ((buf = (char *)malloc((size_t)size)) != NULL)
-        ptr = getcwd(buf, (size_t)size);
-    
-    strcat(ptr,"/");
-    strcat(ptr,file);
-    return ptr;
-}
-
 char** tokenizeLinhaVendaDyn(char* vendaRaw) {
     int index = 0;
     char** campos = (char**) malloc(7 * sizeof(char*));
