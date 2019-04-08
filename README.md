@@ -1,5 +1,8 @@
 # LI3 2018/2019
 
+* Double-click no executável main não funciona porque não existe path até os ficheiros para serem abertos
+* Executar a main no terminal com o comando ./main
+
 ## Grupo
 
 * João Nuno Abreu
@@ -57,7 +60,7 @@
 * ~~Fazer Io's~~
 * ~~Ver se dá para fazer várias queries de numa só execução do programa~~
 * ~~Tentar melhorar a valida vendas~~
-* ~~ módulo navegador~~
+* ~~módulo navegador~~
 * Tentar melhorar tempo query11
 * ~~Ver se dá para vendas_5M~~
 * Fazer relatório
