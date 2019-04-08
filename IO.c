@@ -53,7 +53,7 @@ void inputQuery1(char** file_nameProds, char** file_nameClient, char** file_name
         printf("Nome do ficheiros com vendas: \n");
         scanf("%s",*file_nameVendas);
     }
-    else if(c == 'n') *file_nameVendas = "FicheirosTeste/testeVendas2.txt";
+    else if(c == 'n') *file_nameVendas = "Vendas_1M.txt";
     else {printf("Char inserido inválido\n");exit(1);}
 }
 
