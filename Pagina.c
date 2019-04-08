@@ -113,7 +113,6 @@ void navegador(List_Strings ls){
         }
         printf("Que número de página pretende ler? (para parar inserir número negativo)\n");
         scanf(" %d",&page);
-        if(!isdigit(page)) exit(1);
         if(page > numPaginas) printf("Número de página demasiado grande\n");
         else if(page >= 0){
             p = initPag(tmp);
