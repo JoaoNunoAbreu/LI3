@@ -1,7 +1,8 @@
 # LI3 2018/2019
 
-* Double-click no executável main não funciona porque não existe path até os ficheiros para serem abertos
-* Executar a main no terminal com o comando ./main
+## Versão Java em
+
+* <https://github.com/JoaoNunoAbreu/LI3-java>
 
 ## Grupo
 
@@ -41,26 +42,3 @@
 * Numero de Vendas na Filial 2
 * Numero de Clientes com codigo começado por A, B, ..
 * Facturação Total registada
-
-## TO DO
-
-* ~~Query 1~~
-* ~~Query 2~~
-* ~~Query 3~~
-* ~~Query 4~~
-* ~~Query 5~~
-* ~~Query 6~~
-* ~~Query 7~~
-* ~~Query 8~~
-* ~~Query 9~~
-* ~~Query 10~~
-* ~~Query 11~~ Só que demora muito tempo (texec = 3.5 min)
-* ~~Query 12~~
-* ~~Remover por completo ficheiros funcoes.c e funcoes.h~~
-* ~~Fazer Io's~~
-* ~~Ver se dá para fazer várias queries de numa só execução do programa~~
-* ~~Tentar melhorar a valida vendas~~
-* ~~módulo navegador~~
-* Tentar melhorar tempo query11
-* ~~Ver se dá para vendas_5M~~
-* Fazer relatório
