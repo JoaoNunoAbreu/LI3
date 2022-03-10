@@ -2,12 +2,8 @@
 
 
 
-## Java version
+## Team
 
-* <https://github.com/JoaoNunoAbreu/LI3-java>
-
-## Grupo
-
-* João Nuno Abreu
-* Hugo Matias
+* **Hugo Matias:** [Nysero](https://github.com/Nysero)
+* **João Nuno Abreu:** [JoaoNunoAbreu](https://github.com/JoaoNunoAbreu)
 * Jorge Vieira
